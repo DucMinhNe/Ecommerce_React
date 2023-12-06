@@ -9,7 +9,6 @@ import { MdAccountCircle } from 'react-icons/md';
 import UnauthorizedError from '../../common/exception/unauthorized_error';
 import ErrorCommon from '../../common/Screens/ErrorCommon';
 import { Spin } from 'antd';
-import io from 'socket.io-client';
 
 const HomeScreen: React.FC = () => {
     const [screenClass, setScreenClass] = useState([]);

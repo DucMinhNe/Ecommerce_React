@@ -1,7 +1,6 @@
 import { Dropdown, Layout, Menu, Space } from 'antd';
 import React, { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import logoTruong from '../../img/Logotruong.png';
 import './scss/styleDashboard.scss';
 import { MdAccountCircle } from 'react-icons/md';
 const { Sider, Content, Header } = Layout;
@@ -9,11 +8,6 @@ const Dashboard: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     if (location.pathname === '/admin') {
-    //         navigate('/admin/app-faculty');
-    //     }
-    // }, []);
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
@@ -71,30 +65,6 @@ const Dashboard: React.FC = () => {
                             <Menu.Item key="/admin/app-customers">
                                 <Link to="/admin/app-customers">Khách Hàng</Link>
                             </Menu.Item>
-                            {/* <Menu.Item key="admin/app-faculty">
-                                <Link to="/admin/app-faculty">Khoa</Link>
-                            </Menu.Item>
-                            <Menu.Item key="admin/app-genre">
-                                <Link to="/admin/app-genre">Bộ môn</Link>
-                            </Menu.Item>
-                            <Menu.Item key="admin/app-subject">
-                                <Link to="/admin/app-subject">Môn học</Link>
-                            </Menu.Item>
-                            <Menu.Item key="admin/app-teacher">
-                                <Link to="/admin/app-teacher">Giảng Viên</Link>
-                            </Menu.Item>
-                            <Menu.Item key="admin/app-student">
-                                <Link to="/admin/app-student">Sinh viên</Link>
-                            </Menu.Item>
-                            <Menu.Item key="/app-class">
-                                <Link to="/admin/app-class">Lớp</Link>
-                            </Menu.Item>
-                            <Menu.Item key="admin/app-class-section">
-                                <Link to="/admin/app-class-section">Lớp Học Phần</Link>
-                            </Menu.Item>
-                            <Menu.Item key="admin/app-storage">
-                                <Link to="/admin/app-storage">Lưu trữ</Link>
-                            </Menu.Item> */}
                         </Menu>
                     </Sider>
                     <Content className="custom-main p-5">
