@@ -1,5 +1,6 @@
 class SystemConst {
-    static DOMAIN = 'https://localhost:7200/api';
+    static DOMAIN = 'https://localhost:7283/api';
+    static DOMAIN_HOST = 'https://localhost:7283';
     static STATUS_CODE = {
         SUCCESS: 200,
         BAD_REQUEST: 400,

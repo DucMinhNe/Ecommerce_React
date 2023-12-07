@@ -35,9 +35,9 @@ const AppProductCategories = () => {
             setIsLoading(false);
         }, 1000);
       
-        handleFecthData();
+        handleFetchData();
     }, []);
-    const handleFecthData = () => {
+    const handleFetchData = () => {
         axios
             .get(`${BASE_URL}`)
             .then((response) => {
@@ -85,7 +85,7 @@ const AppProductCategories = () => {
         axios
             .post(`${BASE_URL}`, data)
             .then((response) => {
-                handleFecthData();
+                handleFetchData();
                 setIsValueProductCategories('');
                 setOpenModal(false);
                 handleClickSuccess();
@@ -111,7 +111,7 @@ const AppProductCategories = () => {
           })
           .then((response) => {
             handleClickEditSuccess();
-            handleFecthData();
+            handleFetchData();
           })
           .catch((error) => {
             // Handle errors (you might want to log or display an error message)
@@ -126,7 +126,7 @@ const AppProductCategories = () => {
         axios
             .delete(`${BASE_URL}/${dataDelete}`)
             .then((response) => {
-                handleFecthData();
+                handleFetchData();
                 handleClickDeleteSuccess();
             })
             .catch((error) => {

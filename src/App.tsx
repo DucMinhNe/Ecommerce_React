@@ -60,6 +60,14 @@ function App() {
                             </div>
                         }
                     ></Route>
+                    <Route
+                        path="/admin/app-customers"
+                        element={
+                            <div>
+                                <AppCustomers />
+                            </div>
+                        }
+                    ></Route>
                 </Route>
                 <Route
                     path="/"

@@ -35,9 +35,9 @@ const AppJobTitles = () => {
             setIsLoading(false);
         }, 1000);
       
-        handleFecthData();
+        handleFetchData();
     }, []);
-    const handleFecthData = () => {
+    const handleFetchData = () => {
         axios
             .get(`${BASE_URL}`)
             .then((response) => {
@@ -85,7 +85,7 @@ const AppJobTitles = () => {
         axios
             .post(`${BASE_URL}`, data)
             .then((response) => {
-                handleFecthData();
+                handleFetchData();
                 setIsValueJobTitles('');
                 setOpenModal(false);
                 handleClickSuccess();
@@ -111,7 +111,7 @@ const AppJobTitles = () => {
           })
           .then((response) => {
             handleClickEditSuccess();
-            handleFecthData();
+            handleFetchData();
           })
           .catch((error) => {
             // Handle errors (you might want to log or display an error message)
@@ -126,7 +126,7 @@ const AppJobTitles = () => {
         axios
             .delete(`${BASE_URL}/${dataDelete}`)
             .then((response) => {
-                handleFecthData();
+                handleFetchData();
                 handleClickDeleteSuccess();
             })
             .catch((error) => {
