@@ -1,11 +1,9 @@
 import { Button, Modal, Input, Spin } from 'antd';
 import Table, { ColumnsType } from 'antd/es/table';
 import React, { useEffect, useState } from 'react';
-import { MdPersonAdd } from 'react-icons/md';
 import Notification from '../../components/Notification';
 import axios from 'axios';
 import SystemConst from '../../common/consts/system_const';
-import HeaderToken from '../../common/utils/headerToken';
 import UnauthorizedError from '../../common/exception/unauthorized_error';
 import ErrorCommon from '../../common/Screens/ErrorCommon';
 interface DataType {
@@ -34,7 +32,7 @@ const AppJobTitles = () => {
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);
-      
+
         handleFetchData();
     }, []);
     const handleFetchData = () => {
@@ -42,7 +40,6 @@ const AppJobTitles = () => {
             .get(`${BASE_URL}`)
             .then((response) => {
                 const Api_Data_JobTitles = response.data;
-                console.log('data: ', Api_Data_JobTitles);
                 const newData: DataType[] = Api_Data_JobTitles.map(
                     (item: { id: number; jobTitleName: any; }) => ({
                         jobTitleName: item.jobTitleName,
@@ -98,31 +95,31 @@ const AppJobTitles = () => {
     //Xử lý Call API Update
     const handleUpdateJobTitles = () => {
         const data = {
-          id: selectedItemEdit?.id,
-          jobTitleName: selectedItemEdit?.jobTitleName,
+            id: selectedItemEdit?.id,
+            jobTitleName: selectedItemEdit?.jobTitleName,
         };
-      
+
         axios
-          .put(`${BASE_URL}/${data.id}`, data, {
-            headers: {
-              'Content-Type': 'application/json',
-              // Other headers or authentication tokens if required
-            },
-          })
-          .then((response) => {
-            handleClickEditSuccess();
-            handleFetchData();
-          })
-          .catch((error) => {
-            // Handle errors (you might want to log or display an error message)
-            console.error('Error during update:', error);
-          });
-      };
-      
+            .put(`${BASE_URL}/${data.id}`, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Other headers or authentication tokens if required
+                },
+            })
+            .then((response) => {
+                handleClickEditSuccess();
+                handleFetchData();
+            })
+            .catch((error) => {
+                // Handle errors (you might want to log or display an error message)
+                console.error('Error during update:', error);
+            });
+    };
+
     //Xử lý Call API Delete
     const handleDeleteJobTitles = () => {
         const dataDelete = selectedItemDetele?.id;
-       
+
         axios
             .delete(`${BASE_URL}/${dataDelete}`)
             .then((response) => {
@@ -216,7 +213,6 @@ const AppJobTitles = () => {
             <div className="container mt-5 ">
                 <div className="flex justify-end mb-5">
                     <Button type="primary" onClick={handleShowModal}>
-                        <MdPersonAdd />
                     </Button>
                 </div>
                 <Table
