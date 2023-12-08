@@ -1,6 +1,5 @@
 import { Modal } from 'antd';
 import React from 'react';
-import UnauthorizedError from '../exception/unauthorized_error';
 interface PopUpUnauthorizedErrorProps {
     title: string;
     content: string;

@@ -287,7 +287,7 @@ const AppJobTitles = () => {
             <>
                 <div>
                     <Modal
-                        className="custom-delete "
+                        className="delete"
                         title="Xác nhận xóa"
                         visible={deleteModalVisible}
                         onCancel={() => setDeleteModalVisible(false)}

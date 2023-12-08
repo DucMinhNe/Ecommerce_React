@@ -5,7 +5,6 @@ import { MdPersonAdd } from 'react-icons/md';
 import Notification from '../../components/Notification';
 import axios from 'axios';
 import SystemConst from '../../common/consts/system_const';
-import HeaderToken from '../../common/utils/headerToken';
 import UnauthorizedError from '../../common/exception/unauthorized_error';
 import ErrorCommon from '../../common/Screens/ErrorCommon';
 interface DataType {
@@ -34,7 +33,7 @@ const AppPaymentMethods = () => {
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);
-      
+
         handleFetchData();
     }, []);
     const handleFetchData = () => {
@@ -98,31 +97,31 @@ const AppPaymentMethods = () => {
     //Xử lý Call API Update
     const handleUpdatePaymentMethods = () => {
         const data = {
-          id: selectedItemEdit?.id,
-          paymentMethodName: selectedItemEdit?.paymentMethodName,
+            id: selectedItemEdit?.id,
+            paymentMethodName: selectedItemEdit?.paymentMethodName,
         };
-      
+
         axios
-          .put(`${BASE_URL}/${data.id}`, data, {
-            headers: {
-              'Content-Type': 'application/json',
-              // Other headers or authentication tokens if required
-            },
-          })
-          .then((response) => {
-            handleClickEditSuccess();
-            handleFetchData();
-          })
-          .catch((error) => {
-            // Handle errors (you might want to log or display an error message)
-            console.error('Error during update:', error);
-          });
-      };
-      
+            .put(`${BASE_URL}/${data.id}`, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Other headers or authentication tokens if required
+                },
+            })
+            .then((response) => {
+                handleClickEditSuccess();
+                handleFetchData();
+            })
+            .catch((error) => {
+                // Handle errors (you might want to log or display an error message)
+                console.error('Error during update:', error);
+            });
+    };
+
     //Xử lý Call API Delete
     const handleDeletePaymentMethods = () => {
         const dataDelete = selectedItemDetele?.id;
-       
+
         axios
             .delete(`${BASE_URL}/${dataDelete}`)
             .then((response) => {
@@ -291,7 +290,7 @@ const AppPaymentMethods = () => {
             <>
                 <div>
                     <Modal
-                        className="custom-delete "
+                        className="delete "
                         title="Xác nhận xóa"
                         visible={deleteModalVisible}
                         onCancel={() => setDeleteModalVisible(false)}

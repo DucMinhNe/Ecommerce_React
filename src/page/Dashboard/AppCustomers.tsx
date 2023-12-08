@@ -6,6 +6,7 @@ import axios from 'axios';
 import SystemConst from '../../common/consts/system_const';
 import UnauthorizedError from '../../common/exception/unauthorized_error';
 import ErrorCommon from '../../common/Screens/ErrorCommon';
+import moment from 'moment';
 interface DataType {
     firstName: string;
     lastName: string;
@@ -49,6 +50,9 @@ const AppCustomers = () => {
         {
             title: 'Giới Tính',
             dataIndex: 'gender',
+            render: (text, record) => {
+                return record.gender ? 'Nam' : 'Nữ';
+            },
         },
         {
             title: 'Hình Ảnh',
@@ -67,10 +71,6 @@ const AppCustomers = () => {
         },
     ];
     const [dataCustomers, setDataCustomers] = useState<DataType[]>([]);
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('Input Change Event:', event.target.value);
-        setIsValueFirstName(event.target.value);
-    };
     const [selectedItemEdit, setSelectedItemEdit] = useState<{
         id?: number;
         firstName: string;
@@ -84,18 +84,20 @@ const AppCustomers = () => {
         customerImageFile: File | null;
         isDeleted: boolean;
     } | null>(null);
-    const [selectedItemDetele, setSelectedItemDelete] = useState<{ id?: number } | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
-        }, 1000);
-
+        }, 300);
         handleFetchData();
-    }, []);
+    },);
+    const [isDeletedFetchData, setIsDeletedFetchData] = useState(false);
+    const handleToggleIsDeletedFetchData = () => {
+        setIsDeletedFetchData((prevIsDeleted) => !prevIsDeleted);
+    };
     const handleFetchData = () => {
         axios
-            .get(`${BASE_URL}`)
+            .get(`${BASE_URL}?isDeleted=${isDeletedFetchData}`)
             .then((response) => {
                 const Api_Data_Customers = response.data;
                 const newData: DataType[] = Api_Data_Customers.map(
@@ -132,12 +134,21 @@ const AppCustomers = () => {
                                     >
                                         Sửa
                                     </button>
-                                    <button
-                                        className="bg-red-500 px-3 py-2 rounded-lg hover:bg-red-700 hover:text-white"
-                                    // onClick={() => handleDelete(item)}
-                                    >
-                                        Xóa
-                                    </button>
+                                    {isDeletedFetchData ? (
+                                        <button
+                                            className="bg-blue-500 px-3 py-2 rounded-lg hover:bg-blue-700 hover:text-white"
+                                            onClick={() => handleRestore(item)}
+                                        >
+                                            Khôi Phục
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="bg-red-500 px-3 py-2 rounded-lg hover:bg-red-700 hover:text-white"
+                                            onClick={() => handleDelete(item)}
+                                        >
+                                            Xóa
+                                        </button>
+                                    )}
                                 </div>
                             </>
                         ),
@@ -154,6 +165,9 @@ const AppCustomers = () => {
                 }
             });
     };
+    useEffect(() => {
+        handleFetchData();
+    }, [isDeletedFetchData]);
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
         if (file) {
@@ -173,8 +187,7 @@ const AppCustomers = () => {
         if (isValueCustomerImageFile !== null) {
             formData.append("customerImageFile", isValueCustomerImageFile);
         }
-        formData.append("isDeleted", isValueIsDeleted);
-        console.log('Data: ', formData);
+        formData.append("isDeleted", 'false');
         axios
             .post(`${BASE_URL}`, formData, {
                 headers: {
@@ -191,21 +204,34 @@ const AppCustomers = () => {
             .catch((error) => {
             });
     };
+    const clearAllValue = () => {
+        setSelectedItemEdit(null);
+        setIsValueCustomerImageFile(null);
+    }
     const handleUpdateCustomers = () => {
+        if (!selectedItemEdit) {
+            return;
+        }
         const formData = new FormData();
-        formData.append("firstName", isValueFirstName);
-        formData.append("lastName", isValueLastName);
-        formData.append("email", isValueEmail);
-        formData.append("password", isValuePassword);
-        formData.append("phoneNumber", isValuePhoneNumber);
-        formData.append("birthDate", isValueBirthDate);
-        formData.append("gender", isValueGender);
+        formData.append("firstName", selectedItemEdit.firstName || '');
+        formData.append("lastName", selectedItemEdit.lastName || '');
+        formData.append("email", selectedItemEdit.email || '');
+        formData.append("password", selectedItemEdit.password || '');
+        formData.append("phoneNumber", selectedItemEdit.phoneNumber || '');
+        if (selectedItemEdit.birthDate instanceof Date) {
+            formData.append("birthDate", selectedItemEdit.birthDate.toISOString().split('T')[0]);
+        }
+        formData.append("gender", selectedItemEdit.gender ? 'true' : 'false');
         if (isValueCustomerImageFile !== null) {
             formData.append("customerImageFile", isValueCustomerImageFile);
+            formData.append("customerImage", selectedItemEdit.customerImage || '');
         }
-        formData.append("isDeleted", isValueIsDeleted);
+
+        formData.append("isDeleted", `${isDeletedFetchData}`);
+
+        console.log(formData);
         axios
-            .put(`${BASE_URL}/${selectedItemEdit!.id}`, formData, {
+            .put(`${BASE_URL}/${selectedItemEdit.id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -213,15 +239,12 @@ const AppCustomers = () => {
             .then((response) => {
                 handleFetchData();
                 setOpenModalEdit(false);
-                handleClickSuccess();
+                handleClickEditSuccess();
+                clearAllValue();
                 console.log('Data', response);
             })
             .catch((error) => {
-                // Handle error
             });
-    };
-    const handleSubmitCreateCustomers = () => {
-        handleCreateCustomers();
     };
     const handleSubmitEditCustomers = () => {
         handleUpdateCustomers();
@@ -240,17 +263,19 @@ const AppCustomers = () => {
         customerImageFile: File | null;
         isDeleted: boolean;
     }) => {
-        setSelectedItemEdit(item);
+        const formattedItem = {
+            ...item,
+            birthDate: item.birthDate ? new Date(item.birthDate) : new Date(),
+        };
+        setSelectedItemEdit(formattedItem);
         setOpenModalEdit(true);
         console.log('Selected item for editing:', item);
     };
     const handleClickEditSuccess = () => {
-        Notification('success', 'Thông báo', 'Cập nhật thành công khoa');
+        Notification('success', 'Thông báo', 'Cập nhật thành công Khách Hàng');
     };
     const [openModal, setOpenModal] = useState(false);
     const [openModalEdit, setOpenModalEdit] = useState(false);
-    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-    const [isValueId, setIsValueId] = useState('');
     const [isValueFirstName, setIsValueFirstName] = useState('');
     const [isValueLastName, setIsValueLastName] = useState('');
     const [isValueEmail, setIsValueEmail] = useState('');
@@ -259,9 +284,6 @@ const AppCustomers = () => {
     const [isValueBirthDate, setIsValueBirthDate] = useState('');
     const [isValueCustomerImageFile, setIsValueCustomerImageFile] = useState<File | null>(null);
     const [isValueGender, setIsValueGender] = useState('');
-    const [isValueIsDeleted, setIsValueIsDeleted] = useState('');
-
-
     const handleShowModal = () => {
         setOpenModal(true);
     };
@@ -272,13 +294,67 @@ const AppCustomers = () => {
         setOpenModalEdit(false);
     };
     const handleClickSuccess = () => {
-        Notification('success', 'Thông báo', 'Tạo Khoa thành công');
+        Notification('success', 'Thông báo', 'Tạo Khách Hàng thành công');
+    };
+    const handleDelete = (item: { id: number }) => {
+        setDeleteModalVisible(true);
+        setSelectedItemDelete(item);
+    };
+    const handleSubmitDelete = () => {
+        handleDeleteCustomer();
+        setDeleteModalVisible(false);
+    };
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+    const [selectedItemDetele, setSelectedItemDelete] = useState<{ id?: number } | null>(null);
+    const handleClickDeleteSuccess = () => {
+        Notification('success', 'Thông báo', 'Xóa thành công Khách Hàng');
+    };
+    //Xử lý Call API Delete
+    const handleDeleteCustomer = () => {
+        const dataDelete = selectedItemDetele?.id;
+        axios
+            .delete(`${BASE_URL}/${dataDelete}`)
+            .then((response) => {
+                handleFetchData();
+                handleClickDeleteSuccess();
+            })
+            .catch((error) => {
+            });
+    };
+    const handleRestore = (item: { id: number }) => {
+        setRestoreModalVisible(true);
+        setSelectedItemRestore(item);
+    };
+    const handleSubmitRestore = () => {
+        handleRestoreCustomer();
+        setRestoreModalVisible(false);
+    };
+    const [restoreModalVisible, setRestoreModalVisible] = useState(false);
+    const [selectedItemRestore, setSelectedItemRestore] = useState<{ id?: number } | null>(null);
+    const handleClickRestoreSuccess = () => {
+        Notification('success', 'Thông báo', 'Khôi phục thành công');
+    };
+    //Xử lý Call API Restore
+    const handleRestoreCustomer = () => {
+        const dataRestore = selectedItemRestore?.id;
+        axios
+            .put(`${BASE_URL}/Restore/${dataRestore}`)
+            .then((response) => {
+                handleFetchData();
+                handleClickRestoreSuccess();
+            })
+            .catch((error) => {
+            });
     };
     return (
         <>
             <div className="container mt-5 ">
                 <div className="flex justify-end mb-5">
-                    <Button type="primary" onClick={handleShowModal}>
+                    <Button onClick={handleShowModal}>
+                        Thêm
+                    </Button>
+                    <Button onClick={handleToggleIsDeletedFetchData}>
+                        {isDeletedFetchData ? 'Xem Khách Hàng' : 'Xem Khách Hàng Đã Xóa'}
                     </Button>
                 </div>
                 <Table
@@ -294,7 +370,7 @@ const AppCustomers = () => {
                     {/* <Spin spinning={isLoading} size="large"></Spin> */}
                 </Table>
             </div>
-            {/* Modal thêm khoa */}
+            {/* Modal thêm Khách Hàng */}
             <>
                 <Modal
                     className="custom-modal-create_and_edit_customers"
@@ -376,14 +452,14 @@ const AppCustomers = () => {
                             />
                         </div>
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleSubmitCreateCustomers} type="primary" className="cstCreateCustomers">
+                            <Button onClick={handleCreateCustomers} type="primary" className="cstCreateCustomers">
                                 Lưu
                             </Button>
                         </div>
                     </div>
                 </Modal>
             </>
-            {/* Modal sửa khoa */}
+            {/* Modal sửa Khách Hàng */}
             <>
                 <Modal
                     className="custom-modal-create_and_edit_customers"
@@ -392,31 +468,39 @@ const AppCustomers = () => {
                     footer={null}
                 >
                     <div className="p-5">
-                        <span className="text-lg font-medium">Sửa khoa</span>
+                        <span className="text-lg font-medium">Sửa Khách Hàng</span>
                         <div className="mt-10">
-                            <label htmlFor="">Họ</label>
+                            <label htmlFor="firstName">Họ</label>
                             <Input
                                 onChange={(event) => {
-                                    const newValue = event.target.value;
-                                    console.log('Input Change Event:', newValue);
-                                    setSelectedItemEdit((prev) => {
-                                        if (prev === null) {
-                                            return prev;
-                                        }
-                                        return {
-                                            ...prev,
-                                            firstName: newValue,
-                                        };
-                                    });
+                                    setSelectedItemEdit((prev) =>
+                                        prev === null ? prev : { ...prev, firstName: event.target.value }
+                                    );
                                 }}
                                 value={selectedItemEdit?.firstName || ''}
                                 className="bg-slate-200"
                             />
                         </div>
                         <div className="mt-10">
+                            <label htmlFor="firstName">Tên</label>
+                            <Input
+                                onChange={(event) => {
+                                    setSelectedItemEdit((prev) =>
+                                        prev === null ? prev : { ...prev, lastName: event.target.value }
+                                    );
+                                }}
+                                value={selectedItemEdit?.lastName || ''}
+                                className="bg-slate-200"
+                            />
+                        </div>
+                        <div className="mt-10">
                             <label htmlFor="">Email</label>
                             <Input
-                                onChange={(event) => { setIsValueEmail(event.target.value) }}
+                                onChange={(event) => {
+                                    setSelectedItemEdit((prev) =>
+                                        prev === null ? prev : { ...prev, email: event.target.value }
+                                    );
+                                }}
                                 value={selectedItemEdit?.email}
                                 className="bg-slate-200"
                             />
@@ -424,15 +508,23 @@ const AppCustomers = () => {
                         <div className="mt-10">
                             <label htmlFor="">Mật Khẩu</label>
                             <Input
-                                onChange={(event) => { setIsValuePassword(event.target.value) }}
+                                onChange={(event) => {
+                                    setSelectedItemEdit((prev) =>
+                                        prev === null ? prev : { ...prev, password: event.target.value }
+                                    );
+                                }}
                                 value={selectedItemEdit?.password}
                                 className="bg-slate-200"
                             />
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Phone Number</label>
+                            <label htmlFor="">Số Điện Thoại</label>
                             <Input
-                                onChange={(event) => { setIsValuePhoneNumber(event.target.value) }}
+                                onChange={(event) => {
+                                    setSelectedItemEdit((prev) =>
+                                        prev === null ? prev : { ...prev, phoneNumber: event.target.value }
+                                    );
+                                }}
                                 value={selectedItemEdit?.phoneNumber || ''}
                                 readOnly={false}
                                 className="bg-slate-200"
@@ -443,7 +535,10 @@ const AppCustomers = () => {
                             <Input
                                 type="date"
                                 onChange={(event) => {
-                                    setIsValueBirthDate(event.target.value);
+                                    const selectedDate = new Date(event.target.value);
+                                    setSelectedItemEdit((prev) =>
+                                        prev === null ? prev : { ...prev, birthDate: selectedDate }
+                                    );
                                 }}
                                 value={
                                     selectedItemEdit?.birthDate instanceof Date
@@ -456,8 +551,13 @@ const AppCustomers = () => {
                         <div className="mt-10">
                             <label htmlFor="gender">Giới Tính</label>
                             <select
-                                onChange={(event) => setIsValueGender(event.target.value)}
-                                value={isValueGender}
+                                onChange={(event) => {
+                                    const isMale = event.target.value === "true";
+                                    setSelectedItemEdit((prev) =>
+                                        prev === null ? prev : { ...prev, gender: isMale }
+                                    );
+                                }}
+                                value={selectedItemEdit?.gender ? "true" : "false"}
                                 className="bg-slate-200"
                             >
                                 <option value="">Chọn Giới Tính</option>
@@ -478,6 +578,46 @@ const AppCustomers = () => {
                                 Lưu
                             </Button>
                         </div>
+                    </div>
+                </Modal>
+            </>
+            {/* Modal xóa và khôi phục */}
+            <>
+                <Modal
+                    title={deleteModalVisible ? "Xác nhận xóa" : "Xác nhận khôi phục"}
+                    className={deleteModalVisible ? "delete" : "restore"}
+                    visible={deleteModalVisible || restoreModalVisible}
+                    onCancel={() => {
+                        setDeleteModalVisible(false);
+                        setRestoreModalVisible(false);
+                    }}
+                    footer={null}
+                >
+                    <div>
+                        <p>
+                            {deleteModalVisible
+                                ? "Bạn có chắc chắn muốn xóa không?"
+                                : "Bạn có chắc chắn muốn khôi phục không?"}
+                        </p>
+                    </div>
+                    <div className="flex justify-end h-full mt-20">
+                        <Button
+                            onClick={deleteModalVisible ? handleSubmitDelete : handleSubmitRestore}
+                            type="primary"
+                            className="mr-5"
+                        >
+                            {deleteModalVisible ? "Xóa" : "Khôi Phục"}
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                setDeleteModalVisible(false);
+                                setRestoreModalVisible(false);
+                            }}
+                            type="default"
+                            className="mr-5"
+                        >
+                            Hủy
+                        </Button>
                     </div>
                 </Modal>
             </>
