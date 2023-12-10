@@ -7,6 +7,9 @@ import AppPaymentMethods from './page/Dashboard/AppPaymentMethod';
 import AppJobTitles from './page/Dashboard/AppJobTitles';
 import AppProductCategories from './page/Dashboard/AppProductCategories';
 import AppCustomers from './page/Dashboard/AppCustomers';
+import AppEmployees from './page/Dashboard/AppEmployees';
+import AppProducts from './page/Dashboard/AppProduct';
+import AppAddressCustomers from './page/Dashboard/AppAddressCustomer';
 
 function App() {
     return (
@@ -61,10 +64,26 @@ function App() {
                         }
                     ></Route>
                     <Route
-                        path="/admin/app-customers"
+                        path="/admin/app-employees"
                         element={
                             <div>
-                                <AppCustomers />
+                                <AppEmployees />
+                            </div>
+                        }
+                    ></Route>
+                    <Route
+                        path="/admin/app-products"
+                        element={
+                            <div>
+                                <AppProducts />
+                            </div>
+                        }
+                    ></Route>
+                    <Route
+                        path="/admin/app-address-customers"
+                        element={
+                            <div>
+                                <AppAddressCustomers />
                             </div>
                         }
                     ></Route>

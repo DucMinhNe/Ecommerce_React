@@ -282,8 +282,8 @@ const AppCustomers = () => {
     const [isValuePassword, setIsValuePassword] = useState('');
     const [isValuePhoneNumber, setIsValuePhoneNumber] = useState('');
     const [isValueBirthDate, setIsValueBirthDate] = useState('');
-    const [isValueCustomerImageFile, setIsValueCustomerImageFile] = useState<File | null>(null);
     const [isValueGender, setIsValueGender] = useState('');
+    const [isValueCustomerImageFile, setIsValueCustomerImageFile] = useState<File | null>(null);
     const handleShowModal = () => {
         setOpenModal(true);
     };
@@ -452,7 +452,7 @@ const AppCustomers = () => {
                             />
                         </div>
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleCreateCustomers} type="primary" className="cstCreateCustomers">
+                            <Button onClick={handleCreateCustomers} className="bg-green-400 px-3 py-2 rounded-lg hover:bg-green-600 hover:text-white">
                                 Lưu
                             </Button>
                         </div>
@@ -574,7 +574,7 @@ const AppCustomers = () => {
                             />
                         </div>
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleSubmitEditCustomers} type="primary" className="cstCreateCustomers">
+                            <Button onClick={handleSubmitEditCustomers} className="bg-green-400 px-3 py-2 rounded-lg hover:bg-green-600 hover:text-white">
                                 Lưu
                             </Button>
                         </div>
@@ -603,7 +603,7 @@ const AppCustomers = () => {
                     <div className="flex justify-end h-full mt-20">
                         <Button
                             onClick={deleteModalVisible ? handleSubmitDelete : handleSubmitRestore}
-                            type="primary"
+
                             className="mr-5"
                         >
                             {deleteModalVisible ? "Xóa" : "Khôi Phục"}
