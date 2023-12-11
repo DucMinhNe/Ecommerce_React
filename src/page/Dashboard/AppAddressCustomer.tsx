@@ -6,7 +6,6 @@ import axios from 'axios';
 import SystemConst from '../../common/consts/system_const';
 import UnauthorizedError from '../../common/exception/unauthorized_error';
 import ErrorCommon from '../../common/Screens/ErrorCommon';
-import moment from 'moment';
 interface DataType {
     id: number;
     customerId: number;
@@ -60,7 +59,6 @@ const AppAddressCustomers = () => {
         //     title: 'Khách Hàng',
         //     dataIndex: 'customerId',
         // },
-
         {
             title: 'Hành động',
             dataIndex: 'action',
@@ -105,9 +103,7 @@ const AppAddressCustomers = () => {
                             district: item.district,
                             subDistrict: item.subDistrict,
                             phoneNumber: item.phoneNumber,
-
                             address: item.address,
-
                             isDeleted: item.isDeleted,
                             action: (
                                 <>
@@ -196,7 +192,6 @@ const AppAddressCustomers = () => {
         formData.append("city", selectedItemEdit.city || '');
         formData.append("district", selectedItemEdit.district || '');
         formData.append("subDistrict", selectedItemEdit.subDistrict || '');
-
         formData.append("phoneNumber", selectedItemEdit.phoneNumber || '');
         formData.append("address", selectedItemEdit.address || '');
         formData.append("isDeleted", `${isDeletedFetchData}`);

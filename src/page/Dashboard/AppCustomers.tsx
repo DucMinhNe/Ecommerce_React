@@ -1,4 +1,4 @@
-import { Button, Modal, Input } from 'antd';
+import { Button, Modal, Input, Select } from 'antd';
 import Table, { ColumnsType } from 'antd/es/table';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import Notification from '../../components/Notification';
@@ -6,7 +6,6 @@ import axios from 'axios';
 import SystemConst from '../../common/consts/system_const';
 import UnauthorizedError from '../../common/exception/unauthorized_error';
 import ErrorCommon from '../../common/Screens/ErrorCommon';
-import moment from 'moment';
 interface DataType {
     firstName: string;
     lastName: string;
@@ -223,8 +222,8 @@ const AppCustomers = () => {
         }
         formData.append("gender", selectedItemEdit.gender ? 'true' : 'false');
         if (isValueCustomerImageFile !== null) {
-            formData.append("customerImageFile", isValueCustomerImageFile);
             formData.append("customerImage", selectedItemEdit.customerImage || '');
+            formData.append("customerImageFile", isValueCustomerImageFile);
         }
 
         formData.append("isDeleted", `${isDeletedFetchData}`);

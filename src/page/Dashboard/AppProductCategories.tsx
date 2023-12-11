@@ -34,7 +34,7 @@ const AppProductCategories = () => {
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);
-      
+
         handleFetchData();
     }, []);
     const handleFetchData = () => {
@@ -98,31 +98,31 @@ const AppProductCategories = () => {
     //Xử lý Call API Update
     const handleUpdateProductCategories = () => {
         const data = {
-          id: selectedItemEdit?.id,
-          productCategoryName: selectedItemEdit?.productCategoryName,
+            id: selectedItemEdit?.id,
+            productCategoryName: selectedItemEdit?.productCategoryName,
         };
-      
+
         axios
-          .put(`${BASE_URL}/${data.id}`, data, {
-            headers: {
-              'Content-Type': 'application/json',
-              // Other headers or authentication tokens if required
-            },
-          })
-          .then((response) => {
-            handleClickEditSuccess();
-            handleFetchData();
-          })
-          .catch((error) => {
-            // Handle errors (you might want to log or display an error message)
-            console.error('Error during update:', error);
-          });
-      };
-      
+            .put(`${BASE_URL}/${data.id}`, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Other headers or authentication tokens if required
+                },
+            })
+            .then((response) => {
+                handleClickEditSuccess();
+                handleFetchData();
+            })
+            .catch((error) => {
+                // Handle errors (you might want to log or display an error message)
+                console.error('Error during update:', error);
+            });
+    };
+
     //Xử lý Call API Delete
     const handleDeleteProductCategories = () => {
         const dataDelete = selectedItemDetele?.id;
-       
+
         axios
             .delete(`${BASE_URL}/${dataDelete}`)
             .then((response) => {
