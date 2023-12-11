@@ -10,6 +10,7 @@ import AppCustomers from './page/Dashboard/AppCustomers';
 import AppEmployees from './page/Dashboard/AppEmployees';
 import AppProducts from './page/Dashboard/AppProduct';
 import AppAddressCustomers from './page/Dashboard/AppAddressCustomer';
+import AppCarts from './page/Dashboard/AppCart';
 
 function App() {
     return (
@@ -84,6 +85,14 @@ function App() {
                         element={
                             <div>
                                 <AppAddressCustomers />
+                            </div>
+                        }
+                    ></Route>
+                    <Route
+                        path="/admin/app-carts"
+                        element={
+                            <div>
+                                <AppCarts />
                             </div>
                         }
                     ></Route>

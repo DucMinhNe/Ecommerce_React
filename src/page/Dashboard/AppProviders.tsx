@@ -59,7 +59,7 @@ const AppProviders = () => {
     const [dataProviders, setDataProviders] = useState<DataType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedItemEdit, setSelectedItemEdit] = useState<DataType | null>(null);
-    //Xử lý Call APU Get Data
+    //Xử lý Call API Get Data
     useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
@@ -118,10 +118,9 @@ const AppProviders = () => {
             })
             .catch((error) => {
                 // Swal.fire({
-                //     icon: 'success',
-                //     title: 'Lỗi máy chủ',
-                //     showConfirmButton: false,
-                //     timer: 100,
+                //     icon: "error",
+                //     title: "Thông Báo",
+                //     text: "Có Lỗi Xảy Ra",
                 // });
             });
     };
@@ -135,7 +134,12 @@ const AppProviders = () => {
             isDeleted: false
         };
         axios
-            .post(`${BASE_URL}`, data)
+            .post(`${BASE_URL}`, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Other headers or authentication tokens if required
+                },
+            })
             .then((response) => {
                 handleFetchData();
                 setIsValueProviderName('');
@@ -143,6 +147,11 @@ const AppProviders = () => {
                 handleClickSuccess();
             })
             .catch((error) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Thông Báo",
+                    text: "Có Lỗi Xảy Ra",
+                });
             });
     };
     const [openModal, setOpenModal] = useState(false);
@@ -180,11 +189,14 @@ const AppProviders = () => {
                 handleFetchData();
             })
             .catch((error) => {
-                // Handle errors (you might want to log or display an error message)
-                console.error('Error during update:', error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Thông Báo",
+                    text: "Có Lỗi Xảy Ra",
+                });
             });
     };
-    const handleSubmitEditProviders = () => {
+    const handleSubmitEdit = () => {
         handleUpdateProviders();
         setOpenModalEdit(false);
     };
@@ -236,6 +248,11 @@ const AppProviders = () => {
                 });
             })
             .catch((error) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Thông Báo",
+                    text: "Có Lỗi Xảy Ra",
+                });
             });
     };
     const handleRestore = (item: { id: number }) => {
@@ -268,6 +285,11 @@ const AppProviders = () => {
                 });
             })
             .catch((error) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Thông Báo",
+                    text: "Có Lỗi Xảy Ra",
+                });
             });
     };
     return (
@@ -348,7 +370,7 @@ const AppProviders = () => {
                             />
                         </div>
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleSubmitEditProviders} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff', marginTop: 8 }}  >
+                            <Button onClick={handleSubmitEdit} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff', marginTop: 8 }}  >
                                 Lưu
                             </Button>
                         </div>

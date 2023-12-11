@@ -74,6 +74,9 @@ const Dashboard: React.FC = () => {
                             <Menu.Item key="/admin/app-address-customers">
                                 <Link to="/admin/app-address-customers">Địa Chỉ Khách Hàng</Link>
                             </Menu.Item>
+                            <Menu.Item key="/admin/app-carts">
+                                <Link to="/admin/app-carts">Giỏ Hàng</Link>
+                            </Menu.Item>
                         </Menu>
                     </Sider>
                     <Content className="custom-main p-5">

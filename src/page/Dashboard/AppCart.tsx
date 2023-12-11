@@ -8,12 +8,10 @@ import Swal from 'sweetalert2';
 interface DataType {
     id: number;
     customerId: number;
-    addressCustomerName: string;
     city: string;
-    district: string;
-    subDistrict: string;
-    phoneNumber: string;
-    address: string;
+    quantity: number;
+    unitPrice: number;
+
     isDeleted: boolean | null;
     action: React.ReactNode;
 }
@@ -21,9 +19,9 @@ interface Customer {
     id: number;
     firstName: string;
 }
-const BASE_URL = `${SystemConst.DOMAIN}/AddressCustomers`;
+const BASE_URL = `${SystemConst.DOMAIN}/Carts`;
 const BASE_URL_Customers = `${SystemConst.DOMAIN}/Customers`;
-const AppAddressCustomers = () => {
+const AppCarts = () => {
     const columns: ColumnsType<DataType> = [
         {
             title: 'ID',
@@ -39,35 +37,21 @@ const AppAddressCustomers = () => {
             align: 'center',
         },
         {
-            title: 'Họ Tên',
-            dataIndex: 'addressCustomerName',
-            align: 'center',
-        },
-        {
             title: 'Thành Phố',
             dataIndex: 'city',
             align: 'center',
         },
         {
             title: 'Quận / Huyện',
-            dataIndex: 'district',
+            dataIndex: 'quantity',
             align: 'center',
         },
         {
-            title: 'Phường Xả',
-            dataIndex: 'subDistrict',
+            title: 'Giá',
+            dataIndex: 'unitPrice',
             align: 'center',
         },
-        {
-            title: 'Số Điện Thoại',
-            dataIndex: 'phoneNumber',
-            align: 'center',
-        },
-        {
-            title: 'Địa Chỉ',
-            dataIndex: 'address',
-            align: 'center',
-        },
+
         // {
         //     title: 'Khách Hàng',
         //     dataIndex: 'customerId',
@@ -79,7 +63,7 @@ const AppAddressCustomers = () => {
             width: 200,
         },
     ];
-    const [dataAddressCustomers, setDataAddressCustomers] = useState<DataType[]>([]);
+    const [dataCarts, setDataCarts] = useState<DataType[]>([]);
     const [selectedItemEdit, setSelectedItemEdit] = useState<DataType | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
@@ -105,20 +89,18 @@ const AppAddressCustomers = () => {
         axios
             .get(`${BASE_URL}?isDeleted=${isDeletedFetchData}`)
             .then(async (response) => {
-                const Api_Data_AddressCustomers = response.data;
+                const Api_Data_Carts = response.data;
                 try {
                     const customers = await fetchCustomers();
-                    const newData: DataType[] = Api_Data_AddressCustomers.map(
+                    const newData: DataType[] = Api_Data_Carts.map(
                         (item: DataType) => ({
                             id: item.id,
                             customerId: item.customerId,
                             customer: (customers.find((customer: { id: number; }) => customer.id === item.customerId) || {}).firstName || 'N/A',
-                            addressCustomerName: item.addressCustomerName,
                             city: item.city,
-                            district: item.district,
-                            subDistrict: item.subDistrict,
-                            phoneNumber: item.phoneNumber,
-                            address: item.address,
+                            quantity: item.quantity,
+                            unitPrice: item.unitPrice,
+
                             isDeleted: item.isDeleted,
                             action: (
                                 <>
@@ -153,7 +135,7 @@ const AppAddressCustomers = () => {
                             ),
                         })
                     );
-                    setDataAddressCustomers(newData);
+                    setDataCarts(newData);
                 } catch (error) {
                     console.log(error);
                 }
@@ -165,15 +147,12 @@ const AppAddressCustomers = () => {
         handleFetchData();
     }, [isDeletedFetchData]);
     //Xử lý Call API Create
-    const handleCreateAddressCustomers = () => {
+    const handleCreateCarts = () => {
         const formData = new FormData();
         formData.append("customerId", isValueCustomerId);
-        formData.append("addressCustomerName", isValueAddressCustomerName);
         formData.append("city", isValueCity);
-        formData.append("district", isValueDistrict);
-        formData.append("subDistrict", isValueSubDistrict);
-        formData.append("phoneNumber", isValuePhoneNumber);
-        formData.append("address", isValueAddress);
+        formData.append("quantity", isValueQuantity);
+        formData.append("unitPrice", isValueUnitPrice);
         formData.append("isDeleted", 'false');
         console.log(formData);
         axios
@@ -195,18 +174,15 @@ const AppAddressCustomers = () => {
     const clearAllValue = () => {
         setSelectedItemEdit(null);
     }
-    const handleUpdateAddressCustomers = () => {
+    const handleUpdateCarts = () => {
         if (!selectedItemEdit) {
             return;
         }
         const formData = new FormData();
         formData.append("customerId", String(selectedItemEdit.customerId || ''));
-        formData.append("addressCustomerName", selectedItemEdit.addressCustomerName || '');
         formData.append("city", selectedItemEdit.city || '');
-        formData.append("district", selectedItemEdit.district || '');
-        formData.append("subDistrict", selectedItemEdit.subDistrict || '');
-        formData.append("phoneNumber", selectedItemEdit.phoneNumber || '');
-        formData.append("address", selectedItemEdit.address || '');
+        formData.append("quantity", String(selectedItemEdit.quantity || ''));
+        formData.append("unitPrice", String(selectedItemEdit.unitPrice || ''));
         formData.append("isDeleted", `${isDeletedFetchData}`);
 
         console.log(formData);
@@ -226,8 +202,8 @@ const AppAddressCustomers = () => {
             .catch((error) => {
             });
     };
-    const handleSubmitEditAddressCustomers = () => {
-        handleUpdateAddressCustomers();
+    const handleSubmitEditCarts = () => {
+        handleUpdateCarts();
         setOpenModalEdit(false);
     };
     const handleEdit = (item: DataType) => {
@@ -249,12 +225,9 @@ const AppAddressCustomers = () => {
     const [openModal, setOpenModal] = useState(false);
     const [openModalEdit, setOpenModalEdit] = useState(false);
     const [isValueCustomerId, setIsValueCustomerId] = useState('');
-    const [isValueAddressCustomerName, setIsValueAddressCustomerName] = useState('');
     const [isValueCity, setIsValueCity] = useState('');
-    const [isValueDistrict, setIsValueDistrict] = useState('');
-    const [isValueSubDistrict, setIsValueSubDistrict] = useState('');
-    const [isValuePhoneNumber, setIsValuePhoneNumber] = useState('');
-    const [isValueAddress, setIsValueAddress] = useState('');
+    const [isValueQuantity, setIsValueQuantity] = useState('');
+    const [isValueUnitPrice, setIsValueUnitPrice] = useState('');
     const [customers, setCustomers] = useState<Customer[]>([]);
     // Fetch Customers on component mount
     useEffect(() => {
@@ -298,12 +271,12 @@ const AppAddressCustomers = () => {
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                handleDeleteAddressCustomer(item.id);
+                handleDeleteCart(item.id);
             }
         });
     };
     //Xử lý Call API Delete
-    const handleDeleteAddressCustomer = (itemId: number) => {
+    const handleDeleteCart = (itemId: number) => {
         const dataDelete = itemId;
         axios
             .delete(`${BASE_URL}/${dataDelete}`)
@@ -336,11 +309,11 @@ const AppAddressCustomers = () => {
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                handleRestoreAddressCustomer(item.id);
+                handleRestoreCart(item.id);
             }
         });
     };
-    const handleRestoreAddressCustomer = (itemId: number) => {
+    const handleRestoreCart = (itemId: number) => {
         const dataRestore = itemId;
         axios
             .put(`${BASE_URL}/Restore/${dataRestore}`)
@@ -374,7 +347,7 @@ const AppAddressCustomers = () => {
                 </div>
                 <Table
                     columns={columns}
-                    dataSource={dataAddressCustomers}
+                    dataSource={dataCarts}
                     loading={isLoading}
                     pagination={{
                         defaultPageSize: 6,
@@ -392,7 +365,7 @@ const AppAddressCustomers = () => {
             {/* Modal thêm Nhân Viên */}
             <>
                 <Modal
-                    className="custom-modal-create_and_edit_addresscustomers"
+                    className="custom-modal-create_and_edit_carts"
                     open={openModal}
                     onCancel={handleCancel}
                     footer={null}
@@ -416,14 +389,6 @@ const AppAddressCustomers = () => {
                             </select>
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Họ Tên</label>
-                            <Input
-                                onChange={(event) => { setIsValueAddressCustomerName(event.target.value) }}
-                                value={isValueAddressCustomerName}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
                             <label htmlFor="">Thành Phố</label>
                             <Input
                                 onChange={(event) => { setIsValueCity(event.target.value) }}
@@ -432,41 +397,23 @@ const AppAddressCustomers = () => {
                             />
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Quận / Huyện</label>
+                            <label htmlFor="">Số Lượng</label>
                             <Input
-                                onChange={(event) => { setIsValueDistrict(event.target.value) }}
-                                value={isValueDistrict}
+                                onChange={(event) => { setIsValueQuantity(event.target.value) }}
+                                value={isValueQuantity}
                                 className="bg-slate-200"
                             />
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Phường Xả</label>
+                            <label htmlFor="">Giá</label>
                             <Input
-                                onChange={(event) => { setIsValueSubDistrict(event.target.value) }}
-                                value={isValueSubDistrict}
+                                onChange={(event) => { setIsValueUnitPrice(event.target.value) }}
+                                value={isValueUnitPrice}
                                 className="bg-slate-200"
                             />
                         </div>
-
-                        <div className="mt-10">
-                            <label htmlFor="">Số Điện Thoại</label>
-                            <Input
-                                onChange={(event) => { setIsValuePhoneNumber(event.target.value) }}
-                                value={isValuePhoneNumber}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Địa Chỉ</label>
-                            <Input
-                                onChange={(event) => { setIsValueAddress(event.target.value) }}
-                                value={isValueAddress}
-                                className="bg-slate-200"
-                            />
-                        </div>
-
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleCreateAddressCustomers} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginTop: 8 }} >
+                            <Button onClick={handleCreateCarts} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginTop: 8 }} >
                                 Lưu
                             </Button>
                         </div>
@@ -476,7 +423,7 @@ const AppAddressCustomers = () => {
             {/* Modal sửa Nhân Viên */}
             <>
                 <Modal
-                    className="custom-modal-create_and_edit_addresscustomers"
+                    className="custom-modal-create_and_edit_carts"
                     open={openModalEdit}
                     onCancel={handleCancelEdit}
                     footer={null}
@@ -505,18 +452,6 @@ const AppAddressCustomers = () => {
                             </select>
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Họ Tên</label>
-                            <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, addressCustomerName: event.target.value }
-                                    );
-                                }}
-                                value={selectedItemEdit?.addressCustomerName}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
                             <label htmlFor="">Thành Phố</label>
                             <Input
                                 onChange={(event) => {
@@ -529,14 +464,14 @@ const AppAddressCustomers = () => {
                             />
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Quận / Huyền</label>
+                            <label htmlFor="">Số Lượng</label>
                             <Input
                                 onChange={(event) => {
                                     setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, district: event.target.value }
+                                        prev === null ? prev : { ...prev, quantity: Number(event.target.value) }
                                     );
                                 }}
-                                value={selectedItemEdit?.district || ''}
+                                value={selectedItemEdit?.quantity || ''}
                                 className="bg-slate-200"
                             />
                         </div>
@@ -545,42 +480,15 @@ const AppAddressCustomers = () => {
                             <Input
                                 onChange={(event) => {
                                     setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, subDistrict: event.target.value }
+                                        prev === null ? prev : { ...prev, unitPrice: Number(event.target.value) }
                                     );
                                 }}
-                                value={selectedItemEdit?.subDistrict}
+                                value={selectedItemEdit?.unitPrice}
                                 className="bg-slate-200"
                             />
                         </div>
-
-                        <div className="mt-10">
-                            <label htmlFor="">Số Điện Thoại</label>
-                            <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, phoneNumber: event.target.value }
-                                    );
-                                }}
-                                value={selectedItemEdit?.phoneNumber || ''}
-                                readOnly={false}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Địa Chỉ</label>
-                            <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, address: event.target.value }
-                                    );
-                                }}
-                                value={selectedItemEdit?.address}
-                                className="bg-slate-200"
-                            />
-                        </div>
-
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleSubmitEditAddressCustomers} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff', marginTop: 8 }}  >
+                            <Button onClick={handleSubmitEditCarts} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff', marginTop: 8 }}  >
                                 Lưu
                             </Button>
                         </div>
@@ -591,4 +499,4 @@ const AppAddressCustomers = () => {
     );
 };
 
-export default AppAddressCustomers;
+export default AppCarts;

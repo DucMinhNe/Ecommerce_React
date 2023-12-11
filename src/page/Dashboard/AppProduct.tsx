@@ -1,12 +1,10 @@
-import { Button, Modal, Input } from 'antd';
+import { Button, Modal, Input, Select } from 'antd';
+import { EditOutlined, DeleteOutlined, UndoOutlined } from '@ant-design/icons';
 import Table, { ColumnsType } from 'antd/es/table';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import Notification from '../../components/Notification';
 import axios from 'axios';
 import SystemConst from '../../common/consts/system_const';
-import UnauthorizedError from '../../common/exception/unauthorized_error';
-import ErrorCommon from '../../common/Screens/ErrorCommon';
-import moment from 'moment';
+import Swal from 'sweetalert2';
 interface DataType {
     id: number;
     productName: string;
@@ -35,24 +33,37 @@ const BASE_URL_Providers = `${SystemConst.DOMAIN}/Providers`;
 const AppProducts = () => {
     const columns: ColumnsType<DataType> = [
         {
+            title: 'ID',
+            dataIndex: 'id',
+            sorter: (a, b) => a.id - b.id,
+            sortDirections: ['ascend', 'descend'],
+            align: 'center',
+            width: 100,
+        },
+        {
             title: 'Tên Sản Phẩm',
             dataIndex: 'productName',
+            align: 'center',
         },
         {
             title: 'Mô Tả',
             dataIndex: 'description',
+            align: 'center',
         },
         {
             title: 'Đánh Giá',
             dataIndex: 'rating',
+            align: 'center',
         },
         {
             title: 'Giá Bán',
             dataIndex: 'unitPrice',
+            align: 'center',
         },
         {
             title: 'Số Lượng Tồn',
             dataIndex: 'stockQuantity',
+            align: 'center',
         },
         {
             title: 'Hình Ảnh',
@@ -64,6 +75,7 @@ const AppProducts = () => {
                     style={{ width: '50px', height: '50px', objectFit: 'cover' }}
                 />
             ),
+            align: 'center',
         },
         // {
         //     title: 'Nhà Cung Cấp',
@@ -72,14 +84,18 @@ const AppProducts = () => {
         {
             title: 'Loại Sản Phẩm',
             dataIndex: 'productCategory',
+            align: 'center',
         },
         {
             title: 'Nhà Cung Cấp',
             dataIndex: 'provider',
+            align: 'center',
         },
         {
             title: 'Hành động',
             dataIndex: 'action',
+            align: 'center',
+            width: 200,
         },
     ];
     const [dataProducts, setDataProducts] = useState<DataType[]>([]);
@@ -139,26 +155,30 @@ const AppProducts = () => {
                             action: (
                                 <>
                                     <div className="flex gap-x-1">
-                                        <button
-                                            className="bg-green-400 px-3 py-2 rounded-lg hover:bg-green-600 hover:text-white"
+                                        <Button
+                                            type="default"
+                                            style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}
+                                            icon={<EditOutlined />}
                                             onClick={() => handleEdit(item)}
                                         >
                                             Sửa
-                                        </button>
+                                        </Button>
                                         {isDeletedFetchData ? (
-                                            <button
-                                                className="bg-blue-500 px-3 py-2 rounded-lg hover:bg-blue-700 hover:text-white"
+                                            <Button
+                                                style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff' }}
+                                                icon={<UndoOutlined />}
                                                 onClick={() => handleRestore(item)}
                                             >
                                                 Khôi Phục
-                                            </button>
+                                            </Button>
                                         ) : (
-                                            <button
-                                                className="bg-red-500 px-3 py-2 rounded-lg hover:bg-red-700 hover:text-white"
+                                            <Button
+                                                style={{ backgroundColor: '#ff0000', borderColor: '#ff0000', color: '#fff' }}
+                                                icon={<DeleteOutlined />}
                                                 onClick={() => handleDelete(item)}
                                             >
                                                 Xóa
-                                            </button>
+                                            </Button>
                                         )}
                                     </div>
                                 </>
@@ -171,12 +191,6 @@ const AppProducts = () => {
                 }
             })
             .catch((error) => {
-                const isError = UnauthorizedError.checkError(error);
-                if (!isError) {
-                    const content = 'Lỗi máy chủ';
-                    const title = 'Lỗi';
-                    ErrorCommon(title, content);
-                }
             });
     };
     useEffect(() => {
@@ -272,7 +286,12 @@ const AppProducts = () => {
         console.log('Selected item for editing:', item);
     };
     const handleClickEditSuccess = () => {
-        Notification('success', 'Thông báo', 'Cập nhật thành công Sản Phẩm');
+        Swal.fire({
+            icon: 'success',
+            title: 'Cập nhật thành công',
+            showConfirmButton: false,
+            timer: 600,
+        });
     };
     const [openModal, setOpenModal] = useState(false);
     const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -322,67 +341,97 @@ const AppProducts = () => {
         setOpenModalEdit(false);
     };
     const handleClickSuccess = () => {
-        Notification('success', 'Thông báo', 'Tạo Sản Phẩm thành công');
+        Swal.fire({
+            icon: 'success',
+            title: 'Tạo Khách Hàng thành công',
+            showConfirmButton: false,
+            timer: 600,
+        });
     };
     const handleDelete = (item: { id: number }) => {
-        setDeleteModalVisible(true);
-        setSelectedItemDelete(item);
-    };
-    const handleSubmitDelete = () => {
-        handleDeleteProduct();
-        setDeleteModalVisible(false);
-    };
-    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-    const [selectedItemDetele, setSelectedItemDelete] = useState<{ id?: number } | null>(null);
-    const handleClickDeleteSuccess = () => {
-        Notification('success', 'Thông báo', 'Xóa thành công Sản Phẩm');
+        Swal.fire({
+            title: 'Xác nhận xóa',
+            text: 'Bạn có chắc chắn muốn xóa không?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleDeleteAddressCustomer(item.id);
+            }
+        });
     };
     //Xử lý Call API Delete
-    const handleDeleteProduct = () => {
-        const dataDelete = selectedItemDetele?.id;
+    const handleDeleteAddressCustomer = (itemId: number) => {
+        const dataDelete = itemId;
         axios
             .delete(`${BASE_URL}/${dataDelete}`)
             .then((response) => {
                 handleFetchData();
-                handleClickDeleteSuccess();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Xóa thành công Khách Hàng',
+                    showConfirmButton: false,
+                    timer: 600,
+                });
             })
             .catch((error) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Thông Báo",
+                    text: "Có Lỗi Xảy Ra",
+                });
             });
     };
     const handleRestore = (item: { id: number }) => {
-        setRestoreModalVisible(true);
-        setSelectedItemRestore(item);
+        Swal.fire({
+            title: 'Xác nhận khôi phục',
+            text: 'Bạn có chắc chắn muốn khôi phục không?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Khôi phục',
+            cancelButtonText: 'Hủy',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleRestoreAddressCustomer(item.id);
+            }
+        });
     };
-    const handleSubmitRestore = () => {
-        handleRestoreProduct();
-        setRestoreModalVisible(false);
-    };
-    const [restoreModalVisible, setRestoreModalVisible] = useState(false);
-    const [selectedItemRestore, setSelectedItemRestore] = useState<{ id?: number } | null>(null);
-    const handleClickRestoreSuccess = () => {
-        Notification('success', 'Thông báo', 'Khôi phục thành công');
-    };
-    //Xử lý Call API Restore
-    const handleRestoreProduct = () => {
-        const dataRestore = selectedItemRestore?.id;
+    const handleRestoreAddressCustomer = (itemId: number) => {
+        const dataRestore = itemId;
         axios
             .put(`${BASE_URL}/Restore/${dataRestore}`)
             .then((response) => {
                 handleFetchData();
-                handleClickRestoreSuccess();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Khôi phục thành công',
+                    showConfirmButton: false,
+                    timer: 600,
+                });
             })
             .catch((error) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Thông Báo",
+                    text: "Có Lỗi Xảy Ra",
+                });
             });
     };
     return (
         <>
             <div className="container mt-5 ">
                 <div className="flex justify-end mb-5">
-                    <Button onClick={handleShowModal}>
-                        Thêm
+                    <Button onClick={handleShowModal} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginRight: '8px' }}>
+                        +
                     </Button>
-                    <Button onClick={handleToggleIsDeletedFetchData}>
-                        {isDeletedFetchData ? 'Xem Sản Phẩm' : 'Xem Sản Phẩm Đã Xóa'}
+                    <Button onClick={handleToggleIsDeletedFetchData} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}>
+                        {isDeletedFetchData ? 'Xem Khách Hàng' : 'Xem Khách Hàng Đã Xóa'}
                     </Button>
                 </div>
                 <Table
@@ -393,10 +442,14 @@ const AppProducts = () => {
                         defaultPageSize: 6,
                         showSizeChanger: true,
                         pageSizeOptions: ['4', '6', '8', '12', '16'],
+                        showQuickJumper: true,
+                        showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
                     }}
-                >
-                    {/* <Spin spinning={isLoading} size="large"></Spin> */}
-                </Table>
+                    rowKey={(record) => record.id}
+                    scroll={{ x: 'max-content' }}
+                    size="middle"
+                    bordered
+                />
             </div>
             {/* Modal thêm Sản Phẩm */}
             <>
@@ -489,7 +542,7 @@ const AppProducts = () => {
                             </select>
                         </div>
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleCreateProducts} className="bg-green-400 px-3 py-2 rounded-lg hover:bg-green-600 hover:text-white">
+                            <Button onClick={handleCreateProducts} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginTop: 8 }} >
                                 Lưu
                             </Button>
                         </div>
@@ -618,50 +671,10 @@ const AppProducts = () => {
                             </select>
                         </div>
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleSubmitEditProducts} className="bg-green-400 px-3 py-2 rounded-lg hover:bg-green-600 hover:text-white">
+                            <Button onClick={handleSubmitEditProducts} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff', marginTop: 8 }}  >
                                 Lưu
                             </Button>
                         </div>
-                    </div>
-                </Modal>
-            </>
-            {/* Modal xóa và khôi phục */}
-            <>
-                <Modal
-                    title={deleteModalVisible ? "Xác nhận xóa" : "Xác nhận khôi phục"}
-                    className={deleteModalVisible ? "delete" : "restore"}
-                    visible={deleteModalVisible || restoreModalVisible}
-                    onCancel={() => {
-                        setDeleteModalVisible(false);
-                        setRestoreModalVisible(false);
-                    }}
-                    footer={null}
-                >
-                    <div>
-                        <p>
-                            {deleteModalVisible
-                                ? "Bạn có chắc chắn muốn xóa không?"
-                                : "Bạn có chắc chắn muốn khôi phục không?"}
-                        </p>
-                    </div>
-                    <div className="flex justify-end h-full mt-20">
-                        <Button
-                            onClick={deleteModalVisible ? handleSubmitDelete : handleSubmitRestore}
-
-                            className="mr-5"
-                        >
-                            {deleteModalVisible ? "Xóa" : "Khôi Phục"}
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                setDeleteModalVisible(false);
-                                setRestoreModalVisible(false);
-                            }}
-                            type="default"
-                            className="mr-5"
-                        >
-                            Hủy
-                        </Button>
                     </div>
                 </Modal>
             </>
