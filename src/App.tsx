@@ -1,6 +1,7 @@
 
 import Login from './page/Admin/Login';
-import { Navigate, Route, Routes, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet, ScrollRestoration } from 'react-router-dom';
+
 import Dashboard from './page/Admin/Dashboard';
 import AppProviders from './page/Admin/AppProviders';
 import AppPaymentMethods from './page/Admin/AppPaymentMethod';
@@ -11,10 +12,26 @@ import AppEmployees from './page/Admin/AppEmployees';
 import AppProducts from './page/Admin/AppProduct';
 import AppAddressCustomers from './page/Admin/AppAddressCustomer';
 import AppCarts from './page/Admin/AppCart';
-
+import { Header } from './page/Ecommerce/components/Header';
+import { Footer } from './page/Ecommerce/components/Footer';
+import { Cart } from './page/Ecommerce/pages/cart/cart';
+import { Product } from './page/Ecommerce/pages/product/product';
+import { Home } from './page/Ecommerce/pages/Home/Home';
+import { productsData } from './page/Ecommerce/api/Api';
+const Layout = () => {
+    return (
+        <div>
+            <Header />
+            <ScrollRestoration />
+            <Outlet />
+            <Footer />
+        </div>
+    );
+};
 function App() {
     return (
         <>
+
             <Routes>
                 <Route
                     path="/admin"
@@ -105,6 +122,17 @@ function App() {
                         </div>
                     }
                 />
+
+                {/* Ecommerce Routes */}
+                <Route path="/ecommerce" element={<Layout />}>
+                    <Route path="/ecommerce/home" element={<Home />} loader={productsData} />
+                    <Route path="/ecommerce/product/:id" element={<Product />} />
+                    <Route path="/ecommerce/cart" element={<Cart />} />
+                    {/* <Route path="/login" element={<Login />} /> */}
+                </Route>
+                {/* Login Route */}
+
+
             </Routes>
         </>
     );
