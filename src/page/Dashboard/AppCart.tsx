@@ -1,17 +1,16 @@
 import { Button, Modal, Input, Select } from 'antd';
 import { EditOutlined, DeleteOutlined, UndoOutlined } from '@ant-design/icons';
 import Table, { ColumnsType } from 'antd/es/table';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SystemConst from '../../common/consts/system_const';
 import Swal from 'sweetalert2';
 interface DataType {
     id: number;
     customerId: number;
-    city: string;
+    productId: number;
     quantity: number;
     unitPrice: number;
-
     isDeleted: boolean | null;
     action: React.ReactNode;
 }
@@ -19,8 +18,13 @@ interface Customer {
     id: number;
     firstName: string;
 }
+interface Product {
+    id: number;
+    productName: string;
+}
 const BASE_URL = `${SystemConst.DOMAIN}/Carts`;
 const BASE_URL_Customers = `${SystemConst.DOMAIN}/Customers`;
+const BASE_URL_Products = `${SystemConst.DOMAIN}/Products`;
 const AppCarts = () => {
     const columns: ColumnsType<DataType> = [
         {
@@ -37,12 +41,12 @@ const AppCarts = () => {
             align: 'center',
         },
         {
-            title: 'Thành Phố',
-            dataIndex: 'city',
+            title: 'Sản Phẩm',
+            dataIndex: 'productId',
             align: 'center',
         },
         {
-            title: 'Quận / Huyện',
+            title: 'Số Lượng',
             dataIndex: 'quantity',
             align: 'center',
         },
@@ -85,6 +89,15 @@ const AppCarts = () => {
             throw error; // Ném lỗi để xử lý ở nơi gọi hàm nếu cần
         }
     };
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get(`${BASE_URL_Products}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching job titles:', error);
+            throw error; // Ném lỗi để xử lý ở nơi gọi hàm nếu cần
+        }
+    };
     const handleFetchData = () => {
         axios
             .get(`${BASE_URL}?isDeleted=${isDeletedFetchData}`)
@@ -92,15 +105,16 @@ const AppCarts = () => {
                 const Api_Data_Carts = response.data;
                 try {
                     const customers = await fetchCustomers();
+                    const products = await fetchProducts();
                     const newData: DataType[] = Api_Data_Carts.map(
                         (item: DataType) => ({
                             id: item.id,
                             customerId: item.customerId,
                             customer: (customers.find((customer: { id: number; }) => customer.id === item.customerId) || {}).firstName || 'N/A',
-                            city: item.city,
+                            productId: item.productId,
+                            product: (products.find((product: { id: number; }) => product.id === item.productId) || {}).productName || 'N/A',
                             quantity: item.quantity,
                             unitPrice: item.unitPrice,
-
                             isDeleted: item.isDeleted,
                             action: (
                                 <>
@@ -150,7 +164,7 @@ const AppCarts = () => {
     const handleCreateCarts = () => {
         const formData = new FormData();
         formData.append("customerId", isValueCustomerId);
-        formData.append("city", isValueCity);
+        formData.append("productId", isValueProductId);
         formData.append("quantity", isValueQuantity);
         formData.append("unitPrice", isValueUnitPrice);
         formData.append("isDeleted", 'false');
@@ -180,11 +194,10 @@ const AppCarts = () => {
         }
         const formData = new FormData();
         formData.append("customerId", String(selectedItemEdit.customerId || ''));
-        formData.append("city", selectedItemEdit.city || '');
+        formData.append("productId", String(selectedItemEdit.productId || ''));
         formData.append("quantity", String(selectedItemEdit.quantity || ''));
         formData.append("unitPrice", String(selectedItemEdit.unitPrice || ''));
         formData.append("isDeleted", `${isDeletedFetchData}`);
-
         console.log(formData);
         axios
             .put(`${BASE_URL}/${selectedItemEdit.id}`, formData, {
@@ -225,10 +238,11 @@ const AppCarts = () => {
     const [openModal, setOpenModal] = useState(false);
     const [openModalEdit, setOpenModalEdit] = useState(false);
     const [isValueCustomerId, setIsValueCustomerId] = useState('');
-    const [isValueCity, setIsValueCity] = useState('');
+    const [isValueProductId, setIsValueProductId] = useState('');
     const [isValueQuantity, setIsValueQuantity] = useState('');
     const [isValueUnitPrice, setIsValueUnitPrice] = useState('');
     const [customers, setCustomers] = useState<Customer[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
     // Fetch Customers on component mount
     useEffect(() => {
         const fetchCustomersAndSetState = async () => {
@@ -241,6 +255,19 @@ const AppCarts = () => {
         };
 
         fetchCustomersAndSetState();
+    }, []);
+    // Fetch Products on component mount
+    useEffect(() => {
+        const fetchProductsAndSetState = async () => {
+            try {
+                const productsData = await fetchProducts();
+                setProducts(productsData || []); // Ensure productsData is an array, or set it to an empty array if it's falsy
+            } catch (error) {
+                console.error('Error fetching job titles:', error);
+            }
+        };
+
+        fetchProductsAndSetState();
     }, []);
     const handleShowModal = () => {
         setOpenModal(true);
@@ -342,7 +369,7 @@ const AppCarts = () => {
                         +
                     </Button>
                     <Button onClick={handleToggleIsDeletedFetchData} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}>
-                        {isDeletedFetchData ? 'Xem Khách Hàng' : 'Xem Khách Hàng Đã Xóa'}
+                        {isDeletedFetchData ? 'Xem Giỏ Hàng' : 'Xem Giỏ Hàng Đã Xóa'}
                     </Button>
                 </div>
                 <Table
@@ -389,12 +416,20 @@ const AppCarts = () => {
                             </select>
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Thành Phố</label>
-                            <Input
-                                onChange={(event) => { setIsValueCity(event.target.value) }}
-                                value={isValueCity}
+                            <label htmlFor="product">Sản Phẩm</label>
+                            <select
+                                id="product"
+                                onChange={(event) => { setIsValueProductId(event.target.value) }}
+                                value={isValueProductId}
                                 className="bg-slate-200"
-                            />
+                            >
+                                <option value="">-- Chọn Sản Phẩm --</option>
+                                {products.map((product) => (
+                                    <option key={product.id} value={product.id}>
+                                        {product.productName}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="mt-10">
                             <label htmlFor="">Số Lượng</label>
@@ -452,16 +487,25 @@ const AppCarts = () => {
                             </select>
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Thành Phố</label>
-                            <Input
+                            <label htmlFor="productId">Sản Phẩm</label>
+                            <select
+                                id="productId"
                                 onChange={(event) => {
+                                    const selectedProductId = Number(event.target.value);
                                     setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, city: event.target.value }
+                                        prev === null ? prev : { ...prev, productId: selectedProductId }
                                     );
                                 }}
-                                value={selectedItemEdit?.city || ''}
+                                value={selectedItemEdit?.productId ?? ''}
                                 className="bg-slate-200"
-                            />
+                            >
+                                <option value="" disabled>-- Chọn Sản Phẩm --</option>
+                                {products.map((product) => (
+                                    <option key={product.id} value={product.id}>
+                                        {product.productName}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="mt-10">
                             <label htmlFor="">Số Lượng</label>
@@ -476,7 +520,7 @@ const AppCarts = () => {
                             />
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Phường Xả</label>
+                            <label htmlFor="">Giá</label>
                             <Input
                                 onChange={(event) => {
                                     setSelectedItemEdit((prev) =>

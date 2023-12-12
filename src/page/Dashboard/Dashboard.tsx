@@ -1,12 +1,12 @@
-import { Dropdown, Layout, Menu, Space } from 'antd';
-import React, { useEffect } from 'react';
+import { Dropdown, Layout, Menu } from 'antd';
+// import React, { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import './scss/styleDashboard.scss';
 import { MdAccountCircle } from 'react-icons/md';
 const { Sider, Content, Header } = Layout;
 const Dashboard: React.FC = () => {
     const location = useLocation();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem('token');
