@@ -18,7 +18,12 @@ module.exports = {
             '3xl': '1800px',
             // => @media (min-width: 1536px) { ... }
         },
-        extend: {},
+        extend: {
+            fontFamily: {
+                bodyFont: 'Cinzel',
+                titleFont: 'Josefin Sans'
+            }
+        },
     },
     plugins: [require('tailwind-scrollbar')],
 };

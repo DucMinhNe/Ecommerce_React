@@ -30,7 +30,16 @@
     "socket.io-client": "^4.7.1",
     "sweetalert2": "^11.10.1",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.12.1",
+    "@reduxjs/toolkit": "^1.9.5",
+    "firebase": "^9.20.0",
+    "react-redux": "^8.0.5",
+    "react-toastify": "^9.1.2",
+    "redux-persist": "^6.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,16 +1,16 @@
 
-import Login from './page/Login/Login';
+import Login from './page/Admin/Login';
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
-import Dashboard from './page/Dashboard/Dashboard';
-import AppProviders from './page/Dashboard/AppProviders';
-import AppPaymentMethods from './page/Dashboard/AppPaymentMethod';
-import AppJobTitles from './page/Dashboard/AppJobTitles';
-import AppProductCategories from './page/Dashboard/AppProductCategories';
-import AppCustomers from './page/Dashboard/AppCustomers';
-import AppEmployees from './page/Dashboard/AppEmployees';
-import AppProducts from './page/Dashboard/AppProduct';
-import AppAddressCustomers from './page/Dashboard/AppAddressCustomer';
-import AppCarts from './page/Dashboard/AppCart';
+import Dashboard from './page/Admin/Dashboard';
+import AppProviders from './page/Admin/AppProviders';
+import AppPaymentMethods from './page/Admin/AppPaymentMethod';
+import AppJobTitles from './page/Admin/AppJobTitles';
+import AppProductCategories from './page/Admin/AppProductCategories';
+import AppCustomers from './page/Admin/AppCustomers';
+import AppEmployees from './page/Admin/AppEmployees';
+import AppProducts from './page/Admin/AppProduct';
+import AppAddressCustomers from './page/Admin/AppAddressCustomer';
+import AppCarts from './page/Admin/AppCart';
 
 function App() {
     return (
