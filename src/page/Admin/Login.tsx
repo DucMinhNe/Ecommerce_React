@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import bgLogin from '../../img/backgoundhoctap.jpg';
+import bgLogin from '../../img/login_background.jpg';
 import { useNavigate } from 'react-router-dom';
 import systemConst from '../../common/consts/system_const';
+import Swal from 'sweetalert2';
 const Login: React.FC = () => {
     const BASE_URL = `${systemConst.DOMAIN}`;
     const email = useRef<HTMLInputElement>(null);
@@ -9,7 +10,11 @@ const Login: React.FC = () => {
     const [message, setMessage] = useState<string>('');
     const navigate = useNavigate();
     const [isToken, setIsToken] = useState(Boolean(localStorage.getItem('token')));
-
+    useEffect(() => {
+        if (isToken) {
+            handleRouteAdmin();
+        }
+    }, [isToken]);
     const handleRouteAdmin = () => {
         setTimeout(() => {
             navigate('/admin', { replace: true });
@@ -18,83 +23,56 @@ const Login: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        navigate('/admin');
-        // const userEmail = email.current?.value;
-        // const userPassword = password.current?.value;
 
-        // if (!userEmail || !userPassword) {
-        //     return setMessage('Vui lòng nhập đầy đủ thông tin tài khoản và mật khẩu.');
-        // }
-        // try {
-        //     axios
-        //         .post(`${BASE_URL}/login`, {
-        //             email: userEmail,
-        //             password: userPassword,
-        //         })
-        //         .then((response) => {
-        //             if (response.status === 200) {
-        //                 const { token, role, account_id, first_name, last_name } = response.data;
-        //                 localStorage.setItem('token', token);
-        //                 localStorage.setItem('role', role);
-        //                 localStorage.setItem(
-        //                     'user',
-        //                     JSON.stringify({
-        //                         account_id: account_id,
-        //                         first_name: first_name,
-        //                         last_name: last_name,
-        //                     }),
-        //                 );
+        const userEmail = email.current?.value;
+        const userPassword = password.current?.value;
 
-        //                 setIsToken(token);
+        if (!userEmail || !userPassword) {
+            return setMessage('Vui lòng nhập đầy đủ thông tin tài khoản và mật khẩu.');
+        }
 
-        //                 if (role === 1) {
-        //                     setMessage('Đăng nhập thành công');
-        //                     navigate('/giang-vien');
-        //                 } else if (role === 0) {
-        //                     setMessage('Đăng nhập thành công');
-        //                     navigate('/sinh-vien');
-        //                 } else if (role === 2) {
-        //                     setMessage('Đăng nhập thành công');
-        //                     navigate('/admin');
-        //                 } else {
-        //                     setMessage('Không hợp lệ');
-        //                     console.log('Invalid');
-        //                 }
-        //                 return;
-        //             } else {
-        //                 alert('Đã xảy ra lỗi');
-        //             }
-        //         })
-        //         .catch((error) => {
-        //             if (axios.isAxiosError(error)) {
-        //                 if (
-        //                     error.response?.status === systemConst.STATUS_CODE.UNAUTHORIZED_REQUEST &&
-        //                     error.response.data.error_message === 'No exist email'
-        //                 ) {
-        //                     setMessage('Tài khoản không tồn tại');
-        //                 } else if (
-        //                     error.response?.status === systemConst.STATUS_CODE.UNAUTHORIZED_REQUEST &&
-        //                     error.response.data.error_message === 'Invalid password'
-        //                 ) {
-        //                     setMessage('Sai mật khẩu');
-        //                 } else if (error.response?.status === systemConst.STATUS_CODE.BAD_REQUEST) {
-        //                     setMessage('Cần Nhập tài khoản và mật khẩu');
-        //                 } else {
-        //                     setMessage('Không thể kết nối máy chủ');
-        //                 }
-        //             } else {
-        //                 console.error(error);
-        //             }
-        //         });
-        // } catch (error) {}
+        try {
+            const response = await fetch(`${BASE_URL}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: userEmail, password: userPassword }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const { Token } = data;
+                console.log(data)
+                localStorage.setItem('token', Token);
+                setIsToken(true);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Đăng nhập thành công!',
+                    showConfirmButton: false,
+                    timer: 700,
+                });
+                handleRouteAdmin();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Đăng nhập thất bại!',
+                    showConfirmButton: false,
+                    timer: 700,
+                });
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
     };
-
 
     return (
         <>
             {!isToken && (
-                <div className="bg-slate-100 h-screen">
-                    <div className="bg-blue-300 h-16 items-center fixed w-full">
+                <div className="bg-black h-screen">
+                    <div className="bg-black h-5 items-center fixed w-full relative">
+                    </div>
+                    <div className="bg-[#ba051c] h-1 items-center fixed w-full relative">
                     </div>
                     <div className="flex items-center justify-center h-full">
                         <div className="flex flex-col max-w-7xl xl:px-5 lg:flex-row">
@@ -117,9 +95,9 @@ const Login: React.FC = () => {
                                                     </p>
                                                     <input
                                                         ref={email}
-                                                        placeholder="MSSV@caothang.edu.vn"
+                                                        placeholder=""
                                                         type="text"
-                                                        className="border placeholder-gray-400 focus:outline-none focus:border-blue-600 w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
+                                                        className="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
                                                     />
                                                 </div>
                                                 <div className="relative">
@@ -128,13 +106,13 @@ const Login: React.FC = () => {
                                                     </p>
                                                     <input
                                                         ref={password}
-                                                        placeholder="Password"
+                                                        placeholder=""
                                                         type="password"
-                                                        className="border placeholder-gray-400 focus:outline-none focus:border-blue-600 w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
+                                                        className="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
                                                     />
                                                 </div>
                                                 <div className="relative">
-                                                    <button className="w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500 rounded-lg transition duration-200 hover:bg-indigo-600 ease">
+                                                    <button className="w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-black rounded-lg transition duration-200 hover:bg-[#ba051c] ease">
                                                         Đăng nhập
                                                     </button>
                                                 </div>

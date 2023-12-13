@@ -1,6 +1,6 @@
 
 import Login from './page/Admin/Login';
-import { BrowserRouter as Router, Routes, Route, Outlet, ScrollRestoration } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet, ScrollRestoration, createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Dashboard from './page/Admin/Dashboard';
 import AppProviders from './page/Admin/AppProviders';
@@ -12,17 +12,18 @@ import AppEmployees from './page/Admin/AppEmployees';
 import AppProducts from './page/Admin/AppProduct';
 import AppAddressCustomers from './page/Admin/AppAddressCustomer';
 import AppCarts from './page/Admin/AppCart';
-import { Header } from './page/Ecommerce/components/Header';
-import { Footer } from './page/Ecommerce/components/Footer';
+import Header from './page/Ecommerce/components/Header';
+import Footer from './page/Ecommerce/components/Footer';
 import { Cart } from './page/Ecommerce/pages/cart/cart';
 import { Product } from './page/Ecommerce/pages/product/product';
-import { Home } from './page/Ecommerce/pages/Home/Home';
-import { productsData } from './page/Ecommerce/api/Api';
+import Home from './page/Ecommerce/pages/Home/Home';
+import AppOrders from './page/Admin/AppOrder';
+
 const Layout = () => {
     return (
         <div>
             <Header />
-            <ScrollRestoration />
+            {/* <ScrollRestoration /> */}
             <Outlet />
             <Footer />
         </div>
@@ -31,7 +32,6 @@ const Layout = () => {
 function App() {
     return (
         <>
-
             <Routes>
                 <Route
                     path="/admin"
@@ -113,6 +113,14 @@ function App() {
                             </div>
                         }
                     ></Route>
+                    <Route
+                        path="/admin/app-orders"
+                        element={
+                            <div>
+                                <AppOrders />
+                            </div>
+                        }
+                    ></Route>
                 </Route>
                 <Route
                     path="/"
@@ -124,14 +132,12 @@ function App() {
                 />
 
                 {/* Ecommerce Routes */}
-                <Route path="/ecommerce" element={<Layout />}>
-                    <Route path="/ecommerce/home" element={<Home />} loader={productsData} />
-                    <Route path="/ecommerce/product/:id" element={<Product />} />
-                    <Route path="/ecommerce/cart" element={<Cart />} />
-                    {/* <Route path="/login" element={<Login />} /> */}
+                <Route path="/ecommerce/*" element={<Layout />}>
+                    <Route path="home" element={<Home />} />
+                    <Route path="product/:id" element={<Product />} />
+                    <Route path="cart" element={<Cart />} />
                 </Route>
                 {/* Login Route */}
-
 
             </Routes>
         </>

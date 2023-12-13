@@ -27,8 +27,11 @@ const middleware = getDefaultMiddleware({
 });
 
 export const store = configureStore({
-  reducer: { "bazar": persistedReducer },
+  reducer: { bazar: persistedReducer },
   middleware,
 });
 
 export const persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

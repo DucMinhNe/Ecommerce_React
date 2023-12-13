@@ -1,5 +1,5 @@
 
 import LogoLight from './LogoLight.png'
 
-export {LogoLight}
+export default LogoLight;
 

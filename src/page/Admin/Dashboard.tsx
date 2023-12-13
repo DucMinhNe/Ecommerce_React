@@ -24,7 +24,8 @@ const Dashboard: React.FC = () => {
     return (
         <>
             <Layout className="min-h-screen">
-                <Header className="bg-blue-400 py-2 ">
+                <Header className="bg-blue-400 py-2">
+
                     <div className="flex justify-between items-center">
                         <div className="min-w-full">
                             {/* <img src={logoTruong} className="w-48" alt="Error" /> */}
@@ -49,14 +50,14 @@ const Dashboard: React.FC = () => {
                 </Header>
                 <Layout>
                     <Sider width={200} theme="dark" className="bg-blue-400">
-                        <Menu mode="vertical" selectedKeys={[location.pathname]} className="h-full bg-slate-300">
-                            <Menu.Item key="admin/app-providers">
+                        <Menu mode="vertical" selectedKeys={[location.pathname]} className="h-full w-15 bg-blue-400">
+                            <Menu.Item key="/admin/app-providers">
                                 <Link to="/admin/app-providers">Nhà Cung Cấp</Link>
                             </Menu.Item>
-                            <Menu.Item key="admin/app-payment-methods">
+                            <Menu.Item key="/admin/app-payment-methods">
                                 <Link to="/admin/app-payment-methods">Phương Thức Thanh Toán</Link>
                             </Menu.Item>
-                            <Menu.Item key="admin/app-job-titles">
+                            <Menu.Item key="/admin/app-job-titles">
                                 <Link to="/admin/app-job-titles">Chức Vụ</Link>
                             </Menu.Item>
                             <Menu.Item key="/admin/app-product-categories">
@@ -77,6 +78,9 @@ const Dashboard: React.FC = () => {
                             <Menu.Item key="/admin/app-carts">
                                 <Link to="/admin/app-carts">Giỏ Hàng</Link>
                             </Menu.Item>
+                            <Menu.Item key="/admin/app-orders">
+                                <Link to="/admin/app-orders">Đơn Hàng</Link>
+                            </Menu.Item>
                         </Menu>
                     </Sider>
                     <Content className="custom-main p-5">
@@ -89,4 +93,3 @@ const Dashboard: React.FC = () => {
 };
 
 export default Dashboard;
-// thay doi ne 

@@ -389,7 +389,7 @@ const AppCarts = () => {
                     bordered
                 />
             </div>
-            {/* Modal thêm Nhân Viên */}
+            {/* Modal thêm Giỏ Hàng */}
             <>
                 <Modal
                     className="custom-modal-create_and_edit_carts"
@@ -398,7 +398,7 @@ const AppCarts = () => {
                     footer={null}
                 >
                     <div className="p-5">
-                        <span className="text-lg font-medium">Thêm Nhân Viên</span>
+                        <span className="text-lg font-medium">Thêm Giỏ Hàng</span>
                         <div className="mt-10">
                             <label htmlFor="customer">Khách Hàng</label>
                             <select
@@ -455,7 +455,7 @@ const AppCarts = () => {
                     </div>
                 </Modal>
             </>
-            {/* Modal sửa Nhân Viên */}
+            {/* Modal sửa Giỏ Hàng */}
             <>
                 <Modal
                     className="custom-modal-create_and_edit_carts"
@@ -464,7 +464,7 @@ const AppCarts = () => {
                     footer={null}
                 >
                     <div className="p-5">
-                        <span className="text-lg font-medium">Sửa Nhân Viên</span>
+                        <span className="text-lg font-medium">Sửa Giỏ Hàng</span>
                         <div className="mt-10">
                             <label htmlFor="customerId">Khách Hàng</label>
                             <select

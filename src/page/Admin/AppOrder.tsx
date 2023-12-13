@@ -7,30 +7,33 @@ import SystemConst from '../../common/consts/system_const';
 import Swal from 'sweetalert2';
 interface DataType {
     id: number;
-    productName: string;
-    description: string;
-    rating: number;
-    unitPrice: number;
-    stockQuantity: number;
-    productImage: string | null;
-    productImageFile: File | null;
-    productCategoryId: number;
-    providerId: number;
+    customerId: number;
+    employeeId: number;
+    addressCustomerId: number;
+    orderDateTime: Date | null;
+    totalPrice: number;
+    shippingCost: number;
+    orderStatus: string;
     isDeleted: boolean | null;
     action: React.ReactNode;
 }
-interface ProductCategory {
+interface Customer {
     id: number;
-    productCategoryName: string;
+    firstName: string;
 }
-interface Provider {
+interface Employee {
     id: number;
-    providerName: string;
+    firstName: string;
 }
-const BASE_URL = `${SystemConst.DOMAIN}/Products`;
-const BASE_URL_ProductCategories = `${SystemConst.DOMAIN}/ProductCategories`;
-const BASE_URL_Providers = `${SystemConst.DOMAIN}/Providers`;
-const AppProducts = () => {
+interface AddressCustomer {
+    id: number;
+    addressCustomerName: string;
+}
+const BASE_URL = `${SystemConst.DOMAIN}/Orders`;
+const BASE_URL_Customers = `${SystemConst.DOMAIN}/Customers`;
+const BASE_URL_Employees = `${SystemConst.DOMAIN}/Employees`;
+const BASE_URL_AddressCustomers = `${SystemConst.DOMAIN}/AddressCustomers`;
+const AppOrders = () => {
     const columns: ColumnsType<DataType> = [
         {
             title: 'ID',
@@ -41,54 +44,38 @@ const AppProducts = () => {
             width: 100,
         },
         {
-            title: 'Tên Sản Phẩm',
-            dataIndex: 'productName',
+            title: 'Khách Hàng',
+            dataIndex: 'customer',
             align: 'center',
         },
         {
-            title: 'Mô Tả',
-            dataIndex: 'description',
+            title: 'Nhân Viên',
+            dataIndex: 'employee',
             align: 'center',
         },
         {
-            title: 'Đánh Giá',
-            dataIndex: 'rating',
+            title: 'Thông Tin Giao Hàng',
+            dataIndex: 'addressCustomer',
             align: 'center',
         },
         {
-            title: 'Giá Bán',
-            dataIndex: 'unitPrice',
+            title: 'Ngày Đặt Hàng',
+            dataIndex: 'orderDateTime',
             align: 'center',
         },
         {
-            title: 'Số Lượng Tồn',
-            dataIndex: 'stockQuantity',
+            title: 'Tổng Tiền',
+            dataIndex: 'totalPrice',
             align: 'center',
         },
         {
-            title: 'Hình Ảnh',
-            dataIndex: 'productImage',
-            render: (productImage: string) => (
-                <img
-                    src={`${SystemConst.DOMAIN_HOST}/${productImage}`}
-                    alt="Product Avatar"
-                    style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                />
-            ),
-            align: 'center',
-        },
-        // {
-        //     title: 'Nhà Cung Cấp',
-        //     dataIndex: 'providerId',
-        // },
-        {
-            title: 'Loại Sản Phẩm',
-            dataIndex: 'productCategory',
+            title: 'Tiền Ship',
+            dataIndex: 'shippingCost',
             align: 'center',
         },
         {
-            title: 'Nhà Cung Cấp',
-            dataIndex: 'provider',
+            title: 'Trạng Thái Giao Hàng',
+            dataIndex: 'orderStatus',
             align: 'center',
         },
         {
@@ -98,7 +85,7 @@ const AppProducts = () => {
             width: 200,
         },
     ];
-    const [dataProducts, setDataProducts] = useState<DataType[]>([]);
+    const [dataOrders, setDataOrders] = useState<DataType[]>([]);
     const [selectedItemEdit, setSelectedItemEdit] = useState<DataType | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
@@ -111,18 +98,27 @@ const AppProducts = () => {
     const handleToggleIsDeletedFetchData = () => {
         setIsDeletedFetchData((prevIsDeleted) => !prevIsDeleted);
     };
-    const fetchProviders = async () => {
+    const fetchCustomers = async () => {
         try {
-            const response = await axios.get(`${BASE_URL_Providers}`);
+            const response = await axios.get(`${BASE_URL_Customers}`);
             return response.data;
         } catch (error) {
             console.error('Error fetching job titles:', error);
             throw error; // Ném lỗi để xử lý ở nơi gọi hàm nếu cần
         }
     };
-    const fetchProductCategories = async () => {
+    const fetchEmployees = async () => {
         try {
-            const response = await axios.get(`${BASE_URL_ProductCategories}`);
+            const response = await axios.get(`${BASE_URL_Employees}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching job titles:', error);
+            throw error; // Ném lỗi để xử lý ở nơi gọi hàm nếu cần
+        }
+    };
+    const fetchAddressCustomers = async () => {
+        try {
+            const response = await axios.get(`${BASE_URL_AddressCustomers}`);
             return response.data;
         } catch (error) {
             console.error('Error fetching job titles:', error);
@@ -133,24 +129,24 @@ const AppProducts = () => {
         axios
             .get(`${BASE_URL}?isDeleted=${isDeletedFetchData}`)
             .then(async (response) => {
-                const Api_Data_Products = response.data;
+                const Api_Data_Orders = response.data;
                 try {
-                    const productCategories = await fetchProductCategories();
-                    const providers = await fetchProviders();
-                    const newData: DataType[] = Api_Data_Products.map(
+                    const customers = await fetchCustomers();
+                    const employees = await fetchEmployees();
+                    const addressCustomers = await fetchAddressCustomers();
+                    const newData: DataType[] = Api_Data_Orders.map(
                         (item: DataType) => ({
                             id: item.id,
-                            productName: item.productName,
-                            description: item.description,
-                            rating: item.rating,
-                            stockQuantity: item.stockQuantity,
-                            unitPrice: item.unitPrice,
-                            productImage: item.productImage,
-                            productImageFile: item.productImageFile,
-                            productCategoryId: item.productCategoryId,
-                            productCategory: (productCategories.find((productCategory: { id: number; }) => productCategory.id === item.productCategoryId) || {}).productCategoryName || 'N/A',
-                            providerId: item.providerId,
-                            provider: (providers.find((provider: { id: number; }) => provider.id === item.providerId) || {}).providerName || 'N/A',
+                            customerId: item.customerId,
+                            customer: (customers.find((customer: { id: number; }) => customer.id === item.customerId) || {}).firstName || 'N/A',
+                            employeeId: item.employeeId,
+                            employee: (employees.find((employee: { id: number; }) => employee.id === item.employeeId) || {}).firstName || 'N/A',
+                            addressCustomerId: item.addressCustomerId,
+                            addressCustomer: (addressCustomers.find((addressCustomer: { id: number; }) => addressCustomer.id === item.addressCustomerId) || {}).addressCustomerName || 'N/A',
+                            orderDateTime: item.orderDateTime,
+                            totalPrice: item.totalPrice,
+                            shippingCost: item.shippingCost,
+                            orderStatus: item.orderStatus,
                             isDeleted: item.isDeleted,
                             action: (
                                 <>
@@ -185,7 +181,7 @@ const AppProducts = () => {
                             ),
                         })
                     );
-                    setDataProducts(newData);
+                    setDataOrders(newData);
                 } catch (error) {
                     console.log(error);
                 }
@@ -196,26 +192,16 @@ const AppProducts = () => {
     useEffect(() => {
         handleFetchData();
     }, [isDeletedFetchData]);
-    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files && event.target.files[0];
-        if (file) {
-            setIsValueProductImageFile(file);
-        }
-    };
     //Xử lý Call API Create
-    const handleCreateProducts = () => {
+    const handleCreateOrders = () => {
         const formData = new FormData();
-        formData.append("productName", isValueProductName);
-        formData.append("description", isValueDescription);
-        formData.append("rating", isValueRating);
-        formData.append("unitPrice", isValueUnitPrice);
-        formData.append("stockQuantity", isValueStockQuantity);
-        if (isValueProductImageFile !== null) {
-            formData.append("productImageFile", isValueProductImageFile);
-        }
-        formData.append("productCategoryId", isValueProductCategoryId);
-        formData.append("providerId", isValueProviderId);
-
+        formData.append("customerId", isValueCustomerId);
+        formData.append("employeeId", isValueEmployeeId);
+        formData.append("addressCustomerId", isValueAddressCustomerId);
+        formData.append("orderDateTime", isValueOrderDateTime);
+        formData.append("totalPrice", isValueTotalPrice);
+        formData.append("shippingCost", isValueShippingCost);
+        formData.append("orderStatus", isValueOrderStatus);
         formData.append("isDeleted", 'false');
         console.log(formData);
         axios
@@ -236,24 +222,21 @@ const AppProducts = () => {
     };
     const clearAllValue = () => {
         setSelectedItemEdit(null);
-        setIsValueProductImageFile(null);
     }
-    const handleUpdateProducts = () => {
+    const handleUpdateOrders = () => {
         if (!selectedItemEdit) {
             return;
         }
         const formData = new FormData();
-        formData.append("productName", selectedItemEdit.productName || '');
-        formData.append("description", selectedItemEdit.description || '');
-        formData.append("rating", String(selectedItemEdit.rating || ''));
-        formData.append("unitPrice", String(selectedItemEdit.unitPrice || ''));
-        formData.append("stockQuantity", String(selectedItemEdit.stockQuantity || ''));
-        if (isValueProductImageFile !== null) {
-            formData.append("productImageFile", isValueProductImageFile);
-            formData.append("productImage", selectedItemEdit.productImage || '');
+        formData.append("customerId", String(selectedItemEdit.customerId || ''));
+        formData.append("employeeId", String(selectedItemEdit.employeeId || ''));
+        formData.append("addressCustomerId", String(selectedItemEdit.addressCustomerId || ''));
+        if (selectedItemEdit.orderDateTime instanceof Date) {
+            formData.append("orderDateTime", selectedItemEdit.orderDateTime.toISOString().split('T')[0]);
         }
-        formData.append("productCategoryId", String(selectedItemEdit.productCategoryId || ''));
-        formData.append("providerId", String(selectedItemEdit.providerId || ''));
+        formData.append("totalPrice", String(selectedItemEdit.totalPrice || ''));
+        formData.append("shippingCost", String(selectedItemEdit.shippingCost || ''));
+        formData.append("orderStatus", selectedItemEdit.orderStatus || '');
         formData.append("isDeleted", `${isDeletedFetchData}`);
 
         console.log(formData);
@@ -273,8 +256,8 @@ const AppProducts = () => {
             .catch((error) => {
             });
     };
-    const handleSubmitEditProducts = () => {
-        handleUpdateProducts();
+    const handleSubmitEditOrders = () => {
+        handleUpdateOrders();
         setOpenModalEdit(false);
     };
     const handleEdit = (item: DataType) => {
@@ -295,41 +278,51 @@ const AppProducts = () => {
     };
     const [openModal, setOpenModal] = useState(false);
     const [openModalEdit, setOpenModalEdit] = useState(false);
-    const [isValueProductName, setIsValueProductName] = useState('');
-    const [isValueDescription, setIsValueDescription] = useState('');
-    const [isValueRating, setIsValueRating] = useState('');
-    const [isValueUnitPrice, setIsValueUnitPrice] = useState('');
-    const [isValueStockQuantity, setIsValueStockQuantity] = useState('');
-    const [isValueProductImageFile, setIsValueProductImageFile] = useState<File | null>(null);
-    const [isValueProductCategoryId, setIsValueProductCategoryId] = useState('');
-    const [isValueProviderId, setIsValueProviderId] = useState('');
-    const [providers, setProviders] = useState<Provider[]>([]);
-    const [productCategories, setProductCategories] = useState<ProductCategory[]>([]);
-    // Fetch Providers on component mount
+    const [isValueCustomerId, setIsValueCustomerId] = useState('');
+    const [isValueEmployeeId, setIsValueEmployeeId] = useState('');
+    const [isValueAddressCustomerId, setIsValueAddressCustomerId] = useState('');
+    const [isValueOrderDateTime, setIsValueOrderDateTime] = useState('');
+    const [isValueTotalPrice, setIsValueTotalPrice] = useState('');
+    const [isValueShippingCost, setIsValueShippingCost] = useState('');
+    const [isValueOrderStatus, setIsValueOrderStatus] = useState('');
+    const [customers, setCustomers] = useState<Customer[]>([]);
+    const [employees, setEmployees] = useState<Employee[]>([]);
+    const [addressCustomers, setAddressCustomers] = useState<AddressCustomer[]>([]);
+    // Fetch Customers on component mount
     useEffect(() => {
-        const fetchProvidersAndSetState = async () => {
+        const fetchCustomersAndSetState = async () => {
             try {
-                const providersData = await fetchProviders();
-                setProviders(providersData || []); // Ensure providersData is an array, or set it to an empty array if it's falsy
+                const customersData = await fetchCustomers();
+                setCustomers(customersData || []); // Ensure customersData is an array, or set it to an empty array if it's falsy
             } catch (error) {
                 console.error('Error fetching job titles:', error);
             }
         };
-
-        fetchProvidersAndSetState();
+        fetchCustomersAndSetState();
     }, []);
-    // Fetch ProductCategories on component mount
+    // Fetch Employees on component mount
     useEffect(() => {
-        const fetchProductCategoriesAndSetState = async () => {
+        const fetchEmployeesAndSetState = async () => {
             try {
-                const productCategoriesData = await fetchProductCategories();
-                setProductCategories(productCategoriesData || []); // Ensure productCategoriesData is an array, or set it to an empty array if it's falsy
+                const employeesData = await fetchEmployees();
+                setEmployees(employeesData || []); // Ensure employeesData is an array, or set it to an empty array if it's falsy
             } catch (error) {
                 console.error('Error fetching job titles:', error);
             }
         };
-
-        fetchProductCategoriesAndSetState();
+        fetchEmployeesAndSetState();
+    }, []);
+    // Fetch AddressCustomers on component mount
+    useEffect(() => {
+        const fetchAddressCustomersAndSetState = async () => {
+            try {
+                const addressCustomersData = await fetchAddressCustomers();
+                setAddressCustomers(addressCustomersData || []); // Ensure addressCustomersData is an array, or set it to an empty array if it's falsy
+            } catch (error) {
+                console.error('Error fetching job titles:', error);
+            }
+        };
+        fetchAddressCustomersAndSetState();
     }, []);
     const handleShowModal = () => {
         setOpenModal(true);
@@ -360,12 +353,12 @@ const AppProducts = () => {
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                handleDeleteAddressCustomer(item.id);
+                handleDeleteOrder(item.id);
             }
         });
     };
     //Xử lý Call API Delete
-    const handleDeleteAddressCustomer = (itemId: number) => {
+    const handleDeleteOrder = (itemId: number) => {
         const dataDelete = itemId;
         axios
             .delete(`${BASE_URL}/${dataDelete}`)
@@ -398,11 +391,11 @@ const AppProducts = () => {
             cancelButtonText: 'Hủy',
         }).then((result) => {
             if (result.isConfirmed) {
-                handleRestoreAddressCustomer(item.id);
+                handleRestoreOrder(item.id);
             }
         });
     };
-    const handleRestoreAddressCustomer = (itemId: number) => {
+    const handleRestoreOrder = (itemId: number) => {
         const dataRestore = itemId;
         axios
             .put(`${BASE_URL}/Restore/${dataRestore}`)
@@ -431,12 +424,12 @@ const AppProducts = () => {
                         +
                     </Button>
                     <Button onClick={handleToggleIsDeletedFetchData} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}>
-                        {isDeletedFetchData ? 'Xem Sản Phẩm' : 'Xem Sản Phẩm Đã Xóa'}
+                        {isDeletedFetchData ? 'Xem Đơn Hàng' : 'Xem Đơn Hàng Đã Xóa'}
                     </Button>
                 </div>
                 <Table
                     columns={columns}
-                    dataSource={dataProducts}
+                    dataSource={dataOrders}
                     loading={isLoading}
                     pagination={{
                         defaultPageSize: 6,
@@ -451,227 +444,238 @@ const AppProducts = () => {
                     bordered
                 />
             </div>
-            {/* Modal thêm Sản Phẩm */}
+            {/* Modal thêm Đơn Hàng */}
             <>
                 <Modal
-                    className="custom-modal-create_and_edit_products"
+                    className="custom-modal-create_and_edit_orders"
                     open={openModal}
                     onCancel={handleCancel}
                     footer={null}
                 >
                     <div className="p-5">
-                        <span className="text-lg font-medium">Thêm Sản Phẩm</span>
+                        <span className="text-lg font-medium">Thêm Đơn Hàng</span>
                         <div className="mt-10">
-                            <label htmlFor="">Tên Sản Phẩm</label>
-                            <Input
-                                onChange={(event) => { setIsValueProductName(event.target.value) }}
-                                value={isValueProductName}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Mô Tả</label>
-                            <Input
-                                onChange={(event) => { setIsValueDescription(event.target.value) }}
-                                value={isValueDescription}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Đánh Giá</label>
-                            <Input
-                                onChange={(event) => { setIsValueRating(event.target.value) }}
-                                value={isValueRating}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Giá Bán</label>
-                            <Input
-                                onChange={(event) => { setIsValueUnitPrice(event.target.value) }}
-                                value={isValueUnitPrice}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Số Lượng Tồn</label>
-                            <Input
-                                onChange={(event) => { setIsValueStockQuantity(event.target.value) }}
-                                value={isValueStockQuantity}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Hình Ảnh</label>
-                            <input
-                                type="file"
-                                onChange={(event) => handleFileChange(event)}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="productCategory">Loại Sản Phẩm</label>
+                            <label htmlFor="customer">Khách Hàng</label>
                             <select
-                                id="productCategory"
-                                onChange={(event) => { setIsValueProductCategoryId(event.target.value) }}
-                                value={isValueProductCategoryId}
+                                id="customer"
+                                onChange={(event) => { setIsValueCustomerId(event.target.value) }}
+                                value={isValueCustomerId}
                                 className="bg-slate-200"
                             >
-                                <option value="">-- Chọn Loại Sản Phẩm --</option>
-                                {productCategories.map((productCategory) => (
-                                    <option key={productCategory.id} value={productCategory.id}>
-                                        {productCategory.productCategoryName}
+                                <option value="">-- Chọn Khách Hàng --</option>
+                                {customers.map((customer) => (
+                                    <option key={customer.id} value={customer.id}>
+                                        {customer.firstName}
                                     </option>
                                 ))}
                             </select>
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="provider">Nhà Cung Cấp</label>
+                            <label htmlFor="employee">Nhân Viên</label>
                             <select
-                                id="provider"
-                                onChange={(event) => { setIsValueProviderId(event.target.value) }}
-                                value={isValueProviderId}
+                                id="employee"
+                                onChange={(event) => { setIsValueEmployeeId(event.target.value) }}
+                                value={isValueEmployeeId}
                                 className="bg-slate-200"
                             >
-                                <option value="">-- Chọn Nhà Cung Cấp --</option>
-                                {providers.map((provider) => (
-                                    <option key={provider.id} value={provider.id}>
-                                        {provider.providerName}
+                                <option value="">-- Chọn Nhân Viên --</option>
+                                {employees.map((employee) => (
+                                    <option key={employee.id} value={employee.id}>
+                                        {employee.firstName}
                                     </option>
                                 ))}
                             </select>
                         </div>
+                        <div className="mt-10">
+                            <label htmlFor="addressCustomer">Thông Tin Giao Hàng</label>
+                            <select
+                                id="addressCustomer"
+                                onChange={(event) => { setIsValueAddressCustomerId(event.target.value) }}
+                                value={isValueAddressCustomerId}
+                                className="bg-slate-200"
+                            >
+                                <option value="">-- Chọn Thông Tin Giao Hàng --</option>
+                                {addressCustomers.map((addressCustomer) => (
+                                    <option key={addressCustomer.id} value={addressCustomer.id}>
+                                        {addressCustomer.addressCustomerName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="mt-10">
+                            <label htmlFor="">Ngày Đặt Hàng</label>
+                            <Input
+                                type="date"
+                                onChange={(event) => {
+                                    setIsValueOrderDateTime(event.target.value);
+                                }}
+                                value={isValueOrderDateTime}
+                                className="bg-slate-200"
+                            />
+                        </div>
+                        <div className="mt-10">
+                            <label htmlFor="">Tổng Tiền</label>
+                            <Input
+                                onChange={(event) => { setIsValueTotalPrice(event.target.value) }}
+                                value={isValueTotalPrice}
+                                className="bg-slate-200"
+                            />
+                        </div>
+                        <div className="mt-10">
+                            <label htmlFor="">Tiền Ship</label>
+                            <Input
+                                onChange={(event) => { setIsValueShippingCost(event.target.value) }}
+                                value={isValueShippingCost}
+                                className="bg-slate-200"
+                            />
+                        </div>
+                        <div className="mt-10">
+                            <label htmlFor="">Trạng Thái Giao Hàng</label>
+                            <Input
+                                onChange={(event) => { setIsValueOrderStatus(event.target.value) }}
+                                value={isValueOrderStatus}
+                                className="bg-slate-200"
+                            />
+                        </div>
+
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleCreateProducts} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginTop: 8 }} >
+                            <Button onClick={handleCreateOrders} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginTop: 8 }} >
                                 Lưu
                             </Button>
                         </div>
                     </div>
                 </Modal>
             </>
-            {/* Modal sửa Sản Phẩm */}
+            {/* Modal sửa Đơn Hàng */}
             <>
                 <Modal
-                    className="custom-modal-create_and_edit_products"
+                    className="custom-modal-create_and_edit_orders"
                     open={openModalEdit}
                     onCancel={handleCancelEdit}
                     footer={null}
                 >
                     <div className="p-5">
-                        <span className="text-lg font-medium">Sửa Sản Phẩm</span>
+                        <span className="text-lg font-medium">Sửa Đơn Hàng</span>
                         <div className="mt-10">
-                            <label htmlFor="productName">Tên Sản Phẩm</label>
-                            <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, productName: event.target.value }
-                                    );
-                                }}
-                                value={selectedItemEdit?.productName || ''}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="description">Mô tả</label>
-                            <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, description: event.target.value }
-                                    );
-                                }}
-                                value={selectedItemEdit?.description || ''}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Đánh Giá</label>
-                            <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, rating: Number(event.target.value) }
-                                    );
-                                }}
-                                value={selectedItemEdit?.rating}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Giá Bán</label>
-                            <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, unitPrice: Number(event.target.value) }
-                                    );
-                                }}
-                                value={selectedItemEdit?.unitPrice}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Số Lượng Tồn</label>
-                            <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, stockQuantity: Number(event.target.value) }
-                                    );
-                                }}
-                                value={selectedItemEdit?.stockQuantity || ''}
-                                readOnly={false}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Hình Ảnh</label>
-                            <input
-                                type="file"
-                                onChange={(event) => handleFileChange(event)}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="productCategoryId">Loại Sản Phẩm</label>
+                            <label htmlFor="customerId">Khách Hàng</label>
                             <select
-                                id="productCategoryId"
+                                id="customerId"
                                 onChange={(event) => {
-                                    const selectedProductCategoryId = Number(event.target.value);
+                                    const selectedCustomerId = Number(event.target.value);
                                     setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, productCategoryId: selectedProductCategoryId }
+                                        prev === null ? prev : { ...prev, customerId: selectedCustomerId }
                                     );
                                 }}
-                                value={selectedItemEdit?.productCategoryId ?? ''}
+                                value={selectedItemEdit?.customerId ?? ''}
                                 className="bg-slate-200"
                             >
-                                <option value="" disabled>-- Chọn Loại Sản Phẩm --</option>
-                                {productCategories.map((productCategory) => (
-                                    <option key={productCategory.id} value={productCategory.id}>
-                                        {productCategory.productCategoryName}
+                                <option value="" disabled>-- Chọn Khách Hàng --</option>
+                                {customers.map((customer) => (
+                                    <option key={customer.id} value={customer.id}>
+                                        {customer.firstName}
                                     </option>
                                 ))}
                             </select>
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="providerId">Nhà Cung Cấp</label>
+                            <label htmlFor="employeeId">Nhân Viên</label>
                             <select
-                                id="providerId"
+                                id="employeeId"
                                 onChange={(event) => {
-                                    const selectedProviderId = Number(event.target.value);
+                                    const selectedEmployeeId = Number(event.target.value);
                                     setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, providerId: selectedProviderId }
+                                        prev === null ? prev : { ...prev, employeeId: selectedEmployeeId }
                                     );
                                 }}
-                                value={selectedItemEdit?.providerId ?? ''}
+                                value={selectedItemEdit?.employeeId ?? ''}
                                 className="bg-slate-200"
                             >
-                                <option value="" disabled>-- Chọn Nhà Cung Cấp --</option>
-                                {providers.map((provider) => (
-                                    <option key={provider.id} value={provider.id}>
-                                        {provider.providerName}
+                                <option value="" disabled>-- Chọn Nhân Viên --</option>
+                                {customers.map((customer) => (
+                                    <option key={customer.id} value={customer.id}>
+                                        {customer.firstName}
                                     </option>
                                 ))}
                             </select>
                         </div>
+                        <div className="mt-10">
+                            <label htmlFor="addressCustomerId">Thông Tin Giao Hàng</label>
+                            <select
+                                id="addressCustomerId"
+                                onChange={(event) => {
+                                    const selectedAddressCustomerId = Number(event.target.value);
+                                    setSelectedItemEdit((prev) =>
+                                        prev === null ? prev : { ...prev, addressCustomerId: selectedAddressCustomerId }
+                                    );
+                                }}
+                                value={selectedItemEdit?.addressCustomerId ?? ''}
+                                className="bg-slate-200"
+                            >
+                                <option value="" disabled>-- Chọn Nhân Viên --</option>
+                                {customers.map((customer) => (
+                                    <option key={customer.id} value={customer.id}>
+                                        {customer.firstName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="mt-10">
+                            <label htmlFor="">Ngày Vào Làm</label>
+                            <Input
+                                type="date"
+                                onChange={(event) => {
+                                    const selectedOrderDateTime = new Date(event.target.value);
+                                    setSelectedItemEdit((prev) =>
+                                        prev === null ? prev : { ...prev, orderDateTime: selectedOrderDateTime }
+                                    );
+                                }}
+                                value={
+                                    selectedItemEdit?.orderDateTime instanceof Date
+                                        ? selectedItemEdit?.orderDateTime.toISOString().split('T')[0]
+                                        : ''
+                                }
+                                className="bg-slate-200"
+                            />
+                        </div>
+                        <div className="mt-10">
+                            <label htmlFor="">Tổng Tiền</label>
+                            <Input
+                                onChange={(event) => {
+                                    setSelectedItemEdit((prev) =>
+                                        prev === null ? prev : { ...prev, totalPrice: Number(event.target.value) }
+                                    );
+                                }}
+                                value={selectedItemEdit?.totalPrice}
+                                className="bg-slate-200"
+                            />
+                        </div>
+                        <div className="mt-10">
+                            <label htmlFor="">Tiền Ship</label>
+                            <Input
+                                onChange={(event) => {
+                                    setSelectedItemEdit((prev) =>
+                                        prev === null ? prev : { ...prev, shippingCost: Number(event.target.value) }
+                                    );
+                                }}
+                                value={selectedItemEdit?.shippingCost}
+                                className="bg-slate-200"
+                            />
+                        </div>
+                        <div className="mt-10">
+                            <label htmlFor="">Trạng Thái Giao Hàng</label>
+                            <Input
+                                onChange={(event) => {
+                                    setSelectedItemEdit((prev) =>
+                                        prev === null ? prev : { ...prev, orderStatus: event.target.value }
+                                    );
+                                }}
+                                value={selectedItemEdit?.orderStatus}
+                                className="bg-slate-200"
+                            />
+                        </div>
+
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleSubmitEditProducts} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff', marginTop: 8 }}  >
+                            <Button onClick={handleSubmitEditOrders} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff', marginTop: 8 }}  >
                                 Lưu
                             </Button>
                         </div>
@@ -682,4 +686,4 @@ const AppProducts = () => {
     );
 };
 
-export default AppProducts;
+export default AppOrders;

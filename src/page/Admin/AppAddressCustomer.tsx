@@ -281,7 +281,7 @@ const AppAddressCustomers = () => {
     const handleClickSuccess = () => {
         Swal.fire({
             icon: 'success',
-            title: 'Tạo Khách Hàng thành công',
+            title: 'Tạo thành công',
             showConfirmButton: false,
             timer: 600,
         });
@@ -311,7 +311,7 @@ const AppAddressCustomers = () => {
                 handleFetchData();
                 Swal.fire({
                     icon: 'success',
-                    title: 'Xóa thành công Khách Hàng',
+                    title: 'Xóa thành công',
                     showConfirmButton: false,
                     timer: 600,
                 });
@@ -369,7 +369,7 @@ const AppAddressCustomers = () => {
                         +
                     </Button>
                     <Button onClick={handleToggleIsDeletedFetchData} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}>
-                        {isDeletedFetchData ? 'Xem Khách Hàng' : 'Xem Khách Hàng Đã Xóa'}
+                        {isDeletedFetchData ? 'Xem Địa Chỉ Khách Hàng' : 'Xem Địa Chỉ Khách Hàng Đã Xóa'}
                     </Button>
                 </div>
                 <Table
@@ -389,7 +389,7 @@ const AppAddressCustomers = () => {
                     bordered
                 />
             </div>
-            {/* Modal thêm Nhân Viên */}
+            {/* Modal thêm Địa Chỉ Khách Hàng */}
             <>
                 <Modal
                     className="custom-modal-create_and_edit_addresscustomers"
@@ -398,7 +398,7 @@ const AppAddressCustomers = () => {
                     footer={null}
                 >
                     <div className="p-5">
-                        <span className="text-lg font-medium">Thêm Nhân Viên</span>
+                        <span className="text-lg font-medium">Thêm Địa Chỉ Khách Hàng</span>
                         <div className="mt-10">
                             <label htmlFor="customer">Khách Hàng</label>
                             <select
@@ -473,7 +473,7 @@ const AppAddressCustomers = () => {
                     </div>
                 </Modal>
             </>
-            {/* Modal sửa Nhân Viên */}
+            {/* Modal sửa Địa Chỉ Khách Hàng */}
             <>
                 <Modal
                     className="custom-modal-create_and_edit_addresscustomers"
@@ -482,7 +482,7 @@ const AppAddressCustomers = () => {
                     footer={null}
                 >
                     <div className="p-5">
-                        <span className="text-lg font-medium">Sửa Nhân Viên</span>
+                        <span className="text-lg font-medium">Sửa Địa Chỉ Khách Hàng</span>
                         <div className="mt-10">
                             <label htmlFor="customerId">Khách Hàng</label>
                             <select
