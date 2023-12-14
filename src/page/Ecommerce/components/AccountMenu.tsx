@@ -11,6 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { Link } from 'react-router-dom';
 
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -40,7 +41,9 @@ export default function AccountMenu() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
+
                         <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -80,7 +83,11 @@ export default function AccountMenu() {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem onClick={handleClose}>
-                    <Avatar /> Profile
+                    <ListItemIcon>
+                        <Link to={'/ecommerce/userpage'}>
+                            Profile
+                        </Link>
+                    </ListItemIcon>
                 </MenuItem>
                 {/* <MenuItem onClick={handleClose}>
                     <Avatar /> My account

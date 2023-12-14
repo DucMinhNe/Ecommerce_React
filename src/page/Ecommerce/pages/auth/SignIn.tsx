@@ -16,6 +16,11 @@ const SignIn: React.FC = () => {
     if (isCustomerToken) {
       handleRouteCustomer();
     }
+    console.log(localStorage.getItem('customerId'));
+    console.log(localStorage.getItem('customerName'));
+    console.log(localStorage.getItem('customerEmail'));
+    console.log(localStorage.getItem('customerPhoneNumber'));
+    console.log(localStorage.getItem('customerImage'));
   }, [isCustomerToken]);
 
   const handleRouteCustomer = () => {
@@ -45,18 +50,43 @@ const SignIn: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        const { CustomerToken } = data;
-        console.log(data)
-        localStorage.setItem('customerToken', CustomerToken);
-        setIsCustomerToken(true);
-        window.location.reload();
-        Swal.fire({
-          icon: 'success',
-          title: 'Đăng nhập thành công!',
-          showConfirmButton: false,
-          timer: 700,
-        });
-        handleRouteCustomer();
+
+        try {
+          // Kiểm tra nếu token được định nghĩa trong data
+          if (data.token) {
+            const customerToken = data.token;
+
+            // Parse token để lấy thông tin
+            const payloadBase64 = customerToken.split('.')[1];
+            const payloadJson = atob(payloadBase64);
+            const tokenData = JSON.parse(payloadJson);
+            console.log(tokenData);
+            // Lưu thông tin vào LocalStorage
+            if (tokenData) {
+              localStorage.setItem('customerId', tokenData.id);
+              localStorage.setItem('customerName', tokenData.name);
+              localStorage.setItem('customerEmail', tokenData.email);
+              localStorage.setItem('customerPhoneNumber', tokenData.phoneNumber);
+              localStorage.setItem('customerImage', tokenData.customerImage);
+            }
+
+            localStorage.setItem('customerToken', customerToken);
+            setIsCustomerToken(true);
+            window.location.reload();
+            Swal.fire({
+              icon: 'success',
+              title: 'Đăng nhập thành công!',
+              showConfirmButton: false,
+              timer: 700,
+            });
+            handleRouteCustomer();
+          } else {
+            // Xử lý trường hợp token không được định nghĩa
+            console.error('Token is undefined or empty in response data.');
+          }
+        } catch (error) {
+          console.error('Error parsing token:', error);
+        }
       } else {
         Swal.fire({
           icon: 'error',
@@ -69,6 +99,8 @@ const SignIn: React.FC = () => {
       console.error('Error during login:', error);
     }
   };
+
+
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl lg:max-w-xl">

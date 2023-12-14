@@ -20,7 +20,6 @@ const Login: React.FC = () => {
             navigate('/admin', { replace: true });
         }, 0);
     };
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 

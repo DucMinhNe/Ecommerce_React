@@ -20,6 +20,7 @@ import { Cart } from './page/Ecommerce/pages/cart/cart';
 import { Product } from './page/Ecommerce/pages/product/product';
 import Home from './page/Ecommerce/pages/Home/Home';
 import AppOrders from './page/Admin/AppOrder';
+import UserPage from './page/Ecommerce/pages/UserPage/UserPage';
 
 const Layout = () => {
     return (
@@ -140,6 +141,7 @@ function App() {
                     <Route path="cart" element={<Cart />} />
                     <Route path="signin" element={<SignIn />} />
                     <Route path="signup" element={<SignUp />} />
+                    <Route path="userpage" element={<UserPage />} />
                 </Route>
                 {/* Login Route */}
 
