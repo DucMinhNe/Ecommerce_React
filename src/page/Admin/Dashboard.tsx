@@ -25,10 +25,9 @@ const Dashboard: React.FC = () => {
         <>
             <Layout className="min-h-screen">
                 <Header className="bg-blue-400 py-2">
-
                     <div className="flex justify-between items-center">
                         <div className="min-w-full">
-                            {/* <img src={logoTruong} className="w-48" alt="Error" /> */}
+                            {/* <img src={img} className="w-48" alt="Error" /> */}
                         </div>
                         <div>
                             <div>

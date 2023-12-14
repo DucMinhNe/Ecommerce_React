@@ -14,6 +14,8 @@ import AppAddressCustomers from './page/Admin/AppAddressCustomer';
 import AppCarts from './page/Admin/AppCart';
 import Header from './page/Ecommerce/components/Header';
 import Footer from './page/Ecommerce/components/Footer';
+import SignIn from './page/Ecommerce/pages/auth/SignIn';
+import SignUp from './page/Ecommerce/pages/auth/SignUp';
 import { Cart } from './page/Ecommerce/pages/cart/cart';
 import { Product } from './page/Ecommerce/pages/product/product';
 import Home from './page/Ecommerce/pages/Home/Home';
@@ -136,6 +138,8 @@ function App() {
                     <Route path="home" element={<Home />} />
                     <Route path="product/:id" element={<Product />} />
                     <Route path="cart" element={<Cart />} />
+                    <Route path="signin" element={<SignIn />} />
+                    <Route path="signup" element={<SignUp />} />
                 </Route>
                 {/* Login Route */}
 

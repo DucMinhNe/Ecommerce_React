@@ -29,10 +29,30 @@ interface AddressCustomer {
     id: number;
     addressCustomerName: string;
 }
+interface OrderDetails {
+    id: number;
+    orderId: number;
+    productId: number;
+    quantity: number;
+    unitPrice: number;
+    isDeleted: boolean | null;
+}
+interface Product {
+    id: number;
+    productName: string;
+    description: string;
+    rating: number;
+    unitPrice: number;
+    stockQuantity: number;
+    productImage: string | null;
+    isDeleted: boolean | null;
+}
 const BASE_URL = `${SystemConst.DOMAIN}/Orders`;
 const BASE_URL_Customers = `${SystemConst.DOMAIN}/Customers`;
 const BASE_URL_Employees = `${SystemConst.DOMAIN}/Employees`;
 const BASE_URL_AddressCustomers = `${SystemConst.DOMAIN}/AddressCustomers`;
+const BASE_URL_OrderDetails = `${SystemConst.DOMAIN}/OrderDetails`;
+const BASE_URL_Products = `${SystemConst.DOMAIN}/Products`;
 const AppOrders = () => {
     const columns: ColumnsType<DataType> = [
         {
@@ -42,6 +62,14 @@ const AppOrders = () => {
             sortDirections: ['ascend', 'descend'],
             align: 'center',
             width: 100,
+            onCell: (record) => {
+                return {
+                    onClick: () => {
+                        setIsOrderIdFetchData(record.id);
+                        setModalOderDetails(true);
+                    },
+                };
+            },
         },
         {
             title: 'Khách Hàng',
@@ -85,6 +113,65 @@ const AppOrders = () => {
             width: 200,
         },
     ];
+    const OrderDetailcolumns: ColumnsType<OrderDetails> = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            sorter: (a, b) => a.id - b.id,
+            sortDirections: ['ascend', 'descend'],
+            align: 'center',
+            width: 100,
+        },
+        {
+            title: 'Sản Phẩm',
+            dataIndex: 'product',
+            align: 'center',
+        },
+        {
+            title: 'Số Lượng',
+            dataIndex: 'quantity',
+            align: 'center',
+        },
+        {
+            title: 'Giá',
+            dataIndex: 'unitPrice',
+            align: 'center',
+        },
+    ];
+    const [dataOrderDetails, setDataOrderDetails] = useState<OrderDetails[]>([]);
+    const handleFetchDataOrderDetails = () => {
+        axios
+            .get(`${BASE_URL_OrderDetails}?orderId=${isOrderIdFetchData}`)
+            .then(async (response) => {
+                const Api_Data_OrderDetails = response.data;
+                try {
+                    const products = await fetchProducts();
+                    const newData: OrderDetails[] = Api_Data_OrderDetails.map(
+                        (item: OrderDetails) => ({
+                            id: item.id,
+                            productId: item.productId,
+                            product: (products.find((product: { id: number; }) => product.id === item.productId) || {}).productName || 'N/A',
+                            quantity: item.quantity,
+                            unitPrice: item.unitPrice,
+                            isDeleted: item.isDeleted,
+                        })
+                    );
+                    setDataOrderDetails(newData);
+                } catch (error) {
+                    // console.log(error);
+                }
+            })
+            .catch((error) => {
+            });
+    };
+    const [openModalOderDetails, setModalOderDetails] = useState(false);
+    const handleCancelOderDetails = () => {
+        setModalOderDetails(false);
+    };
+    const [isOrderIdFetchData, setIsOrderIdFetchData] = useState(0);
+    useEffect(() => {
+        handleFetchDataOrderDetails();
+    }, [isOrderIdFetchData]);
     const [dataOrders, setDataOrders] = useState<DataType[]>([]);
     const [selectedItemEdit, setSelectedItemEdit] = useState<DataType | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -123,6 +210,15 @@ const AppOrders = () => {
         } catch (error) {
             console.error('Error fetching job titles:', error);
             throw error; // Ném lỗi để xử lý ở nơi gọi hàm nếu cần
+        }
+    };
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get(`${BASE_URL_Products}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching Products:', error);
+            throw error;
         }
     };
     const handleFetchData = () => {
@@ -288,6 +384,7 @@ const AppOrders = () => {
     const [customers, setCustomers] = useState<Customer[]>([]);
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [addressCustomers, setAddressCustomers] = useState<AddressCustomer[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
     // Fetch Customers on component mount
     useEffect(() => {
         const fetchCustomersAndSetState = async () => {
@@ -323,6 +420,18 @@ const AppOrders = () => {
             }
         };
         fetchAddressCustomersAndSetState();
+    }, []);
+    // Fetch Products on component mount
+    useEffect(() => {
+        const fetchProductsAndSetState = async () => {
+            try {
+                const productsData = await fetchProducts();
+                setProducts(productsData || []); // Ensure productsData is an array, or set it to an empty array if it's falsy
+            } catch (error) {
+                console.error('Error fetching job titles:', error);
+            }
+        };
+        fetchProductsAndSetState();
     }, []);
     const handleShowModal = () => {
         setOpenModal(true);
@@ -620,7 +729,7 @@ const AppOrders = () => {
                             </select>
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Ngày Vào Làm</label>
+                            <label htmlFor="">Ngày Đặt Hàng</label>
                             <Input
                                 type="date"
                                 onChange={(event) => {
@@ -681,6 +790,32 @@ const AppOrders = () => {
                         </div>
                     </div>
                 </Modal>
+                {/* Modal sửa Chi tiết đơn hàng */}
+                <>
+                    <Modal
+                        className="custom-modal-order_details"
+                        open={openModalOderDetails}
+                        onCancel={handleCancelOderDetails}
+                        footer={null}
+                    >
+                        <Table
+                            columns={OrderDetailcolumns}
+                            dataSource={dataOrderDetails}
+                            loading={isLoading}
+                            pagination={{
+                                defaultPageSize: 6,
+                                showSizeChanger: true,
+                                pageSizeOptions: ['4', '6', '8', '12', '16'],
+                                showQuickJumper: true,
+                                showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+                            }}
+                            rowKey={(record) => record.id}
+                            scroll={{ x: 'max-content' }}
+                            size="middle"
+                            bordered
+                        />
+                    </Modal>
+                </>
             </>
         </>
     );

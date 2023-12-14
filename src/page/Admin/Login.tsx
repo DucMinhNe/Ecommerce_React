@@ -32,7 +32,7 @@ const Login: React.FC = () => {
         }
 
         try {
-            const response = await fetch(`${BASE_URL}/auth/login`, {
+            const response = await fetch(`${BASE_URL}/auth/employee/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
