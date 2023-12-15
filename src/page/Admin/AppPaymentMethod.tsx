@@ -39,7 +39,7 @@ const AppPaymentMethods = () => {
                         onPressEnter={() => {
                             confirm(); // Call confirm() when Enter key is pressed
                         }}
-                        style={{ width: 188, marginBottom: 8, display: 'block' }}
+                        style={{ width: 290, marginBottom: 8, display: 'block' }}
                     />
                 </div>
             ),
@@ -50,10 +50,10 @@ const AppPaymentMethods = () => {
             align: 'center',
         },
         {
-            title: 'Hành động',
+            title: '',
             dataIndex: 'action',
             align: 'center',
-            width: 200,
+            width: 100,
         },
     ];
     const [dataPaymentMethods, setDataPaymentMethods] = useState<DataType[]>([]);
@@ -83,10 +83,10 @@ const AppPaymentMethods = () => {
                         isDeleted: item.isDeleted,
                         action: (
                             <>
-                                <div className="flex gap-x-1">
+                                <div className="flex justify-center item-center gap-x-1" >
                                     <Button
                                         type="default"
-                                        style={{ backgroundColor: '#459664', borderColor: '#1890ff', color: '#fff' }}
+                                        style={{ backgroundColor: '#459664', borderColor: '#459664', color: '#fff' }}
                                         icon={<EditOutlined />}
                                         onClick={() => handleEdit(item)}
                                     >
@@ -94,19 +94,19 @@ const AppPaymentMethods = () => {
                                     </Button>
                                     {isDeletedFetchData ? (
                                         <Button
-                                            style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff' }}
+                                            style={{ backgroundColor: '#e74c3c', borderColor: '#e74c3c', color: '#fff' }}
                                             icon={<UndoOutlined />}
                                             onClick={() => handleRestore(item)}
                                         >
-                                            Khôi Phục
+                                            {/* Khôi Phục */}
                                         </Button>
                                     ) : (
                                         <Button
-                                            style={{ backgroundColor: '#ff0000', borderColor: '#ff0000', color: '#fff' }}
+                                            style={{ backgroundColor: '#c00118', borderColor: '#c00118', color: '#fff' }}
                                             icon={<DeleteOutlined />}
                                             onClick={() => handleDelete(item)}
                                         >
-                                            Xóa
+                                            {/* Xóa */}
                                         </Button>
                                     )}
                                 </div>
@@ -163,7 +163,7 @@ const AppPaymentMethods = () => {
             icon: 'success',
             title: 'Tạo Phương Thức Thanh Toán thành công',
             showConfirmButton: false,
-            timer: 600,
+            timer: 1500,
         });
     };
     const handleCancel = () => {
@@ -214,7 +214,7 @@ const AppPaymentMethods = () => {
             icon: 'success',
             title: 'Cập nhật thành công Phương Thức Thanh Toán',
             showConfirmButton: false,
-            timer: 600,
+            timer: 1500,
         });
     };
     const handleDelete = (item: { id: number }) => {
@@ -244,7 +244,7 @@ const AppPaymentMethods = () => {
                     icon: 'success',
                     title: 'Xóa thành công Phương Thức Thanh Toán',
                     showConfirmButton: false,
-                    timer: 600,
+                    timer: 1500,
                 });
             })
             .catch((error) => {
@@ -281,7 +281,7 @@ const AppPaymentMethods = () => {
                     icon: 'success',
                     title: 'Khôi phục thành công',
                     showConfirmButton: false,
-                    timer: 600,
+                    timer: 1500,
                 });
             })
             .catch((error) => {
@@ -296,10 +296,14 @@ const AppPaymentMethods = () => {
         <>
             <div className="container mt-5 ">
                 <div className="flex justify-end mb-5">
-                    <Button onClick={handleShowModal} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginRight: '8px' }}>
-                        +
+                    <Button onClick={handleShowModal} style={{ backgroundColor: '#6f9643', borderColor: '#6f9643', color: '#fff', marginRight: '8px' }}>
+                        Thêm
                     </Button>
-                    <Button onClick={handleToggleIsDeletedFetchData} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}>
+                    <Button onClick={handleToggleIsDeletedFetchData} 
+                   style={{ 
+                    borderColor: '#c00118', 
+                    transition: 'background-color 0.3s, color 0.3s' }}
+                    className='custom-buttonmethod'>
                         {isDeletedFetchData ? 'Xem Phương Thức Thanh Toán' : 'Xem Phương Thức Thanh Toán Đã Xóa'}
                     </Button>
                 </div>
@@ -336,11 +340,12 @@ const AppPaymentMethods = () => {
                                 onChange={(event) => { setIsValuePaymentMethodName(event.target.value) }}
                                 value={isValuePaymentMethodName}
                                 className="bg-slate-200"
+                                style={{borderColor: 'black'}}
                             />
                         </div>
 
                         <div className="flex justify-end items-end ">
-                            <Button onClick={handleCreatePaymentMethods} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginTop: 8 }} >
+                            <Button onClick={handleCreatePaymentMethods} style={{ backgroundColor: 'black', borderColor: 'black', color: '#fff', marginTop: 8 }} >
                                 Lưu
                             </Button>
                         </div>
@@ -366,11 +371,11 @@ const AppPaymentMethods = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.paymentMethodName}
-                                style={{ backgroundColor: '#f0f5ff' }}  // Màu nền tùy chọn
+                                style={{ backgroundColor: '#f0f5ff',  borderColor: 'black' }}  // Màu nền tùy chọn
                             />
                         </div>
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleSubmitEdit} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff', marginTop: 8 }}  >
+                            <Button onClick={handleSubmitEdit} style={{ backgroundColor: 'black', borderColor: 'black', color: '#fff', marginTop: 8 }}  >
                                 Lưu
                             </Button>
                         </div>

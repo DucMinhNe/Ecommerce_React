@@ -34,7 +34,7 @@ const AppAddressCustomers = () => {
             width: 100,
         },
         {
-            title: 'Khách Hàng',
+            title: 'Tài khoản',
             dataIndex: 'customer',
             align: 'center',
         },
@@ -54,7 +54,7 @@ const AppAddressCustomers = () => {
             align: 'center',
         },
         {
-            title: 'Phường Xả',
+            title: 'Phường Xã',
             dataIndex: 'subDistrict',
             align: 'center',
         },
@@ -73,10 +73,10 @@ const AppAddressCustomers = () => {
         //     dataIndex: 'customerId',
         // },
         {
-            title: 'Hành động',
+            title: '',
             dataIndex: 'action',
             align: 'center',
-            width: 200,
+            width: 100,
         },
     ];
     const [dataAddressCustomers, setDataAddressCustomers] = useState<DataType[]>([]);
@@ -122,30 +122,30 @@ const AppAddressCustomers = () => {
                             isDeleted: item.isDeleted,
                             action: (
                                 <>
-                                    <div className="flex gap-x-1">
+                                    <div className="flex justify-center items-center gap-x-1">
                                         <Button
                                             type="default"
-                                            style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}
+                                            style={{ backgroundColor: '#459664', borderColor: '#459664', color: '#fff' }}
                                             icon={<EditOutlined />}
                                             onClick={() => handleEdit(item)}
                                         >
-                                            Sửa
+                                            {/* Sửa */}
                                         </Button>
                                         {isDeletedFetchData ? (
                                             <Button
-                                                style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff' }}
+                                                style={{ backgroundColor: '#e74c3c', borderColor: '#e74c3c', color: '#fff' }}
                                                 icon={<UndoOutlined />}
                                                 onClick={() => handleRestore(item)}
                                             >
-                                                Khôi Phục
+                                                {/* Khôi Phục */}
                                             </Button>
                                         ) : (
                                             <Button
-                                                style={{ backgroundColor: '#ff0000', borderColor: '#ff0000', color: '#fff' }}
+                                                style={{ backgroundColor: '#c00118', borderColor: '#c00118', color: '#fff' }}
                                                 icon={<DeleteOutlined />}
                                                 onClick={() => handleDelete(item)}
                                             >
-                                                Xóa
+                                                {/* Xóa */}
                                             </Button>
                                         )}
                                     </div>
@@ -243,7 +243,7 @@ const AppAddressCustomers = () => {
             icon: 'success',
             title: 'Cập nhật thành công',
             showConfirmButton: false,
-            timer: 600,
+            timer: 1500,
         });
     };
     const [openModal, setOpenModal] = useState(false);
@@ -283,7 +283,7 @@ const AppAddressCustomers = () => {
             icon: 'success',
             title: 'Tạo thành công',
             showConfirmButton: false,
-            timer: 600,
+            timer: 1500,
         });
     };
     const handleDelete = (item: { id: number }) => {
@@ -313,7 +313,7 @@ const AppAddressCustomers = () => {
                     icon: 'success',
                     title: 'Xóa thành công',
                     showConfirmButton: false,
-                    timer: 600,
+                    timer: 1500,
                 });
             })
             .catch((error) => {
@@ -350,7 +350,7 @@ const AppAddressCustomers = () => {
                     icon: 'success',
                     title: 'Khôi phục thành công',
                     showConfirmButton: false,
-                    timer: 600,
+                    timer: 1500,
                 });
             })
             .catch((error) => {
@@ -365,10 +365,19 @@ const AppAddressCustomers = () => {
         <>
             <div className="container mt-5 ">
                 <div className="flex justify-end mb-5">
-                    <Button onClick={handleShowModal} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginRight: '8px' }}>
-                        +
-                    </Button>
-                    <Button onClick={handleToggleIsDeletedFetchData} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}>
+                    {/* <Button onClick={handleShowModal} 
+                    style={{ 
+                        backgroundColor: '#6f9643',
+                         borderColor: '#6f9643',
+                          color: '#fff',
+                           marginRight: '8px' }}>
+                        Thêm
+                    </Button> */}
+                    <Button onClick={handleToggleIsDeletedFetchData} 
+                    style={{ 
+                        borderColor: '#c00118', 
+                        transition: 'background-color 0.3s, color 0.3s' }}
+                        className="custom-buttonaddresscus">
                         {isDeletedFetchData ? 'Xem Địa Chỉ Khách Hàng' : 'Xem Địa Chỉ Khách Hàng Đã Xóa'}
                     </Button>
                 </div>
@@ -390,7 +399,7 @@ const AppAddressCustomers = () => {
                 />
             </div>
             {/* Modal thêm Địa Chỉ Khách Hàng */}
-            <>
+            {/* <>
                 <Modal
                     className="custom-modal-create_and_edit_addresscustomers"
                     open={openModal}
@@ -400,7 +409,7 @@ const AppAddressCustomers = () => {
                     <div className="p-5">
                         <span className="text-lg font-medium">Thêm Địa Chỉ Khách Hàng</span>
                         <div className="mt-10">
-                            <label htmlFor="customer">Khách Hàng</label>
+                            <label htmlFor="customer">Tài khoản</label>
                             <select
                                 id="customer"
                                 onChange={(event) => { setIsValueCustomerId(event.target.value) }}
@@ -440,7 +449,7 @@ const AppAddressCustomers = () => {
                             />
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Phường Xả</label>
+                            <label htmlFor="">Phường Xã</label>
                             <Input
                                 onChange={(event) => { setIsValueSubDistrict(event.target.value) }}
                                 value={isValueSubDistrict}
@@ -466,13 +475,18 @@ const AppAddressCustomers = () => {
                         </div>
 
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleCreateAddressCustomers} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginTop: 8 }} >
+                            <Button onClick={handleCreateAddressCustomers} 
+                            style={{ 
+                                backgroundColor: 'black', 
+                                borderColor: '#black',
+                                 color: '#fff', 
+                                 marginTop: 8 }} >
                                 Lưu
                             </Button>
                         </div>
                     </div>
                 </Modal>
-            </>
+            </> */}
             {/* Modal sửa Địa Chỉ Khách Hàng */}
             <>
                 <Modal
@@ -484,7 +498,7 @@ const AppAddressCustomers = () => {
                     <div className="p-5">
                         <span className="text-lg font-medium">Sửa Địa Chỉ Khách Hàng</span>
                         <div className="mt-10">
-                            <label htmlFor="customerId">Khách Hàng</label>
+                            <label htmlFor="customerId">Tài khoản</label>
                             <select
                                 id="customerId"
                                 onChange={(event) => {
@@ -496,7 +510,7 @@ const AppAddressCustomers = () => {
                                 value={selectedItemEdit?.customerId ?? ''}
                                 className="bg-slate-200"
                             >
-                                <option value="" disabled>-- Chọn Khách Hàng --</option>
+                                <option value="" disabled>-- Chọn Tài khoản --</option>
                                 {customers.map((customer) => (
                                     <option key={customer.id} value={customer.id}>
                                         {customer.firstName}
@@ -580,7 +594,7 @@ const AppAddressCustomers = () => {
                         </div>
 
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleSubmitEditAddressCustomers} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff', marginTop: 8 }}  >
+                            <Button onClick={handleSubmitEditAddressCustomers} style={{ backgroundColor: 'black', borderColor: 'black', color: '#fff', marginTop: 8 }}  >
                                 Lưu
                             </Button>
                         </div>
