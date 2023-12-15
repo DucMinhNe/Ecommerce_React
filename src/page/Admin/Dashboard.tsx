@@ -5,6 +5,14 @@ import './scss/styleDashboard.scss';
 import { MdAccountCircle } from 'react-icons/md';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
 import PaymentIcon from '@mui/icons-material/Payment';
+import CategoryIcon from '@mui/icons-material/Category';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
+import Inventory2Icon from '@mui/icons-material/Inventory2';
+import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
+import RedeemIcon from '@mui/icons-material/Redeem';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import GradeIcon from '@mui/icons-material/Grade';
 const { Sider, Content, Header } = Layout;
 const Dashboard: React.FC = () => {
     const location = useLocation();
@@ -51,37 +59,37 @@ const Dashboard: React.FC = () => {
                     </div>
                 </Header>
                 <Layout>
-                    <Sider width={225} theme="dark" className="bg-blue-400">
+                    <Sider width={245} theme="dark" className="bg-blue-400">
                         <Menu mode="vertical" selectedKeys={[location.pathname]} className="h-full w-18 bg">
                             <Menu.Item key="/admin/app-providers" className="menu-item" >
-                                <div> <CoPresentIcon/> <Link to="/admin/app-providers">Nhà Cung Cấp</Link> </div>
+                                <div> <CoPresentIcon/> <Link to="/admin/app-providers" style={{ paddingLeft: '20px'}}>Nhà Cung Cấp</Link> </div>
                             </Menu.Item>
                             <Menu.Item key="/admin/app-payment-methods" className="menu-item1">
-                                <div> <PaymentIcon/> <Link to="/admin/app-payment-methods">Phương Thức Thanh Toán</Link></div>
+                                <div> <PaymentIcon/> <Link to="/admin/app-payment-methods" style={{ paddingLeft: '20px'}}>Phương Thức Thanh Toán</Link></div>
                             </Menu.Item>
                             <Menu.Item key="/admin/app-job-titles" className="menu-item2">
-                                <Link to="/admin/app-job-titles">Chức Vụ</Link>
+                                <div> <GradeIcon/> <Link to="/admin/app-job-titles" style={{ paddingLeft: '20px'}}>Chức Vụ</Link></div>
                             </Menu.Item>
                             <Menu.Item key="/admin/app-product-categories" className="menu-item3">
-                                <Link to="/admin/app-product-categories">Loại Sản Phẩm</Link>
+                                <div> <CategoryIcon/>    <Link to="/admin/app-product-categories" style={{ paddingLeft: '20px'}}>Loại Sản Phẩm</Link></div>
                             </Menu.Item>
                             <Menu.Item key="/admin/app-customers" className="menu-item4">
-                                <Link to="/admin/app-customers">Khách Hàng</Link>
+                                <div> <EmojiPeopleIcon/> <Link to="/admin/app-customers" style={{ paddingLeft: '20px'}}>Khách Hàng</Link></div>
                             </Menu.Item>
                             <Menu.Item key="/admin/app-employees" className="menu-item5">
-                                <Link to="/admin/app-employees">Nhân Viên</Link>
+                                <div> <ConnectWithoutContactIcon/> <Link to="/admin/app-employees" style={{ paddingLeft: '20px'}}>Nhân Viên</Link></div>
                             </Menu.Item>
                             <Menu.Item key="/admin/app-products" className="menu-item6">
-                                <Link to="/admin/app-products">Sản Phẩm</Link>
+                                <div> <Inventory2Icon/> <Link to="/admin/app-products" style={{ paddingLeft: '20px'}}>Sản Phẩm</Link></div>
                             </Menu.Item>
                             <Menu.Item key="/admin/app-address-customers"className="menu-item7">
-                                <Link to="/admin/app-address-customers">Địa Chỉ Khách Hàng</Link>
+                                <div> <MapsHomeWorkIcon/> <Link to="/admin/app-address-customers" style={{ paddingLeft: '20px'}}>Địa Chỉ Khách Hàng</Link></div>
                             </Menu.Item>
                             <Menu.Item key="/admin/app-carts"className="menu-item8">
-                                <Link to="/admin/app-carts">Giỏ Hàng</Link>
+                                <div> <RedeemIcon/> <Link to="/admin/app-carts" style={{ paddingLeft: '20px'}}>Giỏ Hàng</Link></div>
                             </Menu.Item>
                             <Menu.Item key="/admin/app-orders"className="menu-item9">
-                                <Link to="/admin/app-orders">Đơn Hàng</Link>
+                               <div> <ReceiptIcon/> <Link to="/admin/app-orders"style={{ paddingLeft: '20px'}}>Đơn Hàng</Link></div>
                             </Menu.Item>
                         </Menu>
                     </Sider>

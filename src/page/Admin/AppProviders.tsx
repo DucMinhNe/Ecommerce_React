@@ -25,7 +25,7 @@ const AppProviders = () => {
             width: 100,
         },
         {
-            title: 'Tên Nhà Cung Cấp',
+            title: 'Nhà Cung Cấp',
             dataIndex: 'providerName',
             sorter: (a, b) => a.providerName.localeCompare(b.providerName),
             sortDirections: ['ascend', 'descend'],
@@ -36,10 +36,11 @@ const AppProviders = () => {
                         placeholder="Search Tên Nhà Cung Cấp"
                         value={selectedKeys[0]}
                         onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                        
                         onPressEnter={() => {
                             confirm(); // Call confirm() when Enter key is pressed
                         }}
-                        style={{ width: 188, marginBottom: 8, display: 'block' }}
+                        style={{ width: 215, marginBottom: 8, display: 'block'  }}
                     />
                 </div>
             ),
@@ -50,10 +51,10 @@ const AppProviders = () => {
             align: 'center',
         },
         {
-            title: 'Hành động',
+            title: '',
             dataIndex: 'action',
             align: 'center',
-            width: 200,
+            width: 100,
         },
     ];
     const [dataProviders, setDataProviders] = useState<DataType[]>([]);
@@ -86,19 +87,19 @@ const AppProviders = () => {
                                 <div className="flex justify-center items-center gap-x-1">
                                     <Button
                                         type="default"
-                                        style={{ backgroundColor: '#459664', borderColor: '#1890ff', color: '#fff' }}
+                                        style={{ backgroundColor: '#459664', borderColor: '#459664', color: '#fff' }}
                                         icon={<EditOutlined />}
                                         onClick={() => handleEdit(item)}
                                     >
-                                      
+                                      {/* Sửa */}
                                     </Button>
                                     {isDeletedFetchData ? (
                                         <Button
-                                            style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff' }}
+                                            style={{ backgroundColor: '#e74c3c', borderColor: '#e74c3c', color: '#fff' }}
                                             icon={<UndoOutlined />}
                                             onClick={() => handleRestore(item)}
                                         >
-                                            Khôi Phục
+                                            {/* Khôi Phục */}
                                         </Button>
                                     ) : (
                                         <Button
@@ -163,7 +164,7 @@ const AppProviders = () => {
             icon: 'success',
             title: 'Tạo Nhà Cung Cấp thành công',
             showConfirmButton: false,
-            timer: 600,
+            timer: 1000,
         });
     };
     const handleCancel = () => {
@@ -214,7 +215,7 @@ const AppProviders = () => {
             icon: 'success',
             title: 'Cập nhật thành công Nhà Cung Cấp',
             showConfirmButton: false,
-            timer: 600,
+            timer: 1500,
         });
     };
     const handleDelete = (item: { id: number }) => {
@@ -244,7 +245,7 @@ const AppProviders = () => {
                     icon: 'success',
                     title: 'Xóa thành công Nhà Cung Cấp',
                     showConfirmButton: false,
-                    timer: 600,
+                    timer: 1500,
                 });
             })
             .catch((error) => {
@@ -281,7 +282,7 @@ const AppProviders = () => {
                     icon: 'success',
                     title: 'Khôi phục thành công',
                     showConfirmButton: false,
-                    timer: 600,
+                    timer: 1500,
                 });
             })
             .catch((error) => {
@@ -298,17 +299,17 @@ const AppProviders = () => {
                 <div className="flex justify-end mb-5">
                     <Button onClick={handleShowModal} 
                     style={{ backgroundColor: '#6f9643', 
-                    
+                    borderColor: '#6f9643',
                     color: '#fff', 
                     marginRight: '8px' }}>
                         Thêm
                     </Button>
 
                     <Button onClick={handleToggleIsDeletedFetchData} 
-                    style={{ 
+                        style={{ 
                     borderColor: '#c00118', 
                     transition: 'background-color 0.3s, color 0.3s' }}
-                    className="custom-button">
+                    className="custom-buttonprovider">
                         {isDeletedFetchData ? 'Xem Nhà Cung Cấp' : 'Xem Nhà Cung Cấp Đã Xóa'}
                     </Button>
                 </div>
@@ -345,11 +346,11 @@ const AppProviders = () => {
                                 onChange={(event) => { setIsValueProviderName(event.target.value) }}
                                 value={isValueProviderName}
                                 className="bg-slate-200"
+                                style={{borderColor: 'black'}}
                             />
                         </div>
-
                         <div className="flex justify-end items-end ">
-                            <Button onClick={handleCreateProviders} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginTop: 8 }} >
+                            <Button onClick={handleCreateProviders} style={{ backgroundColor: '#121212', borderColor: '#121212', color: '#fff', marginTop: 8 }} >
                                 Lưu
                             </Button>
                         </div>
@@ -375,11 +376,11 @@ const AppProviders = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.providerName}
-                                style={{ backgroundColor: '#f0f5ff' }}  // Màu nền tùy chọn
+                                style={{ backgroundColor: '#f0f5ff', borderColor:'black' }}  // Màu nền tùy chọn
                             />
                         </div>
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleSubmitEdit} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff', marginTop: 8 }}  >
+                            <Button onClick={handleSubmitEdit} style={{ backgroundColor: 'Black', borderColor: 'black', color: '#fff', marginTop: 8 }}  >
                                 Lưu
                             </Button>
                         </div>

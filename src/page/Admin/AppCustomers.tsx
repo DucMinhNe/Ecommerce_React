@@ -81,10 +81,10 @@ const AppCustomers = () => {
             align: 'center',
         },
         {
-            title: 'Hành động',
+            title: '',
             dataIndex: 'action',
             align: 'center',
-            width: 200,
+            width: 100,
         },
     ];
     const [dataCustomers, setDataCustomers] = useState<DataType[]>([]);
@@ -120,30 +120,30 @@ const AppCustomers = () => {
                         isDeleted: item.isDeleted,
                         action: (
                             <>
-                                <div className="flex gap-x-1">
+                                <div className="flex justify-center items-center gap-x-1">
                                     <Button
                                         type="default"
-                                        style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}
+                                        style={{ backgroundColor: '#459664', borderColor: '#459664', color: '#fff' }}
                                         icon={<EditOutlined />}
                                         onClick={() => handleEdit(item)}
                                     >
-                                        Sửa
+                                        {/* Sửa */}
                                     </Button>
                                     {isDeletedFetchData ? (
                                         <Button
-                                            style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff' }}
+                                            style={{ backgroundColor: '#e74c3c', borderColor: '#e74c3c', color: '#fff' }}
                                             icon={<UndoOutlined />}
                                             onClick={() => handleRestore(item)}
                                         >
-                                            Khôi Phục
+                                            {/* Khôi Phục */}
                                         </Button>
                                     ) : (
                                         <Button
-                                            style={{ backgroundColor: '#ff0000', borderColor: '#ff0000', color: '#fff' }}
+                                            style={{ backgroundColor: '#c00118', borderColor: '#c00118', color: '#fff' }}
                                             icon={<DeleteOutlined />}
                                             onClick={() => handleDelete(item)}
                                         >
-                                            Xóa
+                                            {/* Xóa */}
                                         </Button>
                                     )}
                                 </div>
@@ -255,7 +255,7 @@ const AppCustomers = () => {
             icon: 'success',
             title: 'Cập nhật thành công',
             showConfirmButton: false,
-            timer: 600,
+            timer: 1500,
         });
     };
     const [openModal, setOpenModal] = useState(false);
@@ -282,7 +282,7 @@ const AppCustomers = () => {
             icon: 'success',
             title: 'Tạo Khách Hàng thành công',
             showConfirmButton: false,
-            timer: 600,
+            timer: 1500,
         });
     };
     const handleDelete = (item: { id: number }) => {
@@ -312,7 +312,7 @@ const AppCustomers = () => {
                     icon: 'success',
                     title: 'Xóa thành công Khách Hàng',
                     showConfirmButton: false,
-                    timer: 600,
+                    timer: 1500,
                 });
             })
             .catch((error) => {
@@ -349,7 +349,7 @@ const AppCustomers = () => {
                     icon: 'success',
                     title: 'Khôi phục thành công',
                     showConfirmButton: false,
-                    timer: 600,
+                    timer: 1500,
                 });
             })
             .catch((error) => {
@@ -364,10 +364,19 @@ const AppCustomers = () => {
         <>
             <div className="container mt-5 ">
                 <div className="flex justify-end mb-5">
-                    <Button onClick={handleShowModal} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginRight: '8px' }}>
-                        +
+                    <Button onClick={handleShowModal} 
+                    style={{
+                    backgroundColor: '#6f9643',
+                    borderColor: '#6f9643', 
+                    color: '#fff', 
+                    marginRight: '8px' }}>
+                        Thêm
                     </Button>
-                    <Button onClick={handleToggleIsDeletedFetchData} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}>
+                    <Button onClick={handleToggleIsDeletedFetchData} 
+                    style={{ 
+                        borderColor: '#c00118', 
+                        transition: 'background-color 0.3s, color 0.3s' }}
+                        className="custom-buttoncustomers">
                         {isDeletedFetchData ? 'Xem Khách Hàng' : 'Xem Khách Hàng Đã Xóa'}
                     </Button>
                 </div>
@@ -404,6 +413,7 @@ const AppCustomers = () => {
                                 onChange={(event) => { setIsValueFirstName(event.target.value) }}
                                 value={isValueFirstName}
                                 className="bg-slate-200"
+                                
                             />
                         </div>
                         <div className="mt-10">
@@ -412,6 +422,7 @@ const AppCustomers = () => {
                                 onChange={(event) => { setIsValueLastName(event.target.value) }}
                                 value={isValueLastName}
                                 className="bg-slate-200"
+                               
                             />
                         </div>
                         <div className="mt-10">
@@ -420,6 +431,7 @@ const AppCustomers = () => {
                                 onChange={(event) => { setIsValueEmail(event.target.value) }}
                                 value={isValueEmail}
                                 className="bg-slate-200"
+                                
                             />
                         </div>
                         <div className="mt-10">
@@ -428,6 +440,7 @@ const AppCustomers = () => {
                                 onChange={(event) => { setIsValuePassword(event.target.value) }}
                                 value={isValuePassword}
                                 className="bg-slate-200"
+                               
                             />
                         </div>
                         <div className="mt-10">
@@ -436,10 +449,11 @@ const AppCustomers = () => {
                                 onChange={(event) => { setIsValuePhoneNumber(event.target.value) }}
                                 value={isValuePhoneNumber}
                                 className="bg-slate-200"
+                                
                             />
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="birthDate">Ngày Sinh</label>
+                            <label htmlFor="birthDate" style={{borderColor:'black'}}>Ngày Sinh</label>
                             <Input
                                 type="date"
                                 onChange={(event) => {
@@ -455,6 +469,7 @@ const AppCustomers = () => {
                                 onChange={(event) => setIsValueGender(event.target.value)}
                                 value={isValueGender}
                                 className="bg-slate-200"
+                                style={{borderColor:'black'}}
                             >
                                 <option value="">Chọn Giới Tính</option>
                                 <option value="true">Nam</option>
@@ -470,7 +485,7 @@ const AppCustomers = () => {
                             />
                         </div>
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleCreateCustomers} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginTop: 8 }} >
+                            <Button onClick={handleCreateCustomers} style={{ backgroundColor: 'black', borderColor: 'black', color: '#fff', marginTop: 8 }} >
                                 Lưu
                             </Button>
                         </div>
@@ -592,7 +607,7 @@ const AppCustomers = () => {
                             />
                         </div>
                         <div className="flex justify-end items-end">
-                            <Button onClick={handleSubmitEdit} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff', marginTop: 8 }}  >
+                            <Button onClick={handleSubmitEdit} style={{ backgroundColor: 'black', borderColor: 'black', color: '#fff', marginTop: 8 }}  >
                                 Lưu
                             </Button>
                         </div>
