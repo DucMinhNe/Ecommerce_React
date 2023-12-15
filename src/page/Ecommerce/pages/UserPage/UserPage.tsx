@@ -10,8 +10,6 @@ const UserPage: React.FC = () => {
 
             <div className="pl-20"> <AddressCustomers /></div>
 
-
-
         </>
     );
 };

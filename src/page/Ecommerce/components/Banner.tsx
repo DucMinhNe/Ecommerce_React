@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-export const Banner = () => {
+function Banner() {
 
   const data = [
     "https://scontent.fhan4-3.fna.fbcdn.net/v/t39.30808-6/280670405_5788330661182662_3185354043905022716_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=783fdb&_nc_ohc=BMK6NnRcyXwAX_3ljXz&_nc_ht=scontent.fhan4-3.fna&oh=00_AfDbwaTiOJ5twebBIOPO42emr95ptvHmzcWQby3l9vP3_A&oe=657EEC34",
@@ -52,3 +52,4 @@ export const Banner = () => {
     </div>
   )
 }
+export default Banner;

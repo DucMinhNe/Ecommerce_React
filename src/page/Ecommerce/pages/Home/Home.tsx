@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Banner } from "../../components/Banner";
+import Banner from "../../components/Banner";
 import Products from "../../components/Products";
 import { productsData } from '../../api/Api';
 

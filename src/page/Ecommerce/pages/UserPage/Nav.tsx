@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import {
     ContainerOutlined,
     DesktopOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
     PieChartOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
