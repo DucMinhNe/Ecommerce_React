@@ -17,10 +17,10 @@ const SignIn: React.FC = () => {
       handleRouteCustomer();
     }
     console.log(localStorage.getItem('customerId'));
-    console.log(localStorage.getItem('customerName'));
-    console.log(localStorage.getItem('customerEmail'));
-    console.log(localStorage.getItem('customerPhoneNumber'));
-    console.log(localStorage.getItem('customerImage'));
+    // console.log(localStorage.getItem('customerName'));
+    // console.log(localStorage.getItem('customerEmail'));
+    // console.log(localStorage.getItem('customerPhoneNumber'));
+    // console.log(localStorage.getItem('customerImage'));
   }, [isCustomerToken]);
 
   const handleRouteCustomer = () => {
@@ -64,10 +64,10 @@ const SignIn: React.FC = () => {
             // Lưu thông tin vào LocalStorage
             if (tokenData) {
               localStorage.setItem('customerId', tokenData.id);
-              localStorage.setItem('customerName', tokenData.name);
-              localStorage.setItem('customerEmail', tokenData.email);
-              localStorage.setItem('customerPhoneNumber', tokenData.phoneNumber);
-              localStorage.setItem('customerImage', tokenData.customerImage);
+              // localStorage.setItem('customerName', tokenData.name);
+              // localStorage.setItem('customerEmail', tokenData.email);
+              // localStorage.setItem('customerPhoneNumber', tokenData.phoneNumber);
+              // localStorage.setItem('customerImage', tokenData.customerImage);
             }
 
             localStorage.setItem('customerToken', customerToken);
@@ -105,7 +105,7 @@ const SignIn: React.FC = () => {
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl lg:max-w-xl">
         <h1 className="text-3xl font-semibold text-center text-orange-700 uppercase">
-          Sign in
+          Đăng Nhập
         </h1>
         <form className="mt-6" onSubmit={handleSubmit}>
           <div className="mb-2">
@@ -126,7 +126,7 @@ const SignIn: React.FC = () => {
               htmlFor="password"
               className="block text-sm font-semibold text-gray-800"
             >
-              Password
+              Mật Khẩu
             </label>
             <input
               ref={password}
@@ -138,16 +138,16 @@ const SignIn: React.FC = () => {
             href="#"
             className="text-xs text-orange-600 hover:underline"
           >
-            Forget Password?
+            Quên Mật Khẩu Lấy Lại Tại Đây ?
           </a>
           <div className="mt-6">
             <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-orange-700 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-orange-600">
-              Login
+              Đăng Nhập
             </button>
           </div>
         </form>
         <div className="relative flex items-center justify-center w-full mt-6 border border-t">
-          <div className="absolute px-5 bg-white">Or</div>
+          <div className="absolute px-5 bg-white">Hoặc</div>
         </div>
         <div className="flex mt-4 gap-x-2">
           <button
@@ -184,13 +184,13 @@ const SignIn: React.FC = () => {
 
         <p className="mt-8 text-xs font-light text-center text-gray-700">
           {" "}
-          Don't have an account?{" "}
+          Bạn Chưa Có Tài Khoản?{" "}
           <Link to={'/ecommerce/signup'}>
             <a
               href="#"
               className="font-medium text-orange-600 hover:underline"
             >
-              Sign up
+              Đăng Ký Tại Đây
             </a>
           </Link>
         </p>

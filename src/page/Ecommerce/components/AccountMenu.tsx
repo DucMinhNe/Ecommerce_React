@@ -6,19 +6,61 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import SystemConst from '../../../common/consts/system_const';
+interface DataType {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    phoneNumber: string;
+    birthDate: Date | null;
+    gender: boolean | null;
+    customerImage: string | null;
+    isDeleted: boolean | null;
+}
+const BASE_URL = `${SystemConst.DOMAIN}/Customers`;
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const cusId = localStorage.getItem('customerId');
+    const [CustomersData, setCustomersData] = useState<DataType | null>(null);
+    useEffect(() => {
+        handleFetchData();
+    }, [CustomersData]);
+    const handleFetchData = () => {
+        axios
+            .get(`${BASE_URL}/${cusId}`)
+            .then((response) => {
+                const apiDataCustomer = response.data;
+                const newData: DataType = {
+                    id: apiDataCustomer.id,
+                    firstName: apiDataCustomer.firstName,
+                    lastName: apiDataCustomer.lastName,
+                    email: apiDataCustomer.email,
+                    phoneNumber: apiDataCustomer.phoneNumber,
+                    gender: apiDataCustomer.gender,
+                    password: apiDataCustomer.password,
+                    birthDate: apiDataCustomer.birthDate,
+                    customerImage: apiDataCustomer.customerImage,
+                    isDeleted: apiDataCustomer.isDeleted,
+                };
+                // console.log(newData);
+                setCustomersData(newData);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
     const handleLogout = () => {
         localStorage.removeItem('customerToken');
-        // localStorage.removeItem('role');
+        localStorage.removeItem('customerId');
         window.history.replaceState(null, '', '/ecommerce/home');
         window.location.replace('/ecommerce/home');
         window.location.reload(); // Tải lại trang web
@@ -41,9 +83,7 @@ export default function AccountMenu() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-
-                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-
+                        <Avatar sx={{ width: 32, height: 32 }} src={`${SystemConst.DOMAIN_HOST}/${CustomersData?.customerImage}`} alt="Avatar Image" />
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -84,9 +124,7 @@ export default function AccountMenu() {
             >
                 <MenuItem onClick={handleClose}>
                     <ListItemIcon>
-                        <Link to={'/ecommerce/userpage'}>
-                            Profile
-                        </Link>
+                        {CustomersData?.firstName} {CustomersData?.lastName}
                     </ListItemIcon>
                 </MenuItem>
                 {/* <MenuItem onClick={handleClose}>
@@ -95,23 +133,46 @@ export default function AccountMenu() {
                 <Divider />
                 {/* <MenuItem onClick={handleClose}>
                     <ListItemIcon>
-                        <PersonAdd fontSize="small" />
+
                     </ListItemIcon>
-                    Add another account
                 </MenuItem> */}
                 <MenuItem onClick={handleClose}>
+                    <Link to={'/ecommerce/userinfomation'}>
+                        <ListItemIcon>
+                            <Settings fontSize="small" />
+                        </ListItemIcon>
+                        Thông Tin
+                    </Link>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                    <Link to={'/ecommerce/addresscustomer'}>
+                        <ListItemIcon>
+                            <Settings fontSize="small" />
+                        </ListItemIcon>
+                        Địa Chỉ
+                    </Link>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                    <Link to={'/ecommerce/order'}>
+                        <ListItemIcon>
+                            <Settings fontSize="small" />
+                        </ListItemIcon>
+                        Đơn Hàng
+                    </Link>
+                </MenuItem>
+                {/* <MenuItem onClick={handleClose}>
                     <ListItemIcon>
                         <Settings fontSize="small" />
                     </ListItemIcon>
                     Settings
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
-                    Logout
+                    Đăng Xuất
                 </MenuItem>
             </Menu>
-        </React.Fragment>
+        </React.Fragment >
     );
 }

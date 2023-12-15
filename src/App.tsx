@@ -1,6 +1,6 @@
 
 import Login from './page/Admin/Login';
-import { BrowserRouter as Router, Routes, Route, Outlet, ScrollRestoration, createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet, ScrollRestoration, createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 
 import Dashboard from './page/Admin/Dashboard';
 import AppProviders from './page/Admin/AppProviders';
@@ -21,6 +21,9 @@ import { Product } from './page/Ecommerce/pages/product/product';
 import Home from './page/Ecommerce/pages/Home/Home';
 import AppOrders from './page/Admin/AppOrder';
 import UserPage from './page/Ecommerce/pages/UserPage/UserPage';
+import UserInfomation from './page/Ecommerce/pages/UserPage/UserInfomation';
+import AddressCustomers from './page/Ecommerce/pages/UserPage/AddressCustomer';
+import Orders from './page/Ecommerce/pages/UserPage/Order';
 
 const Layout = () => {
     return (
@@ -125,27 +128,24 @@ function App() {
                         }
                     ></Route>
                 </Route>
-                <Route
-                    path="/"
-                    element={
-                        <div>
-                            <Login />
-                        </div>
-                    }
-                />
-
+                <Route path="/admin/login" element={<div><Login /></div>}>
+                </Route>
+                <Route index element={<Navigate to="ecommerce/home" />} />
                 {/* Ecommerce Routes */}
                 <Route path="/ecommerce/*" element={<Layout />}>
+
                     <Route path="home" element={<Home />} />
                     <Route path="product/:id" element={<Product />} />
                     <Route path="cart" element={<Cart />} />
                     <Route path="signin" element={<SignIn />} />
                     <Route path="signup" element={<SignUp />} />
-                    <Route path="userpage" element={<UserPage />} />
+                    <Route path="addresscustomer" element={<AddressCustomers />} />
+                    <Route path="userinfomation" element={<UserInfomation />} />
+                    <Route path="order" element={<Orders />} />
                 </Route>
                 {/* Login Route */}
 
-            </Routes>
+            </Routes >
         </>
     );
 }

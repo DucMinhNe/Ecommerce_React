@@ -15,11 +15,14 @@ export const Cart = () => {
   const BASE_URL_OrderDetails = `${SystemConst.DOMAIN}/OrderDetails`;
   const BASE_URL_AddressCustomers = `${SystemConst.DOMAIN}/AddressCustomers`;
   const productData = useSelector((state) => state.bazar.productData)
+  const [addressCustomerId, setAddressCustomerId] = useState("")
   const [totalPrice, setTotalPrice] = useState("")
   const [orderDateTime, setOrderOrderDateTime] = useState("30/12/2023")
   const [shippingCost, setShippingCost] = useState(30)
   const [orderStatus, setOrderStatus] = useState("Chờ Xử Lý")
-
+  const handleSelectAddress = (id) => {
+    setAddressCustomerId(id);
+  };
   useEffect(() => {
     let unitPrice = 0;
     productData.map((item) => {
@@ -31,7 +34,7 @@ export const Cart = () => {
   const [dataAddressCustomers, setDataAddressCustomers] = useState([]);
   useEffect(() => {
     handleFetchData();
-  })
+  }, [])
   const handleFetchData = () => {
     var cusId = localStorage.getItem('customerId');
     axios
@@ -68,8 +71,17 @@ export const Cart = () => {
     // console.log(totalPrice);
     const formData = new FormData();
     formData.append("customerId", localStorage.getItem('customerId'));
+    if (!localStorage.getItem('customerId')) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Vui Lòng Đăng Nhập Để Đặt Hàng',
+        showConfirmButton: false,
+        timer: 600,
+      });
+      return
+    }
     // formData.append("employeeId", isValueEmployeeId);
-    // formData.append("addressCustomerId", isValueAddressCustomerId);
+    formData.append("addressCustomerId", addressCustomerId);
     const currentDate = new Date();
     const formattedDateTime = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}T${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
     formData.append("orderDateTime", formattedDateTime);
@@ -120,36 +132,48 @@ export const Cart = () => {
 
   return (
     <div>
-      <div className='max-w-screen-xl mx-auto py-20 flex'>
+      <div className='max-w-screen-3xl mx-auto py-20 flex'>
         <CartItem />
-        <div className='w-1/3 bg-[#fafafa] py-6 px-0'>
+        <div className='w-1/3 bg-[#fafafa] py-6 px-3'>
           <div className='flex flex-col gap-6 border-b-[1px] border-b-gray-400 pb-6'>
-            <h2 className='text-2xl font-medium'>Cart Totals</h2>
+            <h2 className='text-2xl font-medium'>Thông tin đơn hàng</h2>
             <p className='flex items-center gap-4 text-base'>
-              Subtotal
+              Tạm Tính
               <span className='font-bold text-lg'>{totalPrice}</span></p>
             <p className='flex items-start gap-4 text-base'>
-              <div className='mt-1'>Shipping Information</div>
+              <div className='mt-1'>Thông Tin Giao Hàng</div>
               <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                {dataAddressCustomers.map((item) => (
-                  <span key={item.id}>
-                    <Card title={item.addressCustomerName} extra={<a>Chọn</a>} style={{ width: 280 }}>
-                      <p>{item.phoneNumber}</p>
-                      <p>{item.address}</p>
-                      <p>{item.city}</p>
-                    </Card>
-                  </span>
-                ))}
+                {dataAddressCustomers.length > 0 ? (
+                  dataAddressCustomers.map((item) => (
+                    <span key={item.id}>
+                      <Card
+                        title={item.addressCustomerName}
+                        onClick={() => handleSelectAddress(item.id)}
+                        style={{
+                          width: 350,
+                          border: addressCustomerId === item.id ? '2px solid blue' : '1px solid #ddd',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <p>{item.phoneNumber}</p>
+                        <p>{item.address}</p>
+                        <p>{item.city}</p>
+                      </Card>
+                    </span>
+                  ))
+                ) : (
+                  <p className='mt-1'>Chưa có thông tin giao hàng.</p>
+                )}
               </div>
             </p>
             <p className='flex items-start gap-4 text-base'>
-              Shipping Cost
+              Phí Vận Chuyển
               <span>
-                30 $
+                {shippingCost}.000 Vnđ
               </span>
             </p>
             <p className='flex items-start gap-4 text-base'>
-              <div className='mt-1'> Payment Method</div>
+              <div className='mt-1'> Phương Thức Thanh Toán</div>
               <div > <Select
                 defaultValue="COD"
                 style={{ width: 120 }}
@@ -162,10 +186,11 @@ export const Cart = () => {
             </p>
           </div>
           <p className='font-titleFont font-semibold flex justify-between mt-6'>
-            Total <span className='text-xl font-bold'>$ {totalPrice}</span>
+            Tổng Cộng <span className='text-xl font-bold'>$ {totalPrice}</span>
           </p>
-          <button onClick={handleCheckout} className='text-base text-white w-full py-3 mt-6 hover: bg-gray-800 duration-300'>Order</button>
-
+          {productData.length > 0 && (
+            <button onClick={handleCheckout} className='text-base text-white w-full py-3 mt-6 hover: bg-gray-800 duration-300'>Đặt Hàng</button>
+          )}
         </div>
       </div >
     </div >

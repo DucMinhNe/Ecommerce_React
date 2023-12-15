@@ -51,7 +51,7 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ product }) => {
           <p>{productCategoryName}</p>
           <div className='flex gap-2 justify-end'>
             {/* <p className='line-through text-gray-500'>${oldPrice}</p> */}
-            <p className='font-semibold'>${unitPrice}</p>
+            <p className='font-semibold'>{unitPrice} Vnđ</p>
           </div>
         </div>
         <div className='flex justify-between mt-2'>
@@ -62,8 +62,8 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ product }) => {
             unitPrice: product.unitPrice,
             quantity: 1,
             description: product.description
-          })) && toast.success(`${product.productName} is added`)} className='bg-light-gray text-blue-600 hover:text-blue-400'>
-            Add To Cart
+          })) && toast.success(`${product.productName} is added`)} className="bg-black text-white py-3 px-6 active:bg-gray-800">
+            Thêm Vào Giỏ Hàng
           </button>
         </div>
         <div className='top-2 right-2 absolute'>

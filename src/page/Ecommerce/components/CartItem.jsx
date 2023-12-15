@@ -7,12 +7,12 @@ export const CartItem = () => {
   const dispatch = useDispatch()
 
   const productData = useSelector((state) => state.bazar.productData)
-  console.log(productData)
+  // console.log(productData)
 
   return (
     <div className="w-2/3 pr-10">
       <div className="w-full ">
-        <h2 className="font-titleFont text-2xl">Shopping cart</h2>
+        <h2 className="font-titleFont text-2xl">Giỏ Hàng</h2>
       </div>
       <div>
         {
@@ -24,7 +24,7 @@ export const CartItem = () => {
               </div>
               <h2 className="w-52 ">{item.productName}</h2>
               <div className='w-52 flex items-center justify-between text-gray-500 gap-4 border p-3'>
-                <p className='text-base text-black'>Quantity</p>
+                <p className='text-base text-black'>Số Lượng</p>
                 <div className='flex items-center gap-4 text-sm font-semibold'>
                   <button onClick={() => dispatch(decrementQantity({
                     id: item.id,
@@ -51,8 +51,16 @@ export const CartItem = () => {
             </div>
           })
         }
-        <button onClick={() => dispatch(resetCart())} className='text-xl font-bold  bg-red-500 text-white py-1 ml-6 px-6 mt-8'>Reset Cart</button>
-
+        {productData.length > 0 ? (
+          <button
+            onClick={() => dispatch(resetCart())}
+            className="text-xl font-bold bg-red-500 text-white py-1 ml-6 px-6 mt-8"
+          >
+            Xóa Tất Cả
+          </button>
+        ) : (
+          <p>Giỏ Hàng Rỗng.</p>
+        )}
       </div>
     </div>
   )

@@ -3,7 +3,7 @@ import { EditOutlined, DeleteOutlined, UndoOutlined } from '@ant-design/icons';
 import Table, { ColumnsType } from 'antd/es/table';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios';
-import SystemConst from '../../common/consts/system_const';
+import SystemConst from '../../../../common/consts/system_const';
 import Swal from 'sweetalert2';
 interface DataType {
     id: number;
@@ -34,8 +34,8 @@ interface AddressCustomer {
 interface OrderDetails {
     id: number;
     orderId: number;
-    productImage: string | null;
     productId: number;
+    productImage: string | null;
     quantity: number;
     unitPrice: number;
     isDeleted: boolean | null;
@@ -56,10 +56,10 @@ const BASE_URL_Employees = `${SystemConst.DOMAIN}/Employees`;
 const BASE_URL_AddressCustomers = `${SystemConst.DOMAIN}/AddressCustomers`;
 const BASE_URL_OrderDetails = `${SystemConst.DOMAIN}/OrderDetails`;
 const BASE_URL_Products = `${SystemConst.DOMAIN}/Products`;
-const AppOrders = () => {
+const Orders = () => {
     const columns: ColumnsType<DataType> = [
         {
-            title: 'ID',
+            title: 'Mã Đơn Hàng',
             dataIndex: 'id',
             sorter: (a, b) => a.id - b.id,
             sortDirections: ['ascend', 'descend'],
@@ -74,16 +74,16 @@ const AppOrders = () => {
                 };
             },
         },
-        {
-            title: 'Khách Hàng',
-            dataIndex: 'customer',
-            align: 'center',
-        },
-        {
-            title: 'Nhân Viên',
-            dataIndex: 'employee',
-            align: 'center',
-        },
+        // {
+        //     title: 'Khách Hàng',
+        //     dataIndex: 'customer',
+        //     align: 'center',
+        // },
+        // {
+        //     title: 'Nhân Viên',
+        //     dataIndex: 'employee',
+        //     align: 'center',
+        // },
         {
             title: 'Thông Tin Giao Hàng',
             dataIndex: 'addressCustomer',
@@ -109,12 +109,12 @@ const AppOrders = () => {
             dataIndex: 'orderStatus',
             align: 'center',
         },
-        {
-            title: 'Hành động',
-            dataIndex: 'action',
-            align: 'center',
-            width: 200,
-        },
+        // {
+        //     title: 'Hành động',
+        //     dataIndex: 'action',
+        //     align: 'center',
+        //     width: 200,
+        // },
     ];
     const OrderDetailcolumns: ColumnsType<OrderDetails> = [
         {
@@ -238,8 +238,9 @@ const AppOrders = () => {
         }
     };
     const handleFetchData = () => {
+        var cusId = localStorage.getItem('customerId');
         axios
-            .get(`${BASE_URL}?isDeleted=${isDeletedFetchData}`)
+            .get(`${BASE_URL}?customerId=${cusId}&isDeleted=${isDeletedFetchData}`)
             .then(async (response) => {
                 const Api_Data_Orders = response.data;
                 try {
@@ -260,37 +261,20 @@ const AppOrders = () => {
                             shippingCost: item.shippingCost,
                             orderStatus: item.orderStatus,
                             isDeleted: item.isDeleted,
-                            action: (
-                                <>
-                                    <div className="flex gap-x-1">
-                                        <Button
-                                            type="default"
-                                            style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}
-                                            icon={<EditOutlined />}
-                                            onClick={() => handleEdit(item)}
-                                        >
-                                            Sửa
-                                        </Button>
-                                        {isDeletedFetchData ? (
-                                            <Button
-                                                style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff' }}
-                                                icon={<UndoOutlined />}
-                                                onClick={() => handleRestore(item)}
-                                            >
-                                                Khôi Phục
-                                            </Button>
-                                        ) : (
-                                            <Button
-                                                style={{ backgroundColor: '#ff0000', borderColor: '#ff0000', color: '#fff' }}
-                                                icon={<DeleteOutlined />}
-                                                onClick={() => handleDelete(item)}
-                                            >
-                                                Xóa
-                                            </Button>
-                                        )}
-                                    </div>
-                                </>
-                            ),
+                            // action: (
+                            //     <>
+                            //         <div className="flex gap-x-1">
+                            //             <Button
+                            //                 type="default"
+                            //                 style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}
+                            //                 icon={<EditOutlined />}
+                            //                 onClick={() => handleEdit(item)}
+                            //             >
+                            //                 Sửa
+                            //             </Button>
+                            //         </div>
+                            //     </>
+                            // ),
                         })
                     );
                     setDataOrders(newData);
@@ -543,14 +527,9 @@ const AppOrders = () => {
     };
     return (
         <>
-            <div className="container mt-5 ">
-                <div className="flex justify-end mb-5">
-                    <Button onClick={handleShowModal} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginRight: '8px' }}>
-                        +
-                    </Button>
-                    <Button onClick={handleToggleIsDeletedFetchData} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}>
-                        {isDeletedFetchData ? 'Xem Đơn Hàng' : 'Xem Đơn Hàng Đã Xóa'}
-                    </Button>
+            <div className="container mt-5 pl-20">
+                <div className="flex justify-end mb-10">
+
                 </div>
                 <Table
                     columns={columns}
@@ -569,243 +548,8 @@ const AppOrders = () => {
                     bordered
                 />
             </div>
-            {/* Modal thêm Đơn Hàng */}
-            <>
-                <Modal
-                    className="custom-modal-create_and_edit_orders"
-                    open={openModal}
-                    onCancel={handleCancel}
-                    footer={null}
-                >
-                    <div className="p-5">
-                        <span className="text-lg font-medium">Thêm Đơn Hàng</span>
-                        <div className="mt-10">
-                            <label htmlFor="customer">Khách Hàng</label>
-                            <select
-                                id="customer"
-                                onChange={(event) => { setIsValueCustomerId(event.target.value) }}
-                                value={isValueCustomerId}
-                                className="bg-slate-200"
-                            >
-                                <option value="">-- Chọn Khách Hàng --</option>
-                                {customers.map((customer) => (
-                                    <option key={customer.id} value={customer.id}>
-                                        {customer.firstName}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="employee">Nhân Viên</label>
-                            <select
-                                id="employee"
-                                onChange={(event) => { setIsValueEmployeeId(event.target.value) }}
-                                value={isValueEmployeeId}
-                                className="bg-slate-200"
-                            >
-                                <option value="">-- Chọn Nhân Viên --</option>
-                                {employees.map((employee) => (
-                                    <option key={employee.id} value={employee.id}>
-                                        {employee.firstName}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="addressCustomer">Thông Tin Giao Hàng</label>
-                            <select
-                                id="addressCustomer"
-                                onChange={(event) => { setIsValueAddressCustomerId(event.target.value) }}
-                                value={isValueAddressCustomerId}
-                                className="bg-slate-200"
-                            >
-                                <option value="">-- Chọn Thông Tin Giao Hàng --</option>
-                                {addressCustomers.map((addressCustomer) => (
-                                    <option key={addressCustomer.id} value={addressCustomer.id}>
-                                        {addressCustomer.addressCustomerName}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Ngày Đặt Hàng</label>
-                            <Input
-                                type="date"
-                                onChange={(event) => {
-                                    setIsValueOrderDateTime(event.target.value);
-                                }}
-                                value={isValueOrderDateTime}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Tổng Tiền</label>
-                            <Input
-                                onChange={(event) => { setIsValueTotalPrice(event.target.value) }}
-                                value={isValueTotalPrice}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Tiền Ship</label>
-                            <Input
-                                onChange={(event) => { setIsValueShippingCost(event.target.value) }}
-                                value={isValueShippingCost}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Trạng Thái Giao Hàng</label>
-                            <Input
-                                onChange={(event) => { setIsValueOrderStatus(event.target.value) }}
-                                value={isValueOrderStatus}
-                                className="bg-slate-200"
-                            />
-                        </div>
-
-                        <div className="flex justify-end items-end">
-                            <Button onClick={handleCreateOrders} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginTop: 8 }} >
-                                Lưu
-                            </Button>
-                        </div>
-                    </div>
-                </Modal>
-            </>
             {/* Modal sửa Đơn Hàng */}
             <>
-                <Modal
-                    className="custom-modal-create_and_edit_orders"
-                    open={openModalEdit}
-                    onCancel={handleCancelEdit}
-                    footer={null}
-                >
-                    <div className="p-5">
-                        <span className="text-lg font-medium">Sửa Đơn Hàng</span>
-                        <div className="mt-10">
-                            <label htmlFor="customerId">Khách Hàng</label>
-                            <select
-                                id="customerId"
-                                onChange={(event) => {
-                                    const selectedCustomerId = Number(event.target.value);
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, customerId: selectedCustomerId }
-                                    );
-                                }}
-                                value={selectedItemEdit?.customerId ?? ''}
-                                className="bg-slate-200"
-                            >
-                                <option value="" disabled>-- Chọn Khách Hàng --</option>
-                                {customers.map((customer) => (
-                                    <option key={customer.id} value={customer.id}>
-                                        {customer.firstName}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="employeeId">Nhân Viên</label>
-                            <select
-                                id="employeeId"
-                                onChange={(event) => {
-                                    const selectedEmployeeId = Number(event.target.value);
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, employeeId: selectedEmployeeId }
-                                    );
-                                }}
-                                value={selectedItemEdit?.employeeId ?? ''}
-                                className="bg-slate-200"
-                            >
-                                <option value="" disabled>-- Chọn Nhân Viên --</option>
-                                {customers.map((customer) => (
-                                    <option key={customer.id} value={customer.id}>
-                                        {customer.firstName}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="addressCustomerId">Thông Tin Giao Hàng</label>
-                            <select
-                                id="addressCustomerId"
-                                onChange={(event) => {
-                                    const selectedAddressCustomerId = Number(event.target.value);
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, addressCustomerId: selectedAddressCustomerId }
-                                    );
-                                }}
-                                value={selectedItemEdit?.addressCustomerId ?? ''}
-                                className="bg-slate-200"
-                            >
-                                <option value="" disabled>-- Chọn Nhân Viên --</option>
-                                {customers.map((customer) => (
-                                    <option key={customer.id} value={customer.id}>
-                                        {customer.firstName}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Ngày Đặt Hàng</label>
-                            <Input
-                                type="date"
-                                onChange={(event) => {
-                                    const selectedOrderDateTime = new Date(event.target.value);
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, orderDateTime: selectedOrderDateTime }
-                                    );
-                                }}
-                                value={
-                                    selectedItemEdit?.orderDateTime instanceof Date
-                                        ? selectedItemEdit?.orderDateTime.toISOString().split('T')[0]
-                                        : ''
-                                }
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Tổng Tiền</label>
-                            <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, totalPrice: Number(event.target.value) }
-                                    );
-                                }}
-                                value={selectedItemEdit?.totalPrice}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Tiền Ship</label>
-                            <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, shippingCost: Number(event.target.value) }
-                                    );
-                                }}
-                                value={selectedItemEdit?.shippingCost}
-                                className="bg-slate-200"
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Trạng Thái Giao Hàng</label>
-                            <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, orderStatus: event.target.value }
-                                    );
-                                }}
-                                value={selectedItemEdit?.orderStatus}
-                                className="bg-slate-200"
-                            />
-                        </div>
-
-                        <div className="flex justify-end items-end">
-                            <Button onClick={handleSubmitEditOrders} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff', marginTop: 8 }}  >
-                                Lưu
-                            </Button>
-                        </div>
-                    </div>
-                </Modal>
                 {/* Modal sửa Chi tiết đơn hàng */}
                 <>
                     <Modal
@@ -837,4 +581,4 @@ const AppOrders = () => {
     );
 };
 
-export default AppOrders;
+export default Orders;

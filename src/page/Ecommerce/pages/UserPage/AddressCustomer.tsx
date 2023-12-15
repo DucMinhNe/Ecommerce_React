@@ -25,14 +25,14 @@ const BASE_URL = `${SystemConst.DOMAIN}/AddressCustomers`;
 const BASE_URL_Customers = `${SystemConst.DOMAIN}/Customers`;
 const AddressCustomers = () => {
     const columns: ColumnsType<DataType> = [
-        {
-            title: 'ID',
-            dataIndex: 'id',
-            sorter: (a, b) => a.id - b.id,
-            sortDirections: ['ascend', 'descend'],
-            align: 'center',
-            width: 100,
-        },
+        // {
+        //     title: 'ID',
+        //     dataIndex: 'id',
+        //     sorter: (a, b) => a.id - b.id,
+        //     sortDirections: ['ascend', 'descend'],
+        //     align: 'center',
+        //     width: 100,
+        // },
         // {
         //     title: 'Khách Hàng',
         //     dataIndex: 'customer',
@@ -73,10 +73,10 @@ const AddressCustomers = () => {
         //     dataIndex: 'customerId',
         // },
         {
-            title: 'Hành động',
+            title: '',
             dataIndex: 'action',
             align: 'center',
-            width: 200,
+            width: 90,
         },
     ];
     const [dataAddressCustomers, setDataAddressCustomers] = useState<DataType[]>([]);
@@ -130,7 +130,7 @@ const AddressCustomers = () => {
                                             icon={<EditOutlined />}
                                             onClick={() => handleEdit(item)}
                                         >
-                                            Sửa
+
                                         </Button>
                                         {isDeletedFetchData ? (
                                             <Button
@@ -138,7 +138,7 @@ const AddressCustomers = () => {
                                                 icon={<UndoOutlined />}
                                                 onClick={() => handleRestore(item)}
                                             >
-                                                Khôi Phục
+
                                             </Button>
                                         ) : (
                                             <Button
@@ -146,7 +146,7 @@ const AddressCustomers = () => {
                                                 icon={<DeleteOutlined />}
                                                 onClick={() => handleDelete(item)}
                                             >
-                                                Xóa
+
                                             </Button>
                                         )}
                                     </div>
@@ -366,13 +366,13 @@ const AddressCustomers = () => {
     };
     return (
         <>
-            <div className="container mt-5 ">
+            <div className="container ml-16 ">
                 <div className="flex justify-end mb-5">
                     <Button onClick={handleShowModal} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginRight: '8px' }}>
                         +
                     </Button>
                     <Button onClick={handleToggleIsDeletedFetchData} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}>
-                        {isDeletedFetchData ? 'Xem Địa Chỉ Khách Hàng' : 'Xem Địa Chỉ Khách Hàng Đã Xóa'}
+                        {isDeletedFetchData ? 'Xem Địa Chỉ ' : 'Xem Địa Chỉ Đã Xóa'}
                     </Button>
                 </div>
                 <Table
@@ -423,7 +423,7 @@ const AddressCustomers = () => {
                             <Input
                                 onChange={(event) => { setIsValueAddressCustomerName(event.target.value) }}
                                 value={isValueAddressCustomerName}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
                         </div>
                         <div className="mt-10">
@@ -431,7 +431,7 @@ const AddressCustomers = () => {
                             <Input
                                 onChange={(event) => { setIsValueCity(event.target.value) }}
                                 value={isValueCity}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
                         </div>
                         <div className="mt-10">
@@ -439,7 +439,7 @@ const AddressCustomers = () => {
                             <Input
                                 onChange={(event) => { setIsValueDistrict(event.target.value) }}
                                 value={isValueDistrict}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
                         </div>
                         <div className="mt-10">
@@ -447,7 +447,7 @@ const AddressCustomers = () => {
                             <Input
                                 onChange={(event) => { setIsValueSubDistrict(event.target.value) }}
                                 value={isValueSubDistrict}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
                         </div>
 
@@ -456,7 +456,7 @@ const AddressCustomers = () => {
                             <Input
                                 onChange={(event) => { setIsValuePhoneNumber(event.target.value) }}
                                 value={isValuePhoneNumber}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
                         </div>
                         <div className="mt-10">
@@ -464,7 +464,7 @@ const AddressCustomers = () => {
                             <Input
                                 onChange={(event) => { setIsValueAddress(event.target.value) }}
                                 value={isValueAddress}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
                         </div>
 
@@ -516,7 +516,7 @@ const AddressCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.addressCustomerName}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
                         </div>
                         <div className="mt-10">
@@ -528,7 +528,7 @@ const AddressCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.city || ''}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
                         </div>
                         <div className="mt-10">
@@ -540,7 +540,7 @@ const AddressCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.district || ''}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
                         </div>
                         <div className="mt-10">
@@ -552,7 +552,7 @@ const AddressCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.subDistrict}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
                         </div>
 
@@ -566,7 +566,7 @@ const AddressCustomers = () => {
                                 }}
                                 value={selectedItemEdit?.phoneNumber || ''}
                                 readOnly={false}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
                         </div>
                         <div className="mt-10">
@@ -578,7 +578,7 @@ const AddressCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.address}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
                         </div>
 

@@ -60,10 +60,13 @@ export const Product: React.FC = () => {
             <h2 className="text-3xl font-semibold">{details?.productName}</h2>
             <div className="flex items-center gap-4 mt-3">
               <div className="line-through font-base text-gray-500">
-                ${details?.oldPrice}
+
+                {details?.unitPrice && (
+                  <span>Giá Cũ {Math.ceil(details.unitPrice * 1.2)} Vnđ</span>
+                )}
               </div>
               <div className="text-2xl font-medium text-gray-900">
-                ${details?.unitPrice}
+                {details?.unitPrice} Vnđ
               </div>
             </div>
           </div>
@@ -79,7 +82,7 @@ export const Product: React.FC = () => {
           <p className="text-base text-gray-500 mt-3">{details?.description}</p>
           <div className="flex gap-4">
             <div className="w-52 flex items-center justify-between text-gray-500 gap-4 border p-3">
-              <p className="text-base text-black">Quantity</p>
+              <p className="text-base text-black">Số Lượng</p>
               <div className="flex items-center gap-4 text-sm font-semibold">
                 <button
                   onClick={() => setBaseQty(baseQty > 1 ? baseQty - 1 : 1)}
@@ -100,10 +103,10 @@ export const Product: React.FC = () => {
               onClick={handleAddToCart}
               className="bg-black text-white py-3 px-6 active:bg-gray-800"
             >
-              Add To Cart
+              Thêm Vào Giỏ Hàng
             </button>
           </div>
-          <p className="text-base text-gray-500">Category: <span className="font-medium capitalize">{details?.productCategoryName}</span></p>
+          <p className="text-base text-gray-500">Loại Sản Phẩm: <span className="font-medium capitalize">{details?.productCategoryName}</span></p>
         </div>
       </div>
       <ToastContainer

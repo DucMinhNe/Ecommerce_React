@@ -5,16 +5,27 @@ import './scss/styleDashboard.scss';
 import { MdAccountCircle } from 'react-icons/md';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
 import PaymentIcon from '@mui/icons-material/Payment';
+import { useEffect, useState } from 'react';
 const { Sider, Content, Header } = Layout;
 const Dashboard: React.FC = () => {
     const location = useLocation();
-    // const navigate = useNavigate();
-
+    const navigate = useNavigate();
+    const [isToken, setIsToken] = useState(Boolean(localStorage.getItem('token')));
+    useEffect(() => {
+        if (!isToken) {
+            handleRouteCheckLogin();
+        }
+    }, [isToken]);
+    const handleRouteCheckLogin = () => {
+        setTimeout(() => {
+            navigate('/admin/login', { replace: true });
+        }, 0);
+    };
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
-        window.history.replaceState(null, '', '/');
-        window.location.replace('/');
+        window.history.replaceState(null, '', '/admin/login');
+        window.location.replace('/admin/login');
         window.location.reload(); // Tải lại trang web
     };
     const items = [
@@ -54,10 +65,10 @@ const Dashboard: React.FC = () => {
                     <Sider width={225} theme="dark" className="bg-blue-400">
                         <Menu mode="vertical" selectedKeys={[location.pathname]} className="h-full w-18 bg">
                             <Menu.Item key="/admin/app-providers" className="menu-item" >
-                                <div> <CoPresentIcon/> <Link to="/admin/app-providers">Nhà Cung Cấp</Link> </div>
+                                <div> <CoPresentIcon /> <Link to="/admin/app-providers">Nhà Cung Cấp</Link> </div>
                             </Menu.Item>
                             <Menu.Item key="/admin/app-payment-methods" className="menu-item1">
-                                <div> <PaymentIcon/> <Link to="/admin/app-payment-methods">Phương Thức Thanh Toán</Link></div>
+                                <div> <PaymentIcon /> <Link to="/admin/app-payment-methods">Phương Thức Thanh Toán</Link></div>
                             </Menu.Item>
                             <Menu.Item key="/admin/app-job-titles" className="menu-item2">
                                 <Link to="/admin/app-job-titles">Chức Vụ</Link>
@@ -74,13 +85,13 @@ const Dashboard: React.FC = () => {
                             <Menu.Item key="/admin/app-products" className="menu-item6">
                                 <Link to="/admin/app-products">Sản Phẩm</Link>
                             </Menu.Item>
-                            <Menu.Item key="/admin/app-address-customers"className="menu-item7">
+                            <Menu.Item key="/admin/app-address-customers" className="menu-item7">
                                 <Link to="/admin/app-address-customers">Địa Chỉ Khách Hàng</Link>
                             </Menu.Item>
-                            <Menu.Item key="/admin/app-carts"className="menu-item8">
+                            <Menu.Item key="/admin/app-carts" className="menu-item8">
                                 <Link to="/admin/app-carts">Giỏ Hàng</Link>
                             </Menu.Item>
-                            <Menu.Item key="/admin/app-orders"className="menu-item9">
+                            <Menu.Item key="/admin/app-orders" className="menu-item9">
                                 <Link to="/admin/app-orders">Đơn Hàng</Link>
                             </Menu.Item>
                         </Menu>
