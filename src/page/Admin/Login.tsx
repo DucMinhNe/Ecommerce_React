@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import bgLogin from '../../img/login_background.jpg';
+import lolLogin from '../../img/load1.jpeg';
 import { useNavigate } from 'react-router-dom';
 import systemConst from '../../common/consts/system_const';
 import Swal from 'sweetalert2';
@@ -46,11 +47,21 @@ const Login: React.FC = () => {
                 localStorage.setItem('token', Token);
                 setIsToken(true);
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Đăng nhập thành công!',
+                    title: "Đăng nhập thành công",
+                    width: 600,
+                    padding: "7em",
+                    color: "#444428",
+                    
                     showConfirmButton: false,
-                    timer: 700,
-                });
+                    timer: 2700,
+                    background: "#fff url(https://i.pinimg.com/564x/dc/fa/ae/dcfaaeeb68f65df26e82bfc207aea17b.jpg)",
+                    backdrop: `
+                      rgba(0,0,123,0.4)
+                      url("/images/nyan-cat.gif")
+                      left top
+                      no-repeat
+                    `
+                  });
                 handleRouteAdmin();
             } else {
                 Swal.fire({

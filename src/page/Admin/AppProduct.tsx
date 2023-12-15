@@ -41,7 +41,7 @@ const AppProducts = () => {
             width: 100,
         },
         {
-            title: 'Tên Sản Phẩm',
+            title: 'Sản Phẩm',
             dataIndex: 'productName',
             align: 'center',
         },

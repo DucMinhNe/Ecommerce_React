@@ -25,7 +25,7 @@ const AppJobTitles = () => {
             width: 100,
         },
         {
-            title: 'Tên Chức Vụ',
+            title: 'Chức Vụ',
             dataIndex: 'jobTitleName',
             sorter: (a, b) => a.jobTitleName.localeCompare(b.jobTitleName),
             sortDirections: ['ascend', 'descend'],

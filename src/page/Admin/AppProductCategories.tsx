@@ -25,7 +25,7 @@ const AppProductCategories = () => {
             width: 100,
         },
         {
-            title: 'Tên Loại Sản Phẩm',
+            title: 'Loại Sản Phẩm',
             dataIndex: 'productCategoryName',
             sorter: (a, b) => a.productCategoryName.localeCompare(b.productCategoryName),
             sortDirections: ['ascend', 'descend'],
