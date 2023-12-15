@@ -3,6 +3,8 @@ import { Dropdown, Layout, Menu } from 'antd';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import './scss/styleDashboard.scss';
 import { MdAccountCircle } from 'react-icons/md';
+import CoPresentIcon from '@mui/icons-material/CoPresent';
+import PaymentIcon from '@mui/icons-material/Payment';
 const { Sider, Content, Header } = Layout;
 const Dashboard: React.FC = () => {
     const location = useLocation();
@@ -23,8 +25,8 @@ const Dashboard: React.FC = () => {
     ];
     return (
         <>
-            <Layout className="min-h-screen">
-                <Header className="bg-blue-400 py-2">
+            <Layout className="bg-green min-h-screen">
+                <Header className="bg-green-800 py-2">
 
                     <div className="flex justify-between items-center">
                         <div className="min-w-full">
@@ -49,36 +51,36 @@ const Dashboard: React.FC = () => {
                     </div>
                 </Header>
                 <Layout>
-                    <Sider width={200} theme="dark" className="bg-blue-400">
-                        <Menu mode="vertical" selectedKeys={[location.pathname]} className="h-full w-15 bg-blue-400">
-                            <Menu.Item key="/admin/app-providers">
-                                <Link to="/admin/app-providers">Nhà Cung Cấp</Link>
+                    <Sider width={225} theme="dark" className="bg-blue-400">
+                        <Menu mode="vertical" selectedKeys={[location.pathname]} className="h-full w-18 bg">
+                            <Menu.Item key="/admin/app-providers" className="menu-item" >
+                                <div> <CoPresentIcon/> <Link to="/admin/app-providers">Nhà Cung Cấp</Link> </div>
                             </Menu.Item>
-                            <Menu.Item key="/admin/app-payment-methods">
-                                <Link to="/admin/app-payment-methods">Phương Thức Thanh Toán</Link>
+                            <Menu.Item key="/admin/app-payment-methods" className="menu-item1">
+                                <div> <PaymentIcon/> <Link to="/admin/app-payment-methods">Phương Thức Thanh Toán</Link></div>
                             </Menu.Item>
-                            <Menu.Item key="/admin/app-job-titles">
+                            <Menu.Item key="/admin/app-job-titles" className="menu-item2">
                                 <Link to="/admin/app-job-titles">Chức Vụ</Link>
                             </Menu.Item>
-                            <Menu.Item key="/admin/app-product-categories">
+                            <Menu.Item key="/admin/app-product-categories" className="menu-item3">
                                 <Link to="/admin/app-product-categories">Loại Sản Phẩm</Link>
                             </Menu.Item>
-                            <Menu.Item key="/admin/app-customers">
+                            <Menu.Item key="/admin/app-customers" className="menu-item4">
                                 <Link to="/admin/app-customers">Khách Hàng</Link>
                             </Menu.Item>
-                            <Menu.Item key="/admin/app-employees">
+                            <Menu.Item key="/admin/app-employees" className="menu-item5">
                                 <Link to="/admin/app-employees">Nhân Viên</Link>
                             </Menu.Item>
-                            <Menu.Item key="/admin/app-products">
+                            <Menu.Item key="/admin/app-products" className="menu-item6">
                                 <Link to="/admin/app-products">Sản Phẩm</Link>
                             </Menu.Item>
-                            <Menu.Item key="/admin/app-address-customers">
+                            <Menu.Item key="/admin/app-address-customers"className="menu-item7">
                                 <Link to="/admin/app-address-customers">Địa Chỉ Khách Hàng</Link>
                             </Menu.Item>
-                            <Menu.Item key="/admin/app-carts">
+                            <Menu.Item key="/admin/app-carts"className="menu-item8">
                                 <Link to="/admin/app-carts">Giỏ Hàng</Link>
                             </Menu.Item>
-                            <Menu.Item key="/admin/app-orders">
+                            <Menu.Item key="/admin/app-orders"className="menu-item9">
                                 <Link to="/admin/app-orders">Đơn Hàng</Link>
                             </Menu.Item>
                         </Menu>

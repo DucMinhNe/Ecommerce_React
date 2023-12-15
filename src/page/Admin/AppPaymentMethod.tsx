@@ -25,7 +25,7 @@ const AppPaymentMethods = () => {
             width: 100,
         },
         {
-            title: 'Tên Phương Thức Thanh Toán',
+            title: 'Phương Thức Thanh Toán',
             dataIndex: 'paymentMethodName',
             sorter: (a, b) => a.paymentMethodName.localeCompare(b.paymentMethodName),
             sortDirections: ['ascend', 'descend'],
@@ -86,11 +86,11 @@ const AppPaymentMethods = () => {
                                 <div className="flex gap-x-1">
                                     <Button
                                         type="default"
-                                        style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}
+                                        style={{ backgroundColor: '#459664', borderColor: '#1890ff', color: '#fff' }}
                                         icon={<EditOutlined />}
                                         onClick={() => handleEdit(item)}
                                     >
-                                        Sửa
+                                      
                                     </Button>
                                     {isDeletedFetchData ? (
                                         <Button

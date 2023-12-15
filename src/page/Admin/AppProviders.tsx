@@ -83,14 +83,14 @@ const AppProviders = () => {
                         isDeleted: item.isDeleted,
                         action: (
                             <>
-                                <div className="flex gap-x-1">
+                                <div className="flex justify-center items-center gap-x-1">
                                     <Button
                                         type="default"
-                                        style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}
+                                        style={{ backgroundColor: '#459664', borderColor: '#1890ff', color: '#fff' }}
                                         icon={<EditOutlined />}
                                         onClick={() => handleEdit(item)}
                                     >
-                                        Sửa
+                                      
                                     </Button>
                                     {isDeletedFetchData ? (
                                         <Button
@@ -102,11 +102,11 @@ const AppProviders = () => {
                                         </Button>
                                     ) : (
                                         <Button
-                                            style={{ backgroundColor: '#ff0000', borderColor: '#ff0000', color: '#fff' }}
+                                            style={{ backgroundColor: '#c00118', borderColor: '#ff0000', color: '#fff' }}
                                             icon={<DeleteOutlined />}
                                             onClick={() => handleDelete(item)}
                                         >
-                                            Xóa
+                                        
                                         </Button>
                                     )}
                                 </div>
@@ -296,10 +296,19 @@ const AppProviders = () => {
         <>
             <div className="container mt-5 ">
                 <div className="flex justify-end mb-5">
-                    <Button onClick={handleShowModal} style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff', marginRight: '8px' }}>
-                        +
+                    <Button onClick={handleShowModal} 
+                    style={{ backgroundColor: '#6f9643', 
+                    
+                    color: '#fff', 
+                    marginRight: '8px' }}>
+                        Thêm
                     </Button>
-                    <Button onClick={handleToggleIsDeletedFetchData} style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}>
+
+                    <Button onClick={handleToggleIsDeletedFetchData} 
+                    style={{ 
+                    borderColor: '#c00118', 
+                    transition: 'background-color 0.3s, color 0.3s' }}
+                    className="custom-button">
                         {isDeletedFetchData ? 'Xem Nhà Cung Cấp' : 'Xem Nhà Cung Cấp Đã Xóa'}
                     </Button>
                 </div>
