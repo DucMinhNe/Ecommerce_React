@@ -1,5 +1,4 @@
 import { Button, Modal, Input, Select } from 'antd';
-import { EditOutlined, DeleteOutlined, UndoOutlined } from '@ant-design/icons';
 import Table, { ColumnsType } from 'antd/es/table';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios';

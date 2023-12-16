@@ -83,7 +83,7 @@ export default function AccountMenu() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }} src={`${SystemConst.DOMAIN_HOST}/${CustomersData?.customerImage}`} alt="Avatar Image" />
+                        <Avatar sx={{ width: 32, height: 32 }} src={`${SystemConst.DOMAIN_HOST}/${CustomersData?.customerImage}`} alt={`${CustomersData?.lastName}`} />
                     </IconButton>
                 </Tooltip>
             </Box>

@@ -1,5 +1,5 @@
 import { Button, Input, Select } from 'antd';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 import SystemConst from '../../../../common/consts/system_const';
 import Swal from 'sweetalert2';
@@ -95,15 +95,6 @@ const UserInfomation = () => {
     };
     const handleSubmitEdit = () => {
         handleUpdateCustomers();
-    };
-    const handleEdit = (item: DataType) => {
-        const formattedItem = {
-            ...item,
-            birthDate: item.birthDate ? new Date(item.birthDate) : new Date(),
-        };
-        setSelectedItemEdit(formattedItem);
-
-        console.log('Selected item for editing:', item);
     };
     const handleClickEditSuccess = () => {
         Swal.fire({

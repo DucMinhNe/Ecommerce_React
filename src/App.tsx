@@ -1,6 +1,6 @@
 
 import Login from './page/Admin/Login';
-import { BrowserRouter as Router, Routes, Route, Outlet, ScrollRestoration, createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet, RouterProvider, Navigate } from 'react-router-dom';
 
 import Dashboard from './page/Admin/Dashboard';
 import AppProviders from './page/Admin/AppProviders';
@@ -24,6 +24,7 @@ import UserPage from './page/Ecommerce/pages/UserPage/UserPage';
 import UserInfomation from './page/Ecommerce/pages/UserPage/UserInfomation';
 import AddressCustomers from './page/Ecommerce/pages/UserPage/AddressCustomer';
 import Orders from './page/Ecommerce/pages/UserPage/Order';
+import AppDashboard from './page/Admin/AppDashboard';
 
 const Layout = () => {
     return (
@@ -43,7 +44,8 @@ function App() {
                     path="/admin"
                     element={
                         <div>
-                            <Dashboard />
+                            {/* <Dashboard /> */}
+                            <AppDashboard />
                         </div>
                     }
                 >

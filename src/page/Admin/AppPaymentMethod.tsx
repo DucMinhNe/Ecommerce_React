@@ -90,7 +90,7 @@ const AppPaymentMethods = () => {
                                         icon={<EditOutlined />}
                                         onClick={() => handleEdit(item)}
                                     >
-                                      
+
                                     </Button>
                                     {isDeletedFetchData ? (
                                         <Button
@@ -299,11 +299,12 @@ const AppPaymentMethods = () => {
                     <Button onClick={handleShowModal} style={{ backgroundColor: '#6f9643', borderColor: '#6f9643', color: '#fff', marginRight: '8px' }}>
                         Thêm
                     </Button>
-                    <Button onClick={handleToggleIsDeletedFetchData} 
-                   style={{ 
-                    borderColor: '#c00118', 
-                    transition: 'background-color 0.3s, color 0.3s' }}
-                    className='custom-buttonmethod'>
+                    <Button onClick={handleToggleIsDeletedFetchData}
+                        style={{
+                            borderColor: '#c00118',
+                            transition: 'background-color 0.3s, color 0.3s'
+                        }}
+                        className='custom-buttonmethod'>
                         {isDeletedFetchData ? 'Xem Phương Thức Thanh Toán' : 'Xem Phương Thức Thanh Toán Đã Xóa'}
                     </Button>
                 </div>
@@ -340,7 +341,7 @@ const AppPaymentMethods = () => {
                                 onChange={(event) => { setIsValuePaymentMethodName(event.target.value) }}
                                 value={isValuePaymentMethodName}
                                 className="bg-slate-200"
-                                style={{borderColor: 'black'}}
+                                style={{ borderColor: 'black' }}
                             />
                         </div>
 
@@ -371,7 +372,7 @@ const AppPaymentMethods = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.paymentMethodName}
-                                style={{ backgroundColor: '#f0f5ff',  borderColor: 'black' }}  // Màu nền tùy chọn
+                                style={{ backgroundColor: '#f0f5ff', borderColor: 'black' }}  // Màu nền tùy chọn
                             />
                         </div>
                         <div className="flex justify-end items-end">

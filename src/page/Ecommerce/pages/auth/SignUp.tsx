@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import systemConst from '../../../../common/consts/system_const';
 import Swal from "sweetalert2";
@@ -185,15 +185,9 @@ const SignUp: React.FC = () => {
                     </div>
                 </form>
                 <p className="mt-8 text-xs font-light text-center text-gray-700">
-                    {" "}
-                    Đã có tài khoản?{" "}
+                    Đã có tài khoản?
                     <Link to={'/ecommerce/signin'}>
-                        <a
-                            href="#"
-                            className="font-medium text-orange-600 hover:underline"
-                        >
-                            Đăng Nhập
-                        </a>
+                        Đăng Nhập
                     </Link>
                 </p>
             </div>

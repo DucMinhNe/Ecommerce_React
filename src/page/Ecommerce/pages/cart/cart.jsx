@@ -14,11 +14,14 @@ export const Cart = () => {
   const BASE_URL = `${SystemConst.DOMAIN}/Orders`;
   const BASE_URL_OrderDetails = `${SystemConst.DOMAIN}/OrderDetails`;
   const BASE_URL_AddressCustomers = `${SystemConst.DOMAIN}/AddressCustomers`;
+  const BASE_URL_PaymentMethods = `${SystemConst.DOMAIN}/PaymentMethods`;
   const productData = useSelector((state) => state.bazar.productData)
   const [addressCustomerId, setAddressCustomerId] = useState("")
   const [totalPrice, setTotalPrice] = useState("")
-  const [orderDateTime, setOrderOrderDateTime] = useState("30/12/2023")
+  // const [orderDateTime, setOrderOrderDateTime] = useState("30/12/2023")
   const [shippingCost, setShippingCost] = useState(30)
+  const [paymentMethodsData, setPaymentMethodsData] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState(null);
   const [orderStatus, setOrderStatus] = useState("Chờ Xử Lý")
   const handleSelectAddress = (id) => {
     setAddressCustomerId(id);
@@ -34,7 +37,23 @@ export const Cart = () => {
   const [dataAddressCustomers, setDataAddressCustomers] = useState([]);
   useEffect(() => {
     handleFetchData();
-  }, [])
+    console.log(paymentMethod)
+  })
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL_PaymentMethods}?isDeleted=false`)
+      .then(response => {
+        const data = response.data;
+        setPaymentMethodsData(data);
+        if (data.length > 0 && !paymentMethod) {
+          setPaymentMethod(data[0].id);
+        }
+      })
+      .catch(error => {
+        // Xử lý lỗi nếu có
+        console.error('Error fetching payment methods:', error);
+      });
+  }, []);
   const handleFetchData = () => {
     var cusId = localStorage.getItem('customerId');
     axios
@@ -87,6 +106,7 @@ export const Cart = () => {
     formData.append("orderDateTime", formattedDateTime);
     formData.append("totalPrice", totalPrice);
     formData.append("shippingCost", shippingCost);
+    formData.append("paymentMethodId", paymentMethod);
     formData.append("orderStatus", orderStatus);
     formData.append("isDeleted", 'false');
     // console.log(formData);
@@ -174,15 +194,14 @@ export const Cart = () => {
             </p>
             <p className='flex items-start gap-4 text-base'>
               <div className='mt-1'> Phương Thức Thanh Toán</div>
-              <div > <Select
-                defaultValue="COD"
-                style={{ width: 120 }}
-                /*onChange={handleChange}*/
-                options={[
-                  { value: 'COD', label: 'COD' },
-                  { value: 'Momo', label: 'Momo' },
-                ]}
-              /></div>
+              <div>
+                <Select
+                  value={paymentMethod}
+                  // style={{ width: 100 }}
+                  onChange={(selectedOption) => setPaymentMethod(selectedOption)}
+                  options={paymentMethodsData.map(method => ({ value: method.id, label: method.paymentMethodName }))}
+                />
+              </div>
             </p>
           </div>
           <p className='font-titleFont font-semibold flex justify-between mt-6'>

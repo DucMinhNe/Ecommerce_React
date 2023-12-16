@@ -1,10 +1,5 @@
 // Style SCSS Content ModalFaculty
-:where(.css-dev-only-do-not-override-15rg2km).ant-layout-content {
-    background-color: #e8e8e8;
-    flex: auto;
-    padding: 1.25rem;
-    min-height: 0;
-}
+
 @media (min-width: 768px) and (max-width: 899px) {
     .custom-modal .ant-modal-content {
         width: 600px;
@@ -15,6 +10,7 @@
         overflow-y: hidden !important;
     }
 }
+
 @media (min-width: 900px) and (max-width: 1024px) {
     .custom-modal .ant-modal-content {
         width: 650px;
@@ -25,6 +21,7 @@
         overflow-y: hidden !important;
     }
 }
+
 @media (min-width: 1025px) and (max-width: 1279px) {
     .custom-modal .ant-modal-content {
         width: 700px;
@@ -35,6 +32,7 @@
         overflow-y: hidden !important;
     }
 }
+
 @media (min-width: 1280px) and (max-width: 1439px) {
     .custom-modal .ant-modal-content {
         width: 700px;
@@ -45,6 +43,7 @@
         overflow-y: hidden !important;
     }
 }
+
 @media (min-width: 1440px) and (max-width: 1680px) {
     .custom-modal .ant-modal-content {
         width: 800px;
@@ -55,6 +54,7 @@
         overflow-y: hidden !important;
     }
 }
+
 @media (min-width: 1681px) and (max-width: 1919px) {
     .custom-modal .ant-modal-content {
         width: 1000px;
@@ -65,6 +65,7 @@
         overflow-y: hidden !important;
     }
 }
+
 @media (min-width: 1920px) {
     .custom-modal .ant-modal-content {
         width: 1000px;
@@ -75,9 +76,11 @@
         overflow-y: hidden !important;
     }
 }
+
 .ant-modal-body {
     overflow-y: hidden !important;
 }
+
 @media (max-width: 480px) {
     .custom-modal-create-class .ant-modal-content {
         width: 90%;
@@ -86,6 +89,7 @@
         transform: translate(-50%, -50%);
     }
 }
+
 @media (min-width: 900px) and (max-width: 1024px) {
     .custom-modal-create-class .ant-modal-content {
         width: 800px;
@@ -95,6 +99,7 @@
         transform: translate(-20%, -50%);
     }
 }
+
 @media (min-width: 1025px) and (max-width: 1279px) {
     .custom-modal-create-class .ant-modal-content {
         width: 850px;
@@ -104,6 +109,7 @@
         transform: translate(-15%, -50%);
     }
 }
+
 @media (min-width: 1681px) and (max-width: 1919px) {
     .custom-modal-create-class .ant-modal-content {
         width: 1200px;
@@ -113,6 +119,7 @@
         transform: translate(5%, -50%);
     }
 }
+
 @media (min-width: 1920px) {
     .custom-modal-create-class .ant-modal-content {
         width: 1400px;
@@ -122,6 +129,7 @@
         left: 50%;
     }
 }
+
 @media (min-width: 1280px) and (max-width: 1439px) {
     .custom-modal-create-class .ant-modal-content {
         width: 850px;
@@ -131,6 +139,7 @@
         transform: translate(0%, -50%);
     }
 }
+
 @media (min-width: 1440px) and (max-width: 1680px) {
     .custom-modal-create-class .ant-modal-content {
         width: 900px;
@@ -153,6 +162,7 @@
         background: #e0e0e0;
     }
 }
+
 @media (min-width: 1280px) and (max-width: 1439px) {
     .custom-modal-create-class-add-teacher-student .ant-modal-content {
         width: 800px;
@@ -163,6 +173,7 @@
         background: #e0e0e0;
     }
 }
+
 @media (min-width: 1440px) and (max-width: 1680px) {
     .custom-modal-create-class-add-teacher-student .ant-modal-content {
         width: 1000px;
@@ -184,6 +195,7 @@
         background: #e0e0e0;
     }
 }
+
 @media (min-width: 1681px) and (max-width: 1919px) {
     .custom-modal-create-class-add-teacher-student .ant-modal-content {
         width: 1200px;
@@ -194,686 +206,218 @@
         background: #e0e0e0;
     }
 }
-//Style SCSS Custom Modal Edit Delte
-//Đây là phần SCSS đã được chỉnh sửa theo Modal của Sửa
 
-//Style SCSS Modal AppClass
-//Create
-@media (min-width: 768px) and (max-width: 899px) {
-    .custom-modal-create_class .ant-modal-content {
-        width: 600px;
-        height: 400px;
-        top: 50%;
-        left: 20%;
-        transform: translate(0%, -50%);
-        overflow: hidden;
-        border-radius: 5px;
-    }
-    .custom {
-        margin-top: 12rem;
-    }
-}
-@media (min-width: 900px) and (max-width: 1024px) {
-    .custom-modal-create_class .ant-modal-content {
-        width: 700px;
-        height: 400px;
-        top: 50%;
-        left: 30%;
-        transform: translate(0%, -50%);
-        overflow: hidden;
-        border-radius: 5px;
-    }
-    .custom {
-        margin-top: 12rem;
-    }
-}
-@media (min-width: 1025px) and (max-width: 1279px) {
-    .custom-modal-create_class .ant-modal-content {
-        width: 800px;
-        height: 400px;
-        top: 50%;
-        left: 40%;
-        transform: translate(0%, -50%);
-        overflow: hidden;
-        border-radius: 5px;
-    }
-    .custom {
-        margin-top: 12rem;
-    }
-}
-@media (min-width: 1280px) and (max-width: 1439px) {
-    .custom-modal-create_class .ant-modal-content {
-        width: 800px;
-        height: 400px;
-        top: 50%;
-        left: 50%;
-        transform: translate(5%, -50%);
-        overflow: hidden;
-        border-radius: 5px;
-    }
-    .custom {
-        margin-top: 12rem;
-    }
-}
-@media (min-width: 1440px) and (max-width: 1680px) {
-    .custom-modal-create_class .ant-modal-content {
-        width: 800px;
-        height: 400px;
-        top: 50%;
-        left: 50%;
-        transform: translate(10%, -50%);
-        overflow: hidden;
-        border-radius: 5px;
-    }
-    .custom {
-        margin-top: 12rem;
-    }
-}
-@media (min-width: 1681px) and (max-width: 1919px) {
-    .custom-modal-create_class .ant-modal-content {
-        width: 1000px;
-        height: 500px;
-        top: 50%;
-        left: 50%;
-        transform: translate(20%, -50%);
-        overflow: hidden;
-        border-radius: 5px;
-    }
-    .custom {
-        margin-top: 18rem;
-    }
-}
-@media (min-width: 1920px) {
-    .custom-modal-create_class .ant-modal-content {
-        width: 1000px;
-        height: 500px;
-        top: 50%;
-        left: 50%;
-        transform: translate(20%, -50%);
-        overflow: hidden;
-        border-radius: 5px;
-    }
-    .custom {
-        margin-top: 16rem;
-    }
-}
-//Edit
-@media (min-width: 900px) and (max-width: 1024px) {
-    .custom-edit .ant-modal-content {
-        width: 700px;
-        height: 300px;
-        top: 50%;
-        left: 40%;
-        transform: translate(-5%, -50%);
-        overflow: hidden;
-    }
-    .ctmEdit {
-        margin-top: 6rem;
-    }
-}
-@media (min-width: 1025px) and (max-width: 1279px) {
-    .custom-edit .ant-modal-content {
-        width: 700px;
-        height: 300px;
-        top: 50%;
-        left: 40%;
-        transform: translate(-5%, -50%);
-        overflow: hidden;
-    }
-    .ctmEdit {
-        margin-top: 6rem;
-    }
-}
-@media (min-width: 1440px) and (max-width: 1680px) {
-    .custom-edit .ant-modal-content {
-        width: 800px;
-        height: 300px;
-        top: 50%;
-        left: 50%;
-        transform: translate(10%, -50%);
-        overflow: hidden;
-    }
-    .ctmEdit {
-        margin-top: 6rem;
-    }
-}
-@media (min-width: 1681px) and (max-width: 1919px) {
-    .custom-edit .ant-modal-content {
-        width: 800px;
-        height: 300px;
-        top: 50%;
-        left: 50%;
-        transform: translate(35%, -50%);
-        overflow: hidden;
-    }
-    .ctmEdit {
-        margin-top: 6rem;
-    }
-}
-@media (min-width: 1280px) and (max-width: 1439px) {
-    .custom-edit .ant-modal-content {
-        width: 800px;
-        height: 300px;
-        top: 50%;
-        left: 50%;
-        transform: translate(0%, -50%);
-    }
-    .ctmEdit {
-        margin-top: 6rem;
-    }
-}
-@media (min-width: 1920px) {
-    .custom-edit .ant-modal-content {
-        width: 800px;
-        height: 300px;
-        top: 40%;
-        left: 50%;
-        transform: translate(40%, -50%);
-        overflow: hidden;
-    }
-    .ctmEdit {
-        margin-top: 5rem;
-    }
-}
-//Delete
-@media (min-width: 1025px) and (max-width: 1279px) {
-    .custom-delete .ant-modal-content {
-        padding: 15px;
-        width: 400px;
-        height: 200px;
-        top: 50%;
-        left: 50%;
-        transform: translate(50%, -50%);
-        overflow: hidden;
-        border-radius: 5px;
-    }
-    .ctmDelete {
-        margin-top: 2rem;
-    }
-}
-@media (min-width: 1280px) and (max-width: 1439px) {
-    .custom-delete .ant-modal-content {
-        padding: 15px;
-        width: 400px;
-        height: 200px;
-        top: 50%;
-        left: 50%;
-        transform: translate(50%, -50%);
-        overflow: hidden;
-        border-radius: 5px;
-    }
-    .ctmDelete {
-        margin-top: 2rem;
-    }
-}
-@media (min-width: 1440px) and (max-width: 1680px) {
-    .custom-delete .ant-modal-content {
-        padding: 15px;
-        width: 400px;
-        height: 200px;
-        top: 40%;
-        left: 75%;
-        transform: translate(50%, -50%);
-        overflow: hidden;
-        border-radius: 5px;
-    }
-    .ctmDelete {
-        margin-top: 2rem;
-    }
-}
-@media (min-width: 1681px) and (max-width: 1919px) {
-    .custom-delete .ant-modal-content {
-        padding: 15px;
-        width: 400px;
-        height: 200px;
-        top: 45%;
-        left: 75%;
-        transform: translate(100%, -50%);
-        overflow: hidden;
-        border-radius: 5px;
-    }
-    .ctmDelete {
-        margin-top: 2rem;
-    }
-}
-@media (min-width: 1920px) {
-    .custom-delete .ant-modal-content {
-        padding: 15px;
-        width: 450px;
-        height: 200px;
-        top: 40%;
-        left: 75%;
-        transform: translate(80%, -50%);
-        overflow: hidden;
-        border-radius: 5px;
-    }
-}
-// Style SCSS Modal AppFaculy
-//Create + Edit
-@media (min-width: 1280px) and (max-width: 1439px) {
-    .custom-modal-create_and_edit_faculty .ant-modal-content {
-        width: 500px;
-        height: 250px;
-        top: 50%;
-        left: 50%;
-        transform: translate(45%, -50%);
-        overflow: hidden;
-    }
-    .cstCreateFaculty {
-        margin-top: 3.5rem;
-    }
-}
-@media (min-width: 1440px) and (max-width: 1680px) {
-    .custom-modal-create_and_edit_faculty .ant-modal-content {
-        width: 550px;
-        height: 300px;
-        top: 50%;
-        left: 50%;
-        transform: translate(60%, -50%);
-        overflow: hidden;
-    }
-    .cstCreateFaculty {
-        margin-top: 6.5rem;
-    }
-}
-@media (min-width: 1681px) and (max-width: 1919px) {
-    .custom-modal-create_and_edit_faculty .ant-modal-content {
-        width: 600px;
-        height: 300px;
-        top: 50%;
-        left: 50%;
-        transform: translate(60%, -50%);
-        overflow: hidden;
-        .cstCreateFaculty {
-            margin-top: 6.5rem;
-        }
-    }
-    .cstCreateFaculty {
-        margin-top: 6.5rem;
-    }
-}
-@media (min-width: 1920px) {
-    .custom-modal-create_and_edit_faculty .ant-modal-content {
-        width: 600px;
-        height: 300px;
-        top: 45%;
-        left: 50%;
-        transform: translate(75%, -50%);
-        overflow: hidden;
-    }
-    .cstCreateFaculty {
-        margin-top: 5.5rem;
-    }
-}
-//Delte
 
-//Style SCSS Modal AppTeacher
-//Create + Edit
-@media (min-width: 1025px) and (max-width: 1279px) {
-    .custom-modal-teacher_create-edit .ant-modal-content {
-        width: 700px;
-        height: 450px;
-        top: 50%;
-        left: 50%;
-        transform: translate(0%, -50%);
-        overflow: hidden;
-    }
-    .ctmTeacher {
-        margin-top: 5rem;
-    }
-}
-@media (min-width: 1280px) and (max-width: 1439px) {
-    .custom-modal-teacher_create-edit .ant-modal-content {
-        width: 750px;
-        height: 450px;
-        top: 50%;
-        left: 50%;
-        transform: translate(20%, -50%);
-        overflow: hidden;
-    }
-    .ctmTeacher {
-        margin-top: 8rem;
-    }
-}
-@media (min-width: 1440px) and (max-width: 1680px) {
-    .custom-modal-teacher_create-edit .ant-modal-content {
-        width: 800px;
-        height: 500px;
-        top: 50%;
-        left: 50%;
-        transform: translate(10%, -50%);
-        overflow: hidden;
-    }
-    .ctmTeacher {
-        margin-top: 6.5rem;
-    }
-}
-@media (min-width: 1681px) and (max-width: 1919px) {
-    .custom-modal-teacher_create-edit .ant-modal-content {
-        width: 800px;
-        height: 450px;
-        top: 50%;
-        left: 50%;
-        transform: translate(40%, -50%);
-        overflow: hidden;
-    }
-    .ctmTeacher {
-        margin-top: 8.5rem;
-    }
-}
-@media (min-width: 1920px) {
-    .custom-modal-teacher_create-edit .ant-modal-content {
-        width: 850px;
-        height: 550px;
-        top: 45%;
-        left: 50%;
-        transform: translate(30%, -50%);
-        overflow: hidden;
-    }
-    .ctmTeacher {
-        margin-top: 12rem;
-    }
-}
-//SCSS Genre
-@media (min-width: 1025px) and (max-width: 1279px) {
-    .custom-modal-genre .ant-modal-content {
-        width: 700px;
-        height: 400px;
-        top: 50%;
-        left: 50%;
-        transform: translate(0%, -50%);
-        overflow: hidden;
-    }
-    .ctmGenre {
-        margin-top: 5rem;
-    }
-}
-@media (min-width: 1280px) and (max-width: 1439px) {
-    .custom-modal-genre .ant-modal-content {
-        width: 750px;
-        height: 400px;
-        top: 50%;
-        left: 50%;
-        transform: translate(20%, -50%);
-        overflow: hidden;
-    }
-    .ctmGenre {
-        margin-top: 5rem;
-    }
-}
-@media (min-width: 1440px) and (max-width: 1680px) {
-    .custom-modal-genre .ant-modal-content {
-        width: 800px;
-        height: 400px;
-        top: 50%;
-        left: 50%;
-        transform: translate(12%, -50%);
-        overflow: hidden;
-    }
-    .ctmGenre {
-        margin-top: 5rem;
-    }
-}
-@media (min-width: 1681px) and (max-width: 1919px) {
-    .custom-modal-genre .ant-modal-content {
-        width: 800px;
-        height: 400px;
-        top: 50%;
-        left: 50%;
-        transform: translate(40%, -50%);
-        overflow: hidden;
-    }
-    .ctmGenre {
-        margin-top: 5rem;
-    }
-}
-@media (min-width: 1920px) {
-    .custom-modal-genre .ant-modal-content {
-        width: 850px;
-        height: 400px;
-        top: 45%;
-        left: 50%;
-        transform: translate(30%, -50%);
-        overflow: hidden;
-    }
-    .ctmGenre {
-        margin-top: 5rem;
-    }
-}
-// SCSS Subject
-@media (min-width: 1025px) and (max-width: 1279px) {
-    .custom-modal-subject .ant-modal-content {
-        width: 700px;
-        height: 400px;
-        top: 50%;
-        left: 50%;
-        transform: translate(0%, -50%);
-        overflow: hidden;
-    }
-    .ctmSubject {
-        margin-top: 5rem;
-    }
-}
-@media (min-width: 1280px) and (max-width: 1439px) {
-    .custom-modal-subject .ant-modal-content {
-        width: 750px;
-        height: 400px;
-        top: 50%;
-        left: 50%;
-        transform: translate(20%, -50%);
-        overflow: hidden;
-    }
-    .ctmSubject {
-        margin-top: 5rem;
-    }
-}
-@media (min-width: 1440px) and (max-width: 1680px) {
-    .custom-modal-subject .ant-modal-content {
-        width: 800px;
-        height: 400px;
-        top: 50%;
-        left: 50%;
-        transform: translate(12%, -50%);
-        overflow: hidden;
-    }
-    .ctmSubject {
-        margin-top: 5rem;
-    }
-}
-@media (min-width: 1681px) and (max-width: 1919px) {
-    .custom-modal-subject .ant-modal-content {
-        width: 800px;
-        height: 400px;
-        top: 50%;
-        left: 50%;
-        transform: translate(40%, -50%);
-        overflow: hidden;
-    }
-    .ctmSubject {
-        margin-top: 5rem;
-    }
-}
-@media (min-width: 1920px) {
-    .custom-modal-subject .ant-modal-content {
-        width: 850px;
-        height: 400px;
-        top: 45%;
-        left: 50%;
-        transform: translate(30%, -50%);
-        overflow: hidden;
-    }
-    .ctmSubject {
-        margin-top: 5rem;
-    }
-}
+
+
 .menu-item:hover {
     background-color: #459664;
     color: #e0e0e0;
 
-  }
-  .menu-item1:hover {
+}
+
+.menu-item1:hover {
     background-color: #459664;
     color: #e0e0e0;
 
-  }.menu-item2:hover {
+}
+
+.menu-item2:hover {
     background-color: #459664;
     color: #e0e0e0;
 
-  }.menu-item3:hover {
+}
+
+.menu-item3:hover {
     background-color: #459664;
     color: #e0e0e0;
 
-  }.menu-item4:hover {
+}
+
+.menu-item4:hover {
     background-color: #459664;
     color: #e0e0e0;
 
-  }.menu-item5:hover {
+}
+
+.menu-item5:hover {
     background-color: #459664;
     color: #e0e0e0;
 
-  }.menu-item6:hover {
+}
+
+.menu-item6:hover {
     background-color: #459664;
     color: #e0e0e0;
 
-  }.menu-item7:hover {
+}
+
+.menu-item7:hover {
     background-color: #459664;
     color: #e0e0e0;
 
-  }.menu-item8:hover {
+}
+
+.menu-item8:hover {
     background-color: #459664;
     color: #e0e0e0;
 
-  }
-  .menu-item9:hover {
+}
+
+.menu-item9:hover {
     background-color: #459664;
     color: #e0e0e0;
 
-  }
-  /* CSS */
+}
+
+/* CSS */
 /* CSS */
 .custom-buttonprovider {
     /* Thuộc tính mặc định */
-    background-color: transparent!important;
-    color: #000000 !important; /* Màu chữ mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
 }
 
 .custom-buttonprovider:hover {
     /* Thuộc tính khi hover */
-    background-color: #c00118!important;
-    color: #fff!important; /* Màu chữ khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
     /* Các thuộc tính khác khi hover */
 }
+
 .custom-buttonmethod {
     /* Thuộc tính mặc định */
-    background-color: transparent!important;
-    color: #000000 !important; /* Màu chữ mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
 }
 
 .custom-buttonmethod:hover {
     /* Thuộc tính khi hover */
-    background-color: #c00118!important;
-    color: #fff!important; /* Màu chữ khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
     /* Các thuộc tính khác khi hover */
 }
+
 .custom-buttonjobtitles {
     /* Thuộc tính mặc định */
-    background-color: transparent!important;
-    color: #000000 !important; /* Màu chữ mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
 }
 
 .custom-buttonjobtitles:hover {
     /* Thuộc tính khi hover */
-    background-color: #c00118!important;
-    color: #fff!important; /* Màu chữ khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
     /* Các thuộc tính khác khi hover */
 }
+
 .custom-buttonproductcate {
     /* Thuộc tính mặc định */
-    background-color: transparent!important;
-    color: #000000 !important; /* Màu chữ mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
 }
 
 .custom-buttonproductcate:hover {
     /* Thuộc tính khi hover */
-    background-color: #c00118!important;
-    color: #fff!important; /* Màu chữ khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
     /* Các thuộc tính khác khi hover */
 }
+
 .custom-buttoncustomers {
     /* Thuộc tính mặc định */
-    background-color: transparent!important;
-    color: #000000 !important; /* Màu chữ mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
 }
 
 .custom-buttoncustomers:hover {
     /* Thuộc tính khi hover */
-    background-color: #c00118!important;
-    color: #fff!important; /* Màu chữ khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
     /* Các thuộc tính khác khi hover */
 }
+
 .custom-buttonemployees {
     /* Thuộc tính mặc định */
-    background-color: transparent!important;
-    color: #000000 !important; /* Màu chữ mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
 }
 
 .custom-buttonemployees:hover {
     /* Thuộc tính khi hover */
-    background-color: #c00118!important;
-    color: #fff!important; /* Màu chữ khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
     /* Các thuộc tính khác khi hover */
 }
+
 .custom-buttonproducts {
     /* Thuộc tính mặc định */
-    background-color: transparent!important;
-    color: #000000 !important; /* Màu chữ mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
 }
 
 .custom-buttonproducts:hover {
     /* Thuộc tính khi hover */
-    background-color: #c00118!important;
-    color: #fff!important; /* Màu chữ khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
     /* Các thuộc tính khác khi hover */
 }
+
 .custom-buttonaddresscus {
     /* Thuộc tính mặc định */
-    background-color: transparent!important;
-    color: #000000 !important; /* Màu chữ mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
 }
 
 .custom-buttonaddresscus:hover {
     /* Thuộc tính khi hover */
-    background-color: #c00118!important;
-    color: #fff!important; /* Màu chữ khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
     /* Các thuộc tính khác khi hover */
 }
+
 .custom-buttonorders {
     /* Thuộc tính mặc định */
-    background-color: transparent!important;
-    color: #000000 !important; /* Màu chữ mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
 }
 
 .custom-buttonorders:hover {
     /* Thuộc tính khi hover */
-    background-color: #c00118!important;
-    color: #fff!important; /* Màu chữ khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
     /* Các thuộc tính khác khi hover */
 }
+
 .custom-buttoncart {
     /* Thuộc tính mặc định */
-    background-color: transparent!important;
-    color: #000000 !important; /* Màu chữ mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
 }
 
 .custom-buttoncart:hover {
     /* Thuộc tính khi hover */
-    background-color: #c00118!important;
-    color: #fff!important; /* Màu chữ khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
     /* Các thuộc tính khác khi hover */
 }
-
-
-
-
-
-
