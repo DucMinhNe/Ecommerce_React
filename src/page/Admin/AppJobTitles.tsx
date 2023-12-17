@@ -299,10 +299,11 @@ const AppJobTitles = () => {
                     <Button onClick={handleShowModal} style={{ backgroundColor: '#6f9643', borderColor: '#6f9643', color: '#fff', marginRight: '8px' }}>
                         Thêm
                     </Button>
-                    <Button onClick={handleToggleIsDeletedFetchData} 
-                    style={{ 
-                        borderColor: '#c00118', 
-                        transition: 'background-color 0.3s, color 0.3s' }}
+                    <Button onClick={handleToggleIsDeletedFetchData}
+                        style={{
+                            borderColor: '#c00118',
+                            transition: 'background-color 0.3s, color 0.3s'
+                        }}
                         className='custom-buttonjobtitles'>
                         {isDeletedFetchData ? 'Xem Chức Vụ' : 'Xem Chức Vụ Đã Xóa'}
                     </Button>
@@ -339,8 +340,8 @@ const AppJobTitles = () => {
                             <Input
                                 onChange={(event) => { setIsValueJobTitleName(event.target.value) }}
                                 value={isValueJobTitleName}
-                                className="bg-slate-200"
-                                style={{borderColor:'black'}}
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
 
@@ -371,7 +372,8 @@ const AppJobTitles = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.jobTitleName}
-                                style={{ backgroundColor: '#f0f5ff', borderColor:'black' }}  // Màu nền tùy chọn
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="flex justify-end items-end">

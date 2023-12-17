@@ -364,18 +364,20 @@ const AppCustomers = () => {
         <>
             <div className="container mt-5 ">
                 <div className="flex justify-end mb-5">
-                    <Button onClick={handleShowModal} 
-                    style={{
-                    backgroundColor: '#6f9643',
-                    borderColor: '#6f9643', 
-                    color: '#fff', 
-                    marginRight: '8px' }}>
+                    <Button onClick={handleShowModal}
+                        style={{
+                            backgroundColor: '#6f9643',
+                            borderColor: '#6f9643',
+                            color: '#fff',
+                            marginRight: '8px'
+                        }}>
                         Thêm
                     </Button>
-                    <Button onClick={handleToggleIsDeletedFetchData} 
-                    style={{ 
-                        borderColor: '#c00118', 
-                        transition: 'background-color 0.3s, color 0.3s' }}
+                    <Button onClick={handleToggleIsDeletedFetchData}
+                        style={{
+                            borderColor: '#c00118',
+                            transition: 'background-color 0.3s, color 0.3s'
+                        }}
                         className="custom-buttoncustomers">
                         {isDeletedFetchData ? 'Xem Khách Hàng' : 'Xem Khách Hàng Đã Xóa'}
                     </Button>
@@ -412,8 +414,9 @@ const AppCustomers = () => {
                             <Input
                                 onChange={(event) => { setIsValueFirstName(event.target.value) }}
                                 value={isValueFirstName}
-                                className="bg-slate-200"
-                                
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
+
                             />
                         </div>
                         <div className="mt-10">
@@ -421,8 +424,9 @@ const AppCustomers = () => {
                             <Input
                                 onChange={(event) => { setIsValueLastName(event.target.value) }}
                                 value={isValueLastName}
-                                className="bg-slate-200"
-                               
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
+
                             />
                         </div>
                         <div className="mt-10">
@@ -430,8 +434,9 @@ const AppCustomers = () => {
                             <Input
                                 onChange={(event) => { setIsValueEmail(event.target.value) }}
                                 value={isValueEmail}
-                                className="bg-slate-200"
-                                
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
+
                             />
                         </div>
                         <div className="mt-10">
@@ -439,8 +444,9 @@ const AppCustomers = () => {
                             <Input
                                 onChange={(event) => { setIsValuePassword(event.target.value) }}
                                 value={isValuePassword}
-                                className="bg-slate-200"
-                               
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
+
                             />
                         </div>
                         <div className="mt-10">
@@ -448,19 +454,21 @@ const AppCustomers = () => {
                             <Input
                                 onChange={(event) => { setIsValuePhoneNumber(event.target.value) }}
                                 value={isValuePhoneNumber}
-                                className="bg-slate-200"
-                                
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
+
                             />
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="birthDate" style={{borderColor:'black'}}>Ngày Sinh</label>
+                            <label htmlFor="birthDate" style={{ borderColor: 'black' }}>Ngày Sinh</label>
                             <Input
                                 type="date"
                                 onChange={(event) => {
                                     setIsValueBirthDate(event.target.value);
                                 }}
                                 value={isValueBirthDate}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -468,8 +476,8 @@ const AppCustomers = () => {
                             <select
                                 onChange={(event) => setIsValueGender(event.target.value)}
                                 value={isValueGender}
-                                className="bg-slate-200"
-                                style={{borderColor:'black'}}
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             >
                                 <option value="">Chọn Giới Tính</option>
                                 <option value="true">Nam</option>
@@ -477,11 +485,12 @@ const AppCustomers = () => {
                             </select>
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Hình Ảnh</label>
+                            <label htmlFor="formFile">Hình Ảnh</label>
                             <input
                                 type="file"
                                 onChange={(event) => handleFileChange(event)}
-                                className="bg-slate-200"
+                                className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                                id="formFile"
                             />
                         </div>
                         <div className="flex justify-end items-end">
@@ -511,7 +520,8 @@ const AppCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.firstName || ''}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -523,7 +533,8 @@ const AppCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.lastName || ''}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -535,7 +546,8 @@ const AppCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.email}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -547,7 +559,8 @@ const AppCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.password}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -560,7 +573,8 @@ const AppCustomers = () => {
                                 }}
                                 value={selectedItemEdit?.phoneNumber || ''}
                                 readOnly={false}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -578,7 +592,8 @@ const AppCustomers = () => {
                                         ? selectedItemEdit?.birthDate.toISOString().split('T')[0]
                                         : ''
                                 }
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -591,7 +606,8 @@ const AppCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.gender ? "true" : "false"}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             >
                                 <option value="">Chọn Giới Tính</option>
                                 <option value="true">Nam</option>
@@ -599,11 +615,12 @@ const AppCustomers = () => {
                             </select>
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Hình Ảnh</label>
+                            <label htmlFor="formFile">Hình Ảnh</label>
                             <input
                                 type="file"
                                 onChange={(event) => handleFileChange(event)}
-                                className="bg-slate-200"
+                                className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                                id="formFile"
                             />
                         </div>
                         <div className="flex justify-end items-end">

@@ -2,7 +2,6 @@
 import Login from './page/Admin/Login';
 import { BrowserRouter as Router, Routes, Route, Outlet, RouterProvider, Navigate } from 'react-router-dom';
 
-import Dashboard from './page/Admin/Dashboard';
 import AppProviders from './page/Admin/AppProviders';
 import AppPaymentMethods from './page/Admin/AppPaymentMethod';
 import AppJobTitles from './page/Admin/AppJobTitles';
@@ -20,11 +19,13 @@ import { Cart } from './page/Ecommerce/pages/cart/cart';
 import { Product } from './page/Ecommerce/pages/product/product';
 import Home from './page/Ecommerce/pages/Home/Home';
 import AppOrders from './page/Admin/AppOrder';
-import UserPage from './page/Ecommerce/pages/UserPage/UserPage';
 import UserInfomation from './page/Ecommerce/pages/UserPage/UserInfomation';
 import AddressCustomers from './page/Ecommerce/pages/UserPage/AddressCustomer';
 import Orders from './page/Ecommerce/pages/UserPage/Order';
 import AppDashboard from './page/Admin/AppDashboard';
+import ShipperDashboard from './page/Shipper/ShipperDashboard';
+import ShipperOrders from './page/Shipper/ShipperOrder';
+import ShipperLogin from './page/Shipper/ShipperLogin';
 
 const Layout = () => {
     return (
@@ -40,102 +41,28 @@ function App() {
     return (
         <>
             <Routes>
-                <Route
-                    path="/admin"
-                    element={
-                        <div>
-                            {/* <Dashboard /> */}
-                            <AppDashboard />
-                        </div>
-                    }
-                >
-                    <Route
-                        path="/admin/app-providers"
-                        element={
-                            <div>
-                                <AppProviders />
-                            </div>
-                        }
-                    ></Route>
-                    <Route
-                        path="/admin/app-payment-methods"
-                        element={
-                            <div>
-                                <AppPaymentMethods />
-                            </div>
-                        }
-                    ></Route>
-                    <Route
-                        path="/admin/app-job-titles"
-                        element={
-                            <div>
-                                <AppJobTitles />
-                            </div>
-                        }
-                    ></Route>
-                    <Route
-                        path="/admin/app-product-categories"
-                        element={
-                            <div>
-                                <AppProductCategories />
-                            </div>
-                        }
-                    ></Route>
-                    <Route
-                        path="/admin/app-customers"
-                        element={
-                            <div>
-                                <AppCustomers />
-                            </div>
-                        }
-                    ></Route>
-                    <Route
-                        path="/admin/app-employees"
-                        element={
-                            <div>
-                                <AppEmployees />
-                            </div>
-                        }
-                    ></Route>
-                    <Route
-                        path="/admin/app-products"
-                        element={
-                            <div>
-                                <AppProducts />
-                            </div>
-                        }
-                    ></Route>
-                    <Route
-                        path="/admin/app-address-customers"
-                        element={
-                            <div>
-                                <AppAddressCustomers />
-                            </div>
-                        }
-                    ></Route>
-                    <Route
-                        path="/admin/app-carts"
-                        element={
-                            <div>
-                                <AppCarts />
-                            </div>
-                        }
-                    ></Route>
-                    <Route
-                        path="/admin/app-orders"
-                        element={
-                            <div>
-                                <AppOrders />
-                            </div>
-                        }
-                    ></Route>
+                <Route path="/admin" element={<AppDashboard />}>
+                    <Route path="/admin/app-providers" element={<AppProviders />} />
+                    <Route path="/admin/app-payment-methods" element={<AppPaymentMethods />} />
+                    <Route path="/admin/app-job-titles" element={<AppJobTitles />} />
+                    <Route path="/admin/app-product-categories" element={<AppProductCategories />} />
+                    <Route path="/admin/app-customers" element={<AppCustomers />} />
+                    <Route path="/admin/app-employees" element={<AppEmployees />} />
+                    <Route path="/admin/app-products" element={<AppProducts />} />
+                    <Route path="/admin/app-address-customers" element={<AppAddressCustomers />} />
+                    <Route path="/admin/app-carts" element={<AppCarts />} />
+                    <Route path="/admin/app-orders" element={<AppOrders />} />
                 </Route>
-                <Route path="/admin/login" element={<div><Login /></div>}>
+                <Route path="/admin/login" element={<div><Login /></div>} />
+
+                <Route path="/shipper" element={<ShipperDashboard />}>
+                    <Route path="/shipper/app-orders" element={<ShipperOrders />} />
                 </Route>
+                <Route path="/shipper/login" element={<div><ShipperLogin /></div>} />
+
                 <Route index element={<Navigate to="ecommerce/home" />} />
                 {/* Ecommerce Routes */}
                 <Route path="/ecommerce/*" element={<Layout />}>
-
                     <Route path="home" element={<Home />} />
                     <Route path="product/:id" element={<Product />} />
                     <Route path="cart" element={<Cart />} />

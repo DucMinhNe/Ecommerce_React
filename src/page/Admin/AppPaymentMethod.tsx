@@ -340,8 +340,8 @@ const AppPaymentMethods = () => {
                             <Input
                                 onChange={(event) => { setIsValuePaymentMethodName(event.target.value) }}
                                 value={isValuePaymentMethodName}
-                                className="bg-slate-200"
-                                style={{ borderColor: 'black' }}
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
 
@@ -372,7 +372,8 @@ const AppPaymentMethods = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.paymentMethodName}
-                                style={{ backgroundColor: '#f0f5ff', borderColor: 'black' }}  // Màu nền tùy chọn
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="flex justify-end items-end">

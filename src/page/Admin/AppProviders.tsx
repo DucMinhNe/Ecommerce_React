@@ -36,11 +36,11 @@ const AppProviders = () => {
                         placeholder="Search Tên Nhà Cung Cấp"
                         value={selectedKeys[0]}
                         onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                        
+
                         onPressEnter={() => {
                             confirm(); // Call confirm() when Enter key is pressed
                         }}
-                        style={{ width: 215, marginBottom: 8, display: 'block'  }}
+                        style={{ width: 215, marginBottom: 8, display: 'block' }}
                     />
                 </div>
             ),
@@ -91,7 +91,7 @@ const AppProviders = () => {
                                         icon={<EditOutlined />}
                                         onClick={() => handleEdit(item)}
                                     >
-                                      {/* Sửa */}
+                                        {/* Sửa */}
                                     </Button>
                                     {isDeletedFetchData ? (
                                         <Button
@@ -107,7 +107,7 @@ const AppProviders = () => {
                                             icon={<DeleteOutlined />}
                                             onClick={() => handleDelete(item)}
                                         >
-                                        
+
                                         </Button>
                                     )}
                                 </div>
@@ -297,19 +297,22 @@ const AppProviders = () => {
         <>
             <div className="container mt-5 ">
                 <div className="flex justify-end mb-5">
-                    <Button onClick={handleShowModal} 
-                    style={{ backgroundColor: '#6f9643', 
-                    borderColor: '#6f9643',
-                    color: '#fff', 
-                    marginRight: '8px' }}>
+                    <Button onClick={handleShowModal}
+                        style={{
+                            backgroundColor: '#6f9643',
+                            borderColor: '#6f9643',
+                            color: '#fff',
+                            marginRight: '8px'
+                        }}>
                         Thêm
                     </Button>
 
-                    <Button onClick={handleToggleIsDeletedFetchData} 
-                        style={{ 
-                    borderColor: '#c00118', 
-                    transition: 'background-color 0.3s, color 0.3s' }}
-                    className="custom-buttonprovider">
+                    <Button onClick={handleToggleIsDeletedFetchData}
+                        style={{
+                            borderColor: '#c00118',
+                            transition: 'background-color 0.3s, color 0.3s'
+                        }}
+                        className="custom-buttonprovider">
                         {isDeletedFetchData ? 'Xem Nhà Cung Cấp' : 'Xem Nhà Cung Cấp Đã Xóa'}
                     </Button>
                 </div>
@@ -345,8 +348,8 @@ const AppProviders = () => {
                             <Input
                                 onChange={(event) => { setIsValueProviderName(event.target.value) }}
                                 value={isValueProviderName}
-                                className="bg-slate-200"
-                                style={{borderColor: 'black'}}
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="flex justify-end items-end ">
@@ -376,7 +379,8 @@ const AppProviders = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.providerName}
-                                style={{ backgroundColor: '#f0f5ff', borderColor:'black' }}  // Màu nền tùy chọn
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="flex justify-end items-end">

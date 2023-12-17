@@ -369,9 +369,10 @@ const AppCarts = () => {
                         Thêm
                     </Button>
                     <Button onClick={handleToggleIsDeletedFetchData}
-                    style={{ 
-                        borderColor: '#c00118', 
-                        transition: 'background-color 0.3s, color 0.3s' }}
+                        style={{
+                            borderColor: '#c00118',
+                            transition: 'background-color 0.3s, color 0.3s'
+                        }}
                         className="custom-buttoncart">
                         {isDeletedFetchData ? 'Xem Giỏ Hàng' : 'Xem Giỏ Hàng Đã Xóa'}
                     </Button>
@@ -409,7 +410,8 @@ const AppCarts = () => {
                                 id="customer"
                                 onChange={(event) => { setIsValueCustomerId(event.target.value) }}
                                 value={isValueCustomerId}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             >
                                 <option value="">-- Chọn Tài khoản --</option>
                                 {customers.map((customer) => (
@@ -425,7 +427,8 @@ const AppCarts = () => {
                                 id="product"
                                 onChange={(event) => { setIsValueProductId(event.target.value) }}
                                 value={isValueProductId}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             >
                                 <option value="">-- Chọn Sản Phẩm --</option>
                                 {products.map((product) => (
@@ -440,7 +443,8 @@ const AppCarts = () => {
                             <Input
                                 onChange={(event) => { setIsValueQuantity(event.target.value) }}
                                 value={isValueQuantity}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -448,7 +452,8 @@ const AppCarts = () => {
                             <Input
                                 onChange={(event) => { setIsValueUnitPrice(event.target.value) }}
                                 value={isValueUnitPrice}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="flex justify-end items-end">
@@ -480,7 +485,8 @@ const AppCarts = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.customerId ?? ''}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             >
                                 <option value="" disabled>-- Chọn Tài khoản --</option>
                                 {customers.map((customer) => (
@@ -501,7 +507,8 @@ const AppCarts = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.productId ?? ''}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             >
                                 <option value="" disabled>-- Chọn Sản Phẩm --</option>
                                 {products.map((product) => (
@@ -520,7 +527,8 @@ const AppCarts = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.quantity || ''}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -532,7 +540,8 @@ const AppCarts = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.unitPrice}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="flex justify-end items-end">

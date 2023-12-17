@@ -3,30 +3,30 @@ import bgLogin from '../../img/login_background.jpg';
 import { useNavigate } from 'react-router-dom';
 import systemConst from '../../common/consts/system_const';
 import Swal from 'sweetalert2';
-const Login: React.FC = () => {
+const ShipperLogin: React.FC = () => {
     const BASE_URL = `${systemConst.DOMAIN}`;
     const email = useRef<HTMLInputElement>(null);
     const password = useRef<HTMLInputElement>(null);
     const [message, setMessage] = useState<string>('');
     const navigate = useNavigate();
-    const [isEmployeeToken, setIsEmployeeToken] = useState(Boolean(localStorage.getItem('employeeToken')));
+    const [isShipperEmployeeToken, setIsShipperEmployeeToken] = useState(Boolean(localStorage.getItem('shipperEmployeeToken')));
     useEffect(() => {
-        if (isEmployeeToken) {
-            handleRouteAdmin();
+        if (isShipperEmployeeToken) {
+            handleRouteShipper();
         }
-    }, [isEmployeeToken]);
-    const handleRouteAdmin = () => {
+    }, [isShipperEmployeeToken]);
+    const handleRouteShipper = () => {
         setTimeout(() => {
-            navigate('/admin', { replace: true });
+            navigate('/shipper', { replace: true });
         }, 0);
     };
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const employeeEmail = email.current?.value;
-        const employeePassword = password.current?.value;
+        const shipperEmployeeEmail = email.current?.value;
+        const shipperEmployeePassword = password.current?.value;
 
-        if (!employeeEmail || !employeePassword) {
+        if (!shipperEmployeeEmail || !shipperEmployeePassword) {
             return setMessage('Vui lòng nhập đầy đủ thông tin tài khoản và mật khẩu.');
         }
 
@@ -36,7 +36,7 @@ const Login: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email: employeeEmail, password: employeePassword }),
+                body: JSON.stringify({ email: shipperEmployeeEmail, password: shipperEmployeePassword }),
             });
 
             if (response.ok) {
@@ -45,15 +45,15 @@ const Login: React.FC = () => {
                 try {
                     // Kiểm tra nếu token được định nghĩa trong data
                     if (data.token) {
-                        const employeeToken = data.token;
+                        const shipperEmployeeToken = data.token;
 
                         // Parse token để lấy thông tin
-                        const payloadBase64 = employeeToken.split('.')[1];
+                        const payloadBase64 = shipperEmployeeToken.split('.')[1];
                         const payloadJson = atob(payloadBase64);
                         const tokenData = JSON.parse(payloadJson);
                         // console.log(tokenData);
                         // Lưu thông tin vào LocalStorage
-                        if (tokenData.jobTitleId != 1) {
+                        if (tokenData.jobTitleId != 3) {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Tài Khoản Không Có Quyền',
@@ -63,17 +63,12 @@ const Login: React.FC = () => {
                             return
                         }
                         if (tokenData) {
-                            localStorage.setItem('employeeId', tokenData.id);
-                            localStorage.setItem('jobTitleId', tokenData.jobTitleId);
-                            // localStorage.setItem('employeeName', tokenData.name);
-                            // localStorage.setItem('employeeEmail', tokenData.email);
-                            // localStorage.setItem('employeePhoneNumber', tokenData.phoneNumber);
-                            // localStorage.setItem('employeeImage', tokenData.employeeImage);
-
+                            localStorage.setItem('shipperEmployeeId', tokenData.id);
+                            localStorage.setItem('shipperJobTitleId', tokenData.jobTitleId);
                         }
 
-                        localStorage.setItem('employeeToken', employeeToken);
-                        setIsEmployeeToken(true);
+                        localStorage.setItem('shipperEmployeeToken', shipperEmployeeToken);
+                        setIsShipperEmployeeToken(true);
                         window.location.reload();
                         Swal.fire({
                             title: "Đăng nhập thành công",
@@ -91,7 +86,7 @@ const Login: React.FC = () => {
                           no-repeat
                         `
                         });
-                        handleRouteAdmin();
+                        handleRouteShipper();
                     } else {
                         // Xử lý trường hợp token không được định nghĩa
                         console.error('Token is undefined or empty in response data.');
@@ -114,7 +109,7 @@ const Login: React.FC = () => {
 
     return (
         <>
-            {!isEmployeeToken && (
+            {!isShipperEmployeeToken && (
                 <div className="bg-black h-screen">
                     <div className="bg-black h-5 items-center fixed w-full relative">
                     </div>
@@ -176,4 +171,4 @@ const Login: React.FC = () => {
     );
 };
 
-export default Login;
+export default ShipperLogin;

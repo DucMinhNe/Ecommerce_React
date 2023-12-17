@@ -62,13 +62,13 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ product }) => {
             unitPrice: product.unitPrice,
             quantity: 1,
             description: product.description
-          })) && toast.success(`${product.productName} is added`)} className="bg-black text-white py-3 px-6 active:bg-gray-800">
+          })) && toast.success(`Đã thêm ${product.productName} vào giỏ hàng`)} className="bg-black text-white py-3 px-6 active:bg-gray-800">
             Thêm Vào Giỏ Hàng
           </button>
         </div>
-        <div className='top-2 right-2 absolute'>
+        {/* <div className='top-2 right-2 absolute'>
           {isNew && <p className='bg-black text-white font-semibold px-6 py-1'>Sale</p>}
-        </div>
+        </div> */}
       </div>
       <ToastContainer
         position='top-left'

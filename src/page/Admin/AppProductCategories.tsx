@@ -296,19 +296,21 @@ const AppProductCategories = () => {
         <>
             <div className="container mt-5 ">
                 <div className="flex justify-end mb-5">
-                    <Button onClick={handleShowModal} 
-                    style={{
-                         backgroundColor: '#6f9643',
-                          borderColor: '#6f9643',
-                           color: '#fff',
-                            marginRight: '8px' }}>
+                    <Button onClick={handleShowModal}
+                        style={{
+                            backgroundColor: '#6f9643',
+                            borderColor: '#6f9643',
+                            color: '#fff',
+                            marginRight: '8px'
+                        }}>
                         Thêm
                     </Button>
-                    <Button onClick={handleToggleIsDeletedFetchData} 
-                    style={{ 
-                    borderColor: '#c00118', 
-                    transition: 'background-color 0.3s, color 0.3s' }}
-                    className="custom-buttonproductcate">
+                    <Button onClick={handleToggleIsDeletedFetchData}
+                        style={{
+                            borderColor: '#c00118',
+                            transition: 'background-color 0.3s, color 0.3s'
+                        }}
+                        className="custom-buttonproductcate">
                         {isDeletedFetchData ? 'Xem Loại Sản Phẩm' : 'Xem Loại Sản Phẩm Đã Xóa'}
                     </Button>
                 </div>
@@ -344,8 +346,8 @@ const AppProductCategories = () => {
                             <Input
                                 onChange={(event) => { setIsValueProductCategoryName(event.target.value) }}
                                 value={isValueProductCategoryName}
-                                className="bg-slate-200"
-                                style={{borderColor: 'black'}}
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
 
@@ -376,7 +378,8 @@ const AppProductCategories = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.productCategoryName}
-                                style={{ backgroundColor: '#f0f5ff', borderColor:'black' }}  // Màu nền tùy chọn
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="flex justify-end items-end">

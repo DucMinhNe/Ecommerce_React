@@ -58,7 +58,8 @@ const BASE_URL_Employees = `${SystemConst.DOMAIN}/Employees`;
 const BASE_URL_AddressCustomers = `${SystemConst.DOMAIN}/AddressCustomers`;
 const BASE_URL_OrderDetails = `${SystemConst.DOMAIN}/OrderDetails`;
 const BASE_URL_Products = `${SystemConst.DOMAIN}/Products`;
-const AppOrders = () => {
+const ShipperOrders = () => {
+    const shipperEmployeeId = localStorage.getItem('shipperEmployeeId');
     const columns: ColumnsType<DataType> = [
         {
             title: 'ID',
@@ -241,7 +242,7 @@ const AppOrders = () => {
     };
     const handleFetchData = () => {
         axios
-            .get(`${BASE_URL}?isDeleted=${isDeletedFetchData}`)
+            .get(`${BASE_URL}?employeeId=${shipperEmployeeId}&isDeleted=${isDeletedFetchData}`)
             .then(async (response) => {
                 const Api_Data_Orders = response.data;
                 try {
@@ -273,23 +274,6 @@ const AppOrders = () => {
                                         >
                                             {/* Sửa */}
                                         </Button>
-                                        {isDeletedFetchData ? (
-                                            <Button
-                                                style={{ backgroundColor: '#e74c3c', borderColor: '#e74c3c', color: '#fff' }}
-                                                icon={<UndoOutlined />}
-                                                onClick={() => handleRestore(item)}
-                                            >
-                                                {/* Khôi Phục */}
-                                            </Button>
-                                        ) : (
-                                            <Button
-                                                style={{ backgroundColor: '#c00118', borderColor: '#c00118', color: '#fff' }}
-                                                icon={<DeleteOutlined />}
-                                                onClick={() => handleDelete(item)}
-                                            >
-                                                {/* Xóa */}
-                                            </Button>
-                                        )}
                                     </div>
                                 </>
                             ),
@@ -306,34 +290,6 @@ const AppOrders = () => {
     useEffect(() => {
         handleFetchData();
     }, [isDeletedFetchData]);
-    //Xử lý Call API Create
-    const handleCreateOrders = () => {
-        const formData = new FormData();
-        formData.append("customerId", isValueCustomerId);
-        formData.append("employeeId", isValueEmployeeId);
-        formData.append("addressCustomerId", isValueAddressCustomerId);
-        formData.append("orderDateTime", isValueOrderDateTime);
-        formData.append("totalPrice", isValueTotalPrice);
-        formData.append("shippingCost", isValueShippingCost);
-        formData.append("orderStatus", isValueOrderStatus);
-        formData.append("isDeleted", 'false');
-        console.log(formData);
-        axios
-            .post(`${BASE_URL}`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            .then((response) => {
-                handleFetchData();
-                setOpenModal(false);
-                handleClickSuccess();
-                console.log('Data', response);
-                // const data = response.data.respone_data;
-            })
-            .catch((error) => {
-            });
-    };
     const clearAllValue = () => {
         setSelectedItemEdit(null);
     }
@@ -352,8 +308,6 @@ const AppOrders = () => {
         formData.append("shippingCost", String(selectedItemEdit.shippingCost || ''));
         formData.append("orderStatus", selectedItemEdit.orderStatus || '');
         formData.append("isDeleted", `${isDeletedFetchData}`);
-
-        console.log(formData);
         axios
             .put(`${BASE_URL}/${selectedItemEdit.id}`, formData, {
                 headers: {
@@ -390,15 +344,7 @@ const AppOrders = () => {
             timer: 1500,
         });
     };
-    const [openModal, setOpenModal] = useState(false);
     const [openModalEdit, setOpenModalEdit] = useState(false);
-    const [isValueCustomerId, setIsValueCustomerId] = useState('');
-    const [isValueEmployeeId, setIsValueEmployeeId] = useState('');
-    const [isValueAddressCustomerId, setIsValueAddressCustomerId] = useState('');
-    const [isValueOrderDateTime, setIsValueOrderDateTime] = useState('');
-    const [isValueTotalPrice, setIsValueTotalPrice] = useState('');
-    const [isValueShippingCost, setIsValueShippingCost] = useState('');
-    const [isValueOrderStatus, setIsValueOrderStatus] = useState('');
     const [customers, setCustomers] = useState<Customer[]>([]);
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [addressCustomers, setAddressCustomers] = useState<AddressCustomer[]>([]);
@@ -451,114 +397,12 @@ const AppOrders = () => {
         };
         fetchProductsAndSetState();
     }, []);
-    const handleShowModal = () => {
-        setOpenModal(true);
-    };
-    const handleCancel = () => {
-        setOpenModal(false);
-    };
     const handleCancelEdit = () => {
         setOpenModalEdit(false);
-    };
-    const handleClickSuccess = () => {
-        Swal.fire({
-            icon: 'success',
-            title: 'Tạo thành công',
-            showConfirmButton: false,
-            timer: 1500,
-        });
-    };
-    const handleDelete = (item: { id: number }) => {
-        Swal.fire({
-            title: 'Xác nhận xóa',
-            text: 'Bạn có chắc chắn muốn xóa không?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                handleDeleteOrder(item.id);
-            }
-        });
-    };
-    //Xử lý Call API Delete
-    const handleDeleteOrder = (itemId: number) => {
-        const dataDelete = itemId;
-        axios
-            .delete(`${BASE_URL}/${dataDelete}`)
-            .then((response) => {
-                handleFetchData();
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Xóa thành công',
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-            })
-            .catch((error) => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Thông Báo",
-                    text: "Có Lỗi Xảy Ra",
-                });
-            });
-    };
-    const handleRestore = (item: { id: number }) => {
-        Swal.fire({
-            title: 'Xác nhận khôi phục',
-            text: 'Bạn có chắc chắn muốn khôi phục không?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Khôi phục',
-            cancelButtonText: 'Hủy',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                handleRestoreOrder(item.id);
-            }
-        });
-    };
-    const handleRestoreOrder = (itemId: number) => {
-        const dataRestore = itemId;
-        axios
-            .put(`${BASE_URL}/Restore/${dataRestore}`)
-            .then((response) => {
-                handleFetchData();
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Khôi phục thành công',
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-            })
-            .catch((error) => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Thông Báo",
-                    text: "Có Lỗi Xảy Ra",
-                });
-            });
     };
     return (
         <>
             <div className="container mt-5 ">
-                <div className="flex justify-end mb-5">
-                    <Button onClick={handleShowModal} style={{ backgroundColor: '#6f9643', borderColor: '#6f9643', color: '#fff', marginRight: '8px' }}>
-                        Thêm
-                    </Button>
-                    <Button onClick={handleToggleIsDeletedFetchData}
-                        style={{
-                            borderColor: '#c00118',
-                            transition: 'background-color 0.3s, color 0.3s'
-                        }}
-                        className="custom-buttonorders">
-                        {isDeletedFetchData ? 'Xem Đơn Hàng' : 'Xem Đơn Hàng Đã Xóa'}
-                    </Button>
-                </div>
                 <Table
                     columns={columns}
                     dataSource={dataOrders}
@@ -576,119 +420,6 @@ const AppOrders = () => {
                     bordered
                 />
             </div>
-            {/* Modal thêm Đơn Hàng */}
-            <>
-                <Modal
-                    className="custom-modal-create_and_edit_orders"
-                    open={openModal}
-                    onCancel={handleCancel}
-                    footer={null}
-                >
-                    <div className="p-5">
-                        <span className="text-lg font-medium">Thêm Đơn Hàng</span>
-                        <div className="mt-10">
-                            <label htmlFor="customer">Tài khoản</label>
-                            <select
-                                id="customer"
-                                onChange={(event) => { setIsValueCustomerId(event.target.value) }}
-                                value={isValueCustomerId}
-                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            // style={{ borderColor: 'black' }}
-                            >
-                                <option value="">-- Chọn Tài khoản --</option>
-                                {customers.map((customer) => (
-                                    <option key={customer.id} value={customer.id}>
-                                        {customer.firstName} {' '} {customer.lastName}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="employee">Nhân Viên</label>
-                            <select
-                                id="employee"
-                                onChange={(event) => { setIsValueEmployeeId(event.target.value) }}
-                                value={isValueEmployeeId}
-                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            // style={{ borderColor: 'black' }}
-                            >
-                                <option value="">-- Chọn Nhân Viên --</option>
-                                {employees.map((employee) => (
-                                    <option key={employee.id} value={employee.id}>
-                                        {employee.firstName} {' '} {employee.lastName}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="addressCustomer">Thông Tin Giao Hàng</label>
-                            <select
-                                id="addressCustomer"
-                                onChange={(event) => { setIsValueAddressCustomerId(event.target.value) }}
-                                value={isValueAddressCustomerId}
-                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            // style={{ borderColor: 'black' }}
-                            >
-                                <option value="">-- Chọn Thông Tin Giao Hàng --</option>
-                                {addressCustomers.map((addressCustomer) => (
-                                    <option key={addressCustomer.id} value={addressCustomer.id}>
-                                        {addressCustomer.addressCustomerName} {'-'}  {addressCustomer.phoneNumber}  {'-'} {addressCustomer.address}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Ngày Đặt Hàng</label>
-                            <Input
-                                type="date"
-                                onChange={(event) => {
-                                    setIsValueOrderDateTime(event.target.value);
-                                }}
-                                value={isValueOrderDateTime}
-                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            // style={{ borderColor: 'black' }}
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Tổng Tiền</label>
-                            <Input
-                                onChange={(event) => { setIsValueTotalPrice(event.target.value) }}
-                                value={isValueTotalPrice}
-                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            // style={{ borderColor: 'black' }}
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Tiền Ship</label>
-                            <Input
-                                onChange={(event) => { setIsValueShippingCost(event.target.value) }}
-                                value={isValueShippingCost}
-                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            // style={{ borderColor: 'black' }}
-                            />
-                        </div>
-                        <div className="mt-10">
-                            <label htmlFor="">Trạng Thái Giao Hàng</label>
-                            <select
-                                onChange={(event) => { setIsValueOrderStatus(event.target.value) }}
-                                value={isValueOrderStatus}
-                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            >
-                                <option value="Chờ Xử Lý">Chờ Xử Lý</option>
-                                <option value="Đang Giao Hàng">Đang Giao Hàng</option>
-                                <option value="Đã Giao Hàng">Đã Giao Hàng</option>
-                                <option value="Đã Nhận Hàng">Đã Nhận Hàng</option>
-                            </select>
-                        </div>
-
-                        <div className="flex justify-end items-end">
-                            <Button onClick={handleCreateOrders} style={{ backgroundColor: 'black', borderColor: 'black', color: '#fff', marginTop: 8 }} >
-                                Lưu
-                            </Button>
-                        </div>
-                    </div>
-                </Modal>
-            </>
             {/* Modal sửa Đơn Hàng */}
             <>
                 <Modal
@@ -703,17 +434,10 @@ const AppOrders = () => {
                             <label htmlFor="customerId">Tài khoản</label>
                             <select
                                 id="customerId"
-                                onChange={(event) => {
-                                    const selectedCustomerId = Number(event.target.value);
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, customerId: selectedCustomerId }
-                                    );
-                                }}
                                 value={selectedItemEdit?.customerId ?? ''}
+                                disabled
                                 className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                            // style={{ borderColor: 'black' }}
                             >
-                                <option value="" disabled>-- Chọn Tài khoản --</option>
                                 {customers.map((customer) => (
                                     <option key={customer.id} value={customer.id}>
                                         {customer.firstName} {' '} {customer.lastName}
@@ -725,17 +449,11 @@ const AppOrders = () => {
                             <label htmlFor="employeeId">Nhân Viên</label>
                             <select
                                 id="employeeId"
-                                onChange={(event) => {
-                                    const selectedEmployeeId = Number(event.target.value);
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, employeeId: selectedEmployeeId }
-                                    );
-                                }}
+                                disabled
                                 value={selectedItemEdit?.employeeId ?? ''}
                                 className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             // style={{ borderColor: 'black' }}
                             >
-                                <option value="" disabled>-- Chọn Nhân Viên --</option>
                                 {employees.map((employee) => (
                                     <option key={employee.id} value={employee.id}>
                                         {employee.firstName}{' '} {employee.lastName}
@@ -747,17 +465,11 @@ const AppOrders = () => {
                             <label htmlFor="addressCustomerId">Thông Tin Giao Hàng</label>
                             <select
                                 id="addressCustomerId"
-                                onChange={(event) => {
-                                    const selectedAddressCustomerId = Number(event.target.value);
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, addressCustomerId: selectedAddressCustomerId }
-                                    );
-                                }}
                                 value={selectedItemEdit?.addressCustomerId ?? ''}
+                                disabled
                                 className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             // style={{ borderColor: 'black' }}
                             >
-                                <option value="" disabled>-- Chọn Thông Tin Giao Hàng --</option>
                                 {addressCustomers.map((addressCustomer) => (
                                     <option key={addressCustomer.id} value={addressCustomer.id}>
                                         {addressCustomer.addressCustomerName} {'-'}  {addressCustomer.phoneNumber}  {'-'} {addressCustomer.address}
@@ -769,12 +481,6 @@ const AppOrders = () => {
                             <label htmlFor="">Ngày Đặt Hàng</label>
                             <Input
                                 type="date"
-                                onChange={(event) => {
-                                    const selectedOrderDateTime = new Date(event.target.value);
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, orderDateTime: selectedOrderDateTime }
-                                    );
-                                }}
                                 value={
                                     selectedItemEdit?.orderDateTime instanceof Date
                                         ? selectedItemEdit?.orderDateTime.toISOString().split('T')[0]
@@ -787,11 +493,6 @@ const AppOrders = () => {
                         <div className="mt-10">
                             <label htmlFor="">Tổng Tiền</label>
                             <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, totalPrice: Number(event.target.value) }
-                                    );
-                                }}
                                 value={selectedItemEdit?.totalPrice}
                                 className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             // style={{ borderColor: 'black' }}
@@ -800,11 +501,6 @@ const AppOrders = () => {
                         <div className="mt-10">
                             <label htmlFor="">Tiền Ship</label>
                             <Input
-                                onChange={(event) => {
-                                    setSelectedItemEdit((prev) =>
-                                        prev === null ? prev : { ...prev, shippingCost: Number(event.target.value) }
-                                    );
-                                }}
                                 value={selectedItemEdit?.shippingCost}
                                 className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             // style={{ borderColor: 'black' }}
@@ -821,10 +517,10 @@ const AppOrders = () => {
                                 value={selectedItemEdit?.orderStatus}
                                 className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             >
-                                <option value="Chờ Xử Lý">Chờ Xử Lý</option>
+
                                 <option value="Đang Giao Hàng">Đang Giao Hàng</option>
                                 <option value="Đã Giao Hàng">Đã Giao Hàng</option>
-                                <option value="Đã Nhận Hàng">Đã Nhận Hàng</option>
+
                             </select>
                         </div>
                         <div className="flex justify-end items-end">
@@ -865,4 +561,4 @@ const AppOrders = () => {
     );
 };
 
-export default AppOrders;
+export default ShipperOrders;

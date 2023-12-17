@@ -373,10 +373,11 @@ const AppAddressCustomers = () => {
                            marginRight: '8px' }}>
                         Thêm
                     </Button> */}
-                    <Button onClick={handleToggleIsDeletedFetchData} 
-                    style={{ 
-                        borderColor: '#c00118', 
-                        transition: 'background-color 0.3s, color 0.3s' }}
+                    <Button onClick={handleToggleIsDeletedFetchData}
+                        style={{
+                            borderColor: '#c00118',
+                            transition: 'background-color 0.3s, color 0.3s'
+                        }}
                         className="custom-buttonaddresscus">
                         {isDeletedFetchData ? 'Xem Địa Chỉ Khách Hàng' : 'Xem Địa Chỉ Khách Hàng Đã Xóa'}
                     </Button>
@@ -508,7 +509,8 @@ const AppAddressCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.customerId ?? ''}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             >
                                 <option value="" disabled>-- Chọn Tài khoản --</option>
                                 {customers.map((customer) => (
@@ -527,7 +529,8 @@ const AppAddressCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.addressCustomerName}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -539,7 +542,8 @@ const AppAddressCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.city || ''}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -551,7 +555,8 @@ const AppAddressCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.district || ''}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -563,7 +568,8 @@ const AppAddressCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.subDistrict}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
 
@@ -577,7 +583,8 @@ const AppAddressCustomers = () => {
                                 }}
                                 value={selectedItemEdit?.phoneNumber || ''}
                                 readOnly={false}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
                         <div className="mt-10">
@@ -589,7 +596,8 @@ const AppAddressCustomers = () => {
                                     );
                                 }}
                                 value={selectedItemEdit?.address}
-                                className="bg-slate-200"
+                                className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            // style={{ borderColor: 'black' }}
                             />
                         </div>
 

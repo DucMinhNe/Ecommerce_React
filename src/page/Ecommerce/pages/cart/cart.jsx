@@ -19,7 +19,7 @@ export const Cart = () => {
   const [addressCustomerId, setAddressCustomerId] = useState("")
   const [totalPrice, setTotalPrice] = useState("")
   // const [orderDateTime, setOrderOrderDateTime] = useState("30/12/2023")
-  const [shippingCost, setShippingCost] = useState(30)
+  const [shippingCost, setShippingCost] = useState(30000)
   const [paymentMethodsData, setPaymentMethodsData] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [orderStatus, setOrderStatus] = useState("Chờ Xử Lý")
@@ -99,54 +99,68 @@ export const Cart = () => {
       });
       return
     }
-    // formData.append("employeeId", isValueEmployeeId);
-    formData.append("addressCustomerId", addressCustomerId);
-    const currentDate = new Date();
-    const formattedDateTime = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}T${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
-    formData.append("orderDateTime", formattedDateTime);
-    formData.append("totalPrice", totalPrice);
-    formData.append("shippingCost", shippingCost);
-    formData.append("paymentMethodId", paymentMethod);
-    formData.append("orderStatus", orderStatus);
-    formData.append("isDeleted", 'false');
-    // console.log(formData);
-    axios
-      .post(`${BASE_URL}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        // console.log(response.data.id);
-        // console.log();
-        productData.map((item) => {
-          const formDataOderDetails = new FormData();
-          formDataOderDetails.append("orderId", response.data.id);
-          formDataOderDetails.append("productId", item.id);
-          formDataOderDetails.append("quantity", item.quantity);
-          formDataOderDetails.append("unitPrice", item.unitPrice);
-          formDataOderDetails.append("isDeleted", false);
-          axios
-            .post(`${BASE_URL_OrderDetails}`, formDataOderDetails, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            })
-            .then((response) => {
-            })
-            .catch((error) => {
+
+    Swal.fire({
+      title: 'Xác Nhận Đặt Hàng',
+      text: 'Bạn có muốn xác nhận đặt hàng?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Xác Nhận',
+      cancelButtonText: 'Hủy',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        formData.append("addressCustomerId", addressCustomerId);
+        const currentDate = new Date();
+        const formattedDateTime = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}T${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
+        formData.append("orderDateTime", formattedDateTime);
+        formData.append("totalPrice", totalPrice);
+        formData.append("shippingCost", shippingCost);
+        formData.append("paymentMethodId", paymentMethod);
+        formData.append("orderStatus", orderStatus);
+        formData.append("isDeleted", 'false');
+        // console.log(formData);
+        axios
+          .post(`${BASE_URL}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            // console.log(response.data.id);
+            // console.log();
+            productData.map((item) => {
+              const formDataOderDetails = new FormData();
+              formDataOderDetails.append("orderId", response.data.id);
+              formDataOderDetails.append("productId", item.id);
+              formDataOderDetails.append("quantity", item.quantity);
+              formDataOderDetails.append("unitPrice", item.unitPrice);
+              formDataOderDetails.append("isDeleted", false);
+              axios
+                .post(`${BASE_URL_OrderDetails}`, formDataOderDetails, {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                })
+                .then((response) => {
+                })
+                .catch((error) => {
+                });
             });
-        });
-        dispatch(resetCart());
-        Swal.fire({
-          icon: 'success',
-          title: 'Đặt Hàng Thành Công',
-          showConfirmButton: false,
-          timer: 600,
-        });
-      })
-      .catch((error) => {
-      });
+            dispatch(resetCart());
+            Swal.fire({
+              icon: 'success',
+              title: 'Đặt Hàng Thành Công',
+              showConfirmButton: false,
+              timer: 600,
+            });
+          })
+          .catch((error) => {
+          });
+      }
+    });
+    // formData.append("employeeId", isValueEmployeeId);
   }
 
 
@@ -159,7 +173,7 @@ export const Cart = () => {
             <h2 className='text-2xl font-medium'>Thông tin đơn hàng</h2>
             <p className='flex items-center gap-4 text-base'>
               Tạm Tính
-              <span className='font-bold text-lg'>{totalPrice}</span></p>
+              <span className='font-bold text-lg'>{totalPrice} Vnđ</span></p>
             <p className='flex items-start gap-4 text-base'>
               <div className='mt-1'>Thông Tin Giao Hàng</div>
               <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
@@ -189,7 +203,7 @@ export const Cart = () => {
             <p className='flex items-start gap-4 text-base'>
               Phí Vận Chuyển
               <span>
-                {shippingCost}.000 Vnđ
+                {shippingCost} Vnđ
               </span>
             </p>
             <p className='flex items-start gap-4 text-base'>
@@ -197,7 +211,7 @@ export const Cart = () => {
               <div>
                 <Select
                   value={paymentMethod}
-                  // style={{ width: 100 }}
+                  style={{ width: 90 }}
                   onChange={(selectedOption) => setPaymentMethod(selectedOption)}
                   options={paymentMethodsData.map(method => ({ value: method.id, label: method.paymentMethodName }))}
                 />
@@ -205,7 +219,7 @@ export const Cart = () => {
             </p>
           </div>
           <p className='font-titleFont font-semibold flex justify-between mt-6'>
-            Tổng Cộng <span className='text-xl font-bold'>$ {totalPrice}</span>
+            Tổng Cộng <span className='text-xl font-bold'>{totalPrice} Vnđ</span>
           </p>
           {productData.length > 0 && (
             <button onClick={handleCheckout} className='text-base text-white w-full py-3 mt-6 hover: bg-gray-800 duration-300'>Đặt Hàng</button>

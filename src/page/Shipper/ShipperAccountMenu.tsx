@@ -4,11 +4,10 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import SystemConst from '../../common/consts/system_const';
-interface AccountMenuProps {
+interface ShipperAccountMenuProps {
     collapsed: boolean;
 }
 interface DataType {
@@ -24,15 +23,15 @@ interface DataType {
     isDeleted: boolean | null;
 }
 const BASE_URL = `${SystemConst.DOMAIN}/Employees`;
-export default function AccountMenu({ collapsed }: AccountMenuProps) {
-    const employeeId = localStorage.getItem('employeeId');
+export default function ShipperAccountMenu({ collapsed }: ShipperAccountMenuProps) {
+    const shipperEmployeeId = localStorage.getItem('shipperEmployeeId');
     const [EmployeesData, setEmployeesData] = useState<DataType | null>(null);
     useEffect(() => {
         handleFetchData();
     }, [EmployeesData]);
     const handleFetchData = () => {
         axios
-            .get(`${BASE_URL}/${employeeId}`)
+            .get(`${BASE_URL}/${shipperEmployeeId}`)
             .then((response) => {
                 const apiDataEmployee = response.data;
                 const newData: DataType = {
@@ -55,11 +54,11 @@ export default function AccountMenu({ collapsed }: AccountMenuProps) {
             });
     };
     const handleLogout = () => {
-        localStorage.removeItem('employeeToken');
+        localStorage.removeItem('shipperEmployeeToken');
         // localStorage.removeItem('employeeToken');
         // localStorage.removeItem('employeeId');
-        window.history.replaceState(null, '', '/admin/login');
-        window.location.replace('/admin/login');
+        window.history.replaceState(null, '', '/shipper/login');
+        window.location.replace('/shipper/login');
         window.location.reload(); // Tải lại trang web
     };
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {

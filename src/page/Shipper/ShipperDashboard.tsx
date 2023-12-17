@@ -2,18 +2,8 @@ import './scss/styleDashboard.scss';
 import type { MenuProps } from 'antd';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Breadcrumb, Card, Layout, Menu, theme } from 'antd';
-import LogoLight from '../Ecommerce/assets/index';
-import CoPresentIcon from '@mui/icons-material/CoPresent';
-import PaymentIcon from '@mui/icons-material/Payment';
-import CategoryIcon from '@mui/icons-material/Category';
-import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
-import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
-import Inventory2Icon from '@mui/icons-material/Inventory2';
-import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
-import RedeemIcon from '@mui/icons-material/Redeem';
 import ReceiptIcon from '@mui/icons-material/Receipt';
-import GradeIcon from '@mui/icons-material/Grade';
-import AccountMenu from './AccountMenu';
+import AccountMenu from './ShipperAccountMenu';
 import React, { useEffect, useState } from 'react';
 const { Header, Content, Footer, Sider } = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
@@ -31,60 +21,30 @@ function getItem(
     } as MenuItem;
 }
 const items: MenuItem[] = [
-    getItem(<Link to="/admin/app-providers">Nhà Cung Cấp</Link>, '/admin/app-providers', <CoPresentIcon />),
-    getItem(<Link to="/admin/app-payment-methods">Phương Thức Thanh Toán</Link>, '/admin/app-payment-methods', <PaymentIcon />),
-    getItem(<Link to="/admin/app-job-titles">Chức Vụ</Link>, '/admin/app-job-titles', <GradeIcon />),
-    getItem(<Link to="/admin/app-product-categories" >Loại Sản Phẩm</Link>, '/admin/app-product-categories', <CategoryIcon />),
-    getItem(<Link to="/admin/app-customers" >Khách Hàng</Link>, '/admin/app-customers', <EmojiPeopleIcon />),
-    getItem(<Link to="/admin/app-employees" >Nhân Viên</Link>, '/admin/app-employees', <ConnectWithoutContactIcon />),
-    getItem(<Link to="/admin/app-products" >Sản Phẩm</Link>, '/admin/app-products', <Inventory2Icon />),
-    getItem(<Link to="/admin/app-address-customers" >Địa Chỉ Khách Hàng</Link>, '/admin/app-address-customers', <MapsHomeWorkIcon />),
-    getItem(<Link to="/admin/app-carts" >Giỏ Hàng</Link>, '/admin/app-carts', <RedeemIcon />),
-    getItem(<Link to="/admin/app-orders" >Đơn Hàng</Link>, '/admin/app-orders', <ReceiptIcon />),
+    getItem(<Link to="/shipper/app-orders" >Đơn Hàng</Link>, '/shipper/app-orders', <ReceiptIcon />),
 ];
-const AppDashboard: React.FC = () => {
+const ShipperDashboard: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const [isEmployeeToken, setIsEmployeeToken] = useState(Boolean(localStorage.getItem('employeeToken')));
+    const [isShipperEmployeeToken, setIsShipperEmployeeToken] = useState(Boolean(localStorage.getItem('shipperEmployeeToken')));
     useEffect(() => {
-        if (!isEmployeeToken) {
+        if (!isShipperEmployeeToken) {
             handleRouteCheckLogin();
         }
-    }, [isEmployeeToken]);
-    useEffect(() => {
-        console.log(localStorage.getItem('jobTitleId'))
-    }, []);
+    }, [isShipperEmployeeToken]);
     const handleRouteCheckLogin = () => {
         setTimeout(() => {
-            navigate('/admin/login', { replace: true });
+            navigate('/shipper/login', { replace: true });
         }, 0);
     };
     const [collapsed, setCollapsed] = useState(true);
     const pathSnippets = location.pathname.split('/').filter((i) => i);
     const getBreadcrumbLabel = (pathSegment: string): React.ReactNode => {
         switch (pathSegment) {
-            case 'app-providers':
-                return 'Nhà Cung Cấp';
-            case 'app-payment-methods':
-                return 'Phương Thức Thanh Toán';
-            case 'app-job-titles':
-                return 'Chức Vụ';
-            case 'app-product-categories':
-                return 'Loại Sản Phẩm';
-            case 'app-customers':
-                return 'Khách Hàng';
-            case 'app-employees':
-                return 'Nhân Viên';
-            case 'app-products':
-                return 'Sản Phẩm';
-            case 'app-address-customers':
-                return 'Địa Chỉ Khách Hàng';
-            case 'app-carts':
-                return 'Giỏ Hàng';
             case 'app-orders':
                 return 'Đơn Hàng';
             default:
-                return pathSegment; // Fallback to the path segment itself
+                return pathSegment;
         }
     };
     const breadcrumbItems = pathSnippets.map((segment, index) => {
@@ -149,4 +109,4 @@ const AppDashboard: React.FC = () => {
     );
 };
 
-export default AppDashboard;
+export default ShipperDashboard;

@@ -93,6 +93,9 @@ const SignUp: React.FC = () => {
                         <input
                             ref={firstName}
                             type="text"
+                            required
+                            pattern="^[a-zA-ZÀ-ỹ ]+$"
+                            title="Vui lòng nhập họ bằng chữ và không chứa ký tự đặc biệt."
                             className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                     </div>
@@ -106,6 +109,9 @@ const SignUp: React.FC = () => {
                         <input
                             ref={lastName}
                             type="text"
+                            required
+                            pattern="^[a-zA-ZÀ-ỹ ]+$"
+                            title="Vui lòng nhập tên bằng chữ và không chứa ký tự đặc biệt."
                             className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                     </div>
@@ -120,6 +126,9 @@ const SignUp: React.FC = () => {
                         <input
                             ref={email}
                             type="email"
+                            required
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                            title="Vui lòng nhập một địa chỉ email hợp lệ."
                             className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                     </div>
@@ -134,6 +143,7 @@ const SignUp: React.FC = () => {
                         <input
                             ref={password}
                             type="password"
+                            required
                             className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                     </div>
@@ -147,6 +157,7 @@ const SignUp: React.FC = () => {
                         <input
                             ref={phoneNumber}
                             type="text"
+                            required
                             className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                     </div>
@@ -160,6 +171,7 @@ const SignUp: React.FC = () => {
                         <input
                             ref={birthDate}
                             type="date"
+                            required
                             className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                     </div>
@@ -172,6 +184,7 @@ const SignUp: React.FC = () => {
                         </label>
                         <select
                             id="gender"
+                            required
                             className="block w-full px-4 py-2 mt-2 text-orange-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         >
                             <option value="1">Nam</option>
@@ -185,9 +198,15 @@ const SignUp: React.FC = () => {
                     </div>
                 </form>
                 <p className="mt-8 text-xs font-light text-center text-gray-700">
-                    Đã có tài khoản?
+                    {" "}
+                    Đã có tài khoản? {" "}
                     <Link to={'/ecommerce/signin'}>
-                        Đăng Nhập
+                        <a
+                            href=""
+                            className="font-medium text-orange-600 hover:underline"
+                        >
+                            Đăng Nhập tại đây?
+                        </a>
                     </Link>
                 </p>
             </div>

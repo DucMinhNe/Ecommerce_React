@@ -1,0 +1,364 @@
+// Style SCSS Content ModalFaculty
+
+@media (min-width: 768px) and (max-width: 899px) {
+    .custom-modal .ant-modal-content {
+        width: 600px;
+        height: 450px;
+        top: 50%;
+        left: 15%;
+        transform: translate(0%, -50%);
+        overflow-y: hidden !important;
+    }
+}
+
+@media (min-width: 900px) and (max-width: 1024px) {
+    .custom-modal .ant-modal-content {
+        width: 650px;
+        height: 450px;
+        top: 50%;
+        left: 25%;
+        transform: translate(0%, -50%);
+        overflow-y: hidden !important;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1279px) {
+    .custom-modal .ant-modal-content {
+        width: 700px;
+        height: 450px;
+        top: 50%;
+        left: 50%;
+        transform: translate(10%, -50%);
+        overflow-y: hidden !important;
+    }
+}
+
+@media (min-width: 1280px) and (max-width: 1439px) {
+    .custom-modal .ant-modal-content {
+        width: 700px;
+        height: 450px;
+        top: 50%;
+        left: 50%;
+        transform: translate(10%, -50%);
+        overflow-y: hidden !important;
+    }
+}
+
+@media (min-width: 1440px) and (max-width: 1680px) {
+    .custom-modal .ant-modal-content {
+        width: 800px;
+        height: 450px;
+        top: 50%;
+        left: 50%;
+        transform: translate(12%, -50%);
+        overflow-y: hidden !important;
+    }
+}
+
+@media (min-width: 1681px) and (max-width: 1919px) {
+    .custom-modal .ant-modal-content {
+        width: 1000px;
+        height: 600px;
+        top: 50%;
+        left: 50%;
+        transform: translate(20%, -50%);
+        overflow-y: hidden !important;
+    }
+}
+
+@media (min-width: 1920px) {
+    .custom-modal .ant-modal-content {
+        width: 1000px;
+        height: 600px;
+        top: 50%;
+        left: 50%;
+        transform: translate(20%, -50%);
+        overflow-y: hidden !important;
+    }
+}
+
+.ant-modal-body {
+    overflow-y: hidden !important;
+}
+
+@media (max-width: 480px) {
+    .custom-modal-create-class .ant-modal-content {
+        width: 90%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media (min-width: 900px) and (max-width: 1024px) {
+    .custom-modal-create-class .ant-modal-content {
+        width: 800px;
+        height: 750px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-20%, -50%);
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1279px) {
+    .custom-modal-create-class .ant-modal-content {
+        width: 850px;
+        height: 700px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-15%, -50%);
+    }
+}
+
+@media (min-width: 1681px) and (max-width: 1919px) {
+    .custom-modal-create-class .ant-modal-content {
+        width: 1200px;
+        height: 800px;
+        top: 50%;
+        left: 50%;
+        transform: translate(5%, -50%);
+    }
+}
+
+@media (min-width: 1920px) {
+    .custom-modal-create-class .ant-modal-content {
+        width: 1400px;
+        height: 800px;
+        transform: translate(0, -50%);
+        top: 51%;
+        left: 50%;
+    }
+}
+
+@media (min-width: 1280px) and (max-width: 1439px) {
+    .custom-modal-create-class .ant-modal-content {
+        width: 850px;
+        height: 700px;
+        top: 50%;
+        left: 50%;
+        transform: translate(0%, -50%);
+    }
+}
+
+@media (min-width: 1440px) and (max-width: 1680px) {
+    .custom-modal-create-class .ant-modal-content {
+        width: 900px;
+        height: 600px;
+        top: 50%;
+        left: 50%;
+        transform: translate(5%, -50%);
+    }
+}
+
+
+.menu-item:hover {
+    background-color: #459664;
+    color: #e0e0e0;
+
+}
+
+.menu-item1:hover {
+    background-color: #459664;
+    color: #e0e0e0;
+
+}
+
+.menu-item2:hover {
+    background-color: #459664;
+    color: #e0e0e0;
+
+}
+
+.menu-item3:hover {
+    background-color: #459664;
+    color: #e0e0e0;
+
+}
+
+.menu-item4:hover {
+    background-color: #459664;
+    color: #e0e0e0;
+
+}
+
+.menu-item5:hover {
+    background-color: #459664;
+    color: #e0e0e0;
+
+}
+
+.menu-item6:hover {
+    background-color: #459664;
+    color: #e0e0e0;
+
+}
+
+.menu-item7:hover {
+    background-color: #459664;
+    color: #e0e0e0;
+
+}
+
+.menu-item8:hover {
+    background-color: #459664;
+    color: #e0e0e0;
+
+}
+
+.menu-item9:hover {
+    background-color: #459664;
+    color: #e0e0e0;
+
+}
+
+/* CSS */
+/* CSS */
+.custom-buttonprovider {
+    /* Thuộc tính mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
+}
+
+.custom-buttonprovider:hover {
+    /* Thuộc tính khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
+    /* Các thuộc tính khác khi hover */
+}
+
+.custom-buttonmethod {
+    /* Thuộc tính mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
+}
+
+.custom-buttonmethod:hover {
+    /* Thuộc tính khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
+    /* Các thuộc tính khác khi hover */
+}
+
+.custom-buttonjobtitles {
+    /* Thuộc tính mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
+}
+
+.custom-buttonjobtitles:hover {
+    /* Thuộc tính khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
+    /* Các thuộc tính khác khi hover */
+}
+
+.custom-buttonproductcate {
+    /* Thuộc tính mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
+}
+
+.custom-buttonproductcate:hover {
+    /* Thuộc tính khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
+    /* Các thuộc tính khác khi hover */
+}
+
+.custom-buttoncustomers {
+    /* Thuộc tính mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
+}
+
+.custom-buttoncustomers:hover {
+    /* Thuộc tính khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
+    /* Các thuộc tính khác khi hover */
+}
+
+.custom-buttonemployees {
+    /* Thuộc tính mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
+}
+
+.custom-buttonemployees:hover {
+    /* Thuộc tính khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
+    /* Các thuộc tính khác khi hover */
+}
+
+.custom-buttonproducts {
+    /* Thuộc tính mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
+}
+
+.custom-buttonproducts:hover {
+    /* Thuộc tính khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
+    /* Các thuộc tính khác khi hover */
+}
+
+.custom-buttonaddresscus {
+    /* Thuộc tính mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
+}
+
+.custom-buttonaddresscus:hover {
+    /* Thuộc tính khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
+    /* Các thuộc tính khác khi hover */
+}
+
+.custom-buttonorders {
+    /* Thuộc tính mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
+}
+
+.custom-buttonorders:hover {
+    /* Thuộc tính khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
+    /* Các thuộc tính khác khi hover */
+}
+
+.custom-buttoncart {
+    /* Thuộc tính mặc định */
+    background-color: transparent !important;
+    color: #000000 !important;
+    /* Màu chữ mặc định */
+}
+
+.custom-buttoncart:hover {
+    /* Thuộc tính khi hover */
+    background-color: #c00118 !important;
+    color: #fff !important;
+    /* Màu chữ khi hover */
+    /* Các thuộc tính khác khi hover */
+}
