@@ -59,7 +59,7 @@ export default function AccountMenu() {
             });
     };
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('employeeToken');
         // localStorage.removeItem('employeeToken');
         // localStorage.removeItem('employeeId');
         window.history.replaceState(null, '', '/admin/login');
@@ -87,7 +87,7 @@ export default function AccountMenu() {
                         <Avatar sx={{ width: 32, height: 32 }} src={`${SystemConst.DOMAIN_HOST}/${EmployeesData?.employeeImage}`} alt={`${EmployeesData?.lastName}`} />
                     </IconButton>
                 </Tooltip>
-                {EmployeesData?.firstName} {EmployeesData?.lastName}
+                {EmployeesData?.firstName} {EmployeesData?.lastName} <Logout fontSize="small" />
             </Box>
 
             <Menu
@@ -125,14 +125,14 @@ export default function AccountMenu() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={handleClose}>
-                    <Link to={'/ecommerce/userinfomation'}>
+                {/* <MenuItem onClick={handleClose}>
+                    <Link to={'/admin/userinfomation'}>
                         <ListItemIcon>
                             <Settings fontSize="small" />
                         </ListItemIcon>
                         Thông Tin
                     </Link>
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small" />

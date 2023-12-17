@@ -10,12 +10,12 @@ const Login: React.FC = () => {
     const password = useRef<HTMLInputElement>(null);
     const [message, setMessage] = useState<string>('');
     const navigate = useNavigate();
-    const [isToken, setIsToken] = useState(Boolean(localStorage.getItem('token')));
+    const [isEmployeeToken, setIsEmployeeToken] = useState(Boolean(localStorage.getItem('employeeToken')));
     useEffect(() => {
-        if (isToken) {
+        if (isEmployeeToken) {
             handleRouteAdmin();
         }
-    }, [isToken]);
+    }, [isEmployeeToken]);
     const handleRouteAdmin = () => {
         setTimeout(() => {
             navigate('/admin', { replace: true });
@@ -24,10 +24,10 @@ const Login: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const userEmail = email.current?.value;
-        const userPassword = password.current?.value;
+        const employeeEmail = email.current?.value;
+        const employeePassword = password.current?.value;
 
-        if (!userEmail || !userPassword) {
+        if (!employeeEmail || !employeePassword) {
             return setMessage('Vui lòng nhập đầy đủ thông tin tài khoản và mật khẩu.');
         }
 
@@ -37,36 +37,62 @@ const Login: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email: userEmail, password: userPassword }),
+                body: JSON.stringify({ email: employeeEmail, password: employeePassword }),
             });
 
             if (response.ok) {
                 const data = await response.json();
-                const { Token } = data;
-                console.log(data)
-                localStorage.setItem('token', Token);
-                setIsToken(true);
-                Swal.fire({
-                    title: "Đăng nhập thành công",
-                    width: 600,
-                    padding: "7em",
-                    color: "#444428",
-                    
-                    showConfirmButton: false,
-                    timer: 2700,
-                    background: "#fff url(https://i.pinimg.com/564x/dc/fa/ae/dcfaaeeb68f65df26e82bfc207aea17b.jpg)",
-                    backdrop: `
-                      rgba(0,0,123,0.4)
-                      url("/images/nyan-cat.gif")
-                      left top
-                      no-repeat
-                    `
-                  });
-                handleRouteAdmin();
+
+                try {
+                    // Kiểm tra nếu token được định nghĩa trong data
+                    if (data.token) {
+                        const employeeToken = data.token;
+
+                        // Parse token để lấy thông tin
+                        const payloadBase64 = employeeToken.split('.')[1];
+                        const payloadJson = atob(payloadBase64);
+                        const tokenData = JSON.parse(payloadJson);
+                        // console.log(tokenData);
+                        // Lưu thông tin vào LocalStorage
+                        if (tokenData) {
+                            localStorage.setItem('employeeId', tokenData.id);
+                            // localStorage.setItem('employeeName', tokenData.name);
+                            // localStorage.setItem('employeeEmail', tokenData.email);
+                            // localStorage.setItem('employeePhoneNumber', tokenData.phoneNumber);
+                            // localStorage.setItem('employeeImage', tokenData.employeeImage);
+                        }
+
+                        localStorage.setItem('employeeToken', employeeToken);
+                        setIsEmployeeToken(true);
+                        window.location.reload();
+                        Swal.fire({
+                            title: "Đăng nhập thành công",
+                            width: 600,
+                            padding: "7em",
+                            color: "#444428",
+
+                            showConfirmButton: false,
+                            timer: 2700,
+                            background: "#fff url(https://i.pinimg.com/564x/dc/fa/ae/dcfaaeeb68f65df26e82bfc207aea17b.jpg)",
+                            backdrop: `
+                          rgba(0,0,123,0.4)
+                          url("/images/nyan-cat.gif")
+                          left top
+                          no-repeat
+                        `
+                        });
+                        handleRouteAdmin();
+                    } else {
+                        // Xử lý trường hợp token không được định nghĩa
+                        console.error('Token is undefined or empty in response data.');
+                    }
+                } catch (error) {
+                    console.error('Error parsing token:', error);
+                }
             } else {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Đăng nhập thất bại!',
+                    title: 'Sai tài khoản hoặc mật khẩu!',
                     showConfirmButton: false,
                     timer: 700,
                 });
@@ -78,7 +104,7 @@ const Login: React.FC = () => {
 
     return (
         <>
-            {!isToken && (
+            {!isEmployeeToken && (
                 <div className="bg-black h-screen">
                     <div className="bg-black h-5 items-center fixed w-full relative">
                     </div>

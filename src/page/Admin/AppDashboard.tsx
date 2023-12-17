@@ -46,35 +46,38 @@ const items: MenuItem[] = [
 const AppDashboard: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const [isToken, setIsToken] = useState(Boolean(localStorage.getItem('token')));
+    const [isEmployeeToken, setIsEmployeeToken] = useState(Boolean(localStorage.getItem('employeeToken')));
     useEffect(() => {
-        if (!isToken) {
+        if (!isEmployeeToken) {
             handleRouteCheckLogin();
         }
-    }, [isToken]);
+    }, [isEmployeeToken]);
     const handleRouteCheckLogin = () => {
         setTimeout(() => {
             navigate('/admin/login', { replace: true });
         }, 0);
     };
     const [collapsed, setCollapsed] = useState(true);
-
+    const pathSnippets = location.pathname.split('/').filter((i) => i);
+    const breadcrumbItems = pathSnippets.map((_, index) => {
+        const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+        return <Breadcrumb.Item key={url}><Link to={url}>{_}</Link></Breadcrumb.Item>;
+    });
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <div className='py-4 px-3 rounded-lg'>
                 <Sider collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} onMouseEnter={() => setCollapsed(false)}
-                    onMouseLeave={() => setCollapsed(true)} style={{ background: colorBgContainer }}>
+                    onMouseLeave={() => setCollapsed(true)} style={{ background: colorBgContainer }} width={240}>
                     <Card
                         cover={
                             <img
                                 alt=""
                                 // src={LogoLight}
-                                src="https://www.lifetechvn.net/static/media/logo.b8b668cd5cc6c7c29d60.png"
-                                style={{ width: collapsed ? '100%' : '100%', height: 'auto', margin: '0 auto' }}
+                                src="https://www.lifetechvn.net/favicon.png"
+                                style={{ width: collapsed ? '90%' : '50%', height: 'auto', margin: '0px auto' }}
                             />
                         }
                         bodyStyle={{ padding: "0" }}
@@ -82,7 +85,7 @@ const AppDashboard: React.FC = () => {
                             <AccountMenu />
                         ]}
                     />
-                    <div className=''> <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={items} /></div>
+                    <div className='w-full'> <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={items} className='w-full' /></div>
 
                 </Sider>
             </div>
@@ -96,8 +99,7 @@ const AppDashboard: React.FC = () => {
                     borderRadius: '15px' // Bo tròn góc
                 }}>
                     <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>User</Breadcrumb.Item>
-                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                        {breadcrumbItems}
                     </Breadcrumb>
                     {/* <div style={{ marginLeft: 'auto' }}>
                         <AccountMenu />
@@ -115,7 +117,7 @@ const AppDashboard: React.FC = () => {
                         <Outlet />
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+                <Footer style={{ textAlign: 'center' }}>Lifetech ©2023</Footer>
             </Layout>
         </Layout>
     );

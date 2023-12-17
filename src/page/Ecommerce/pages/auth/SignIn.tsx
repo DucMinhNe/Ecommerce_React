@@ -16,7 +16,7 @@ const SignIn: React.FC = () => {
     if (isCustomerToken) {
       handleRouteCustomer();
     }
-    console.log(localStorage.getItem('customerId'));
+    // console.log(localStorage.getItem('customerId'));
     // console.log(localStorage.getItem('customerName'));
     // console.log(localStorage.getItem('customerEmail'));
     // console.log(localStorage.getItem('customerPhoneNumber'));
@@ -60,7 +60,7 @@ const SignIn: React.FC = () => {
             const payloadBase64 = customerToken.split('.')[1];
             const payloadJson = atob(payloadBase64);
             const tokenData = JSON.parse(payloadJson);
-            console.log(tokenData);
+            // console.log(tokenData);
             // Lưu thông tin vào LocalStorage
             if (tokenData) {
               localStorage.setItem('customerId', tokenData.id);
