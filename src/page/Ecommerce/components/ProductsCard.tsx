@@ -1,5 +1,4 @@
 import React from 'react';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux"
 import { addToCart } from '../redux/bazaarSlice';
@@ -23,6 +22,7 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ product }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  // eslint-disable-next-line
   const { productName, oldPrice, unitPrice, productImage, productCategoryName, isNew, description } = product;
 
   const idString = (Title: string) => {

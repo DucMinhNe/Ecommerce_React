@@ -33,7 +33,8 @@ export default function AccountMenu() {
     const [CustomersData, setCustomersData] = useState<DataType | null>(null);
     useEffect(() => {
         handleFetchData();
-    }, [CustomersData]);
+        // eslint-disable-next-line
+    }, []);
     const handleFetchData = () => {
         axios
             .get(`${BASE_URL}/${cusId}`)

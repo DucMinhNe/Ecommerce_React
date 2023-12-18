@@ -26,6 +26,7 @@ import AppDashboard from './page/Admin/AppDashboard';
 import ShipperDashboard from './page/Shipper/ShipperDashboard';
 import ShipperOrders from './page/Shipper/ShipperOrder';
 import ShipperLogin from './page/Shipper/ShipperLogin';
+import CategoryProduct from './page/Ecommerce/pages/CategoryProduct/CategoryProduct';
 
 const Layout = () => {
     return (
@@ -65,6 +66,7 @@ function App() {
                 <Route path="/ecommerce/*" element={<Layout />}>
                     <Route path="home" element={<Home />} />
                     <Route path="product/:id" element={<Product />} />
+                    <Route path="categoryProduct/:id" element={<CategoryProduct />} />
                     <Route path="cart" element={<Cart />} />
                     <Route path="signin" element={<SignIn />} />
                     <Route path="signup" element={<SignUp />} />

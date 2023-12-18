@@ -19,7 +19,8 @@ function Header() {
   const [dataProductCategories, setDataProductCategories] = useState([]);
   useEffect(() => {
     handleFetchData();
-  },);
+    // eslint-disable-next-line
+  }, []);
   const handleFetchData = () => {
     axios
       .get(`${BASE_URL}?isDeleted=false`)
@@ -30,7 +31,7 @@ function Header() {
           productCategoryName: item.productCategoryName,
           isDeleted: item.isDeleted,
         }));
-        console.log(newData)
+        // console.log(newData)
         setDataProductCategories(newData);
       })
       .catch((error) => {
@@ -56,7 +57,9 @@ function Header() {
             {/* Hiển thị danh sách danh mục sản phẩm */}
             {dataProductCategories.map((category) => (
               <li key={category.id} className='text-base text-black font-bold hover:text-orange-900 hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300'>
-                {category.productCategoryName}
+                <Link to={`/ecommerce/categoryProduct/${category.id}`}>
+                  {category.productCategoryName}
+                </Link>
               </li>
             ))}
             {/* <li className='text-base text-black font-bold hover:text-orange-900 hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300' >Nam</li> */}

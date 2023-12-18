@@ -37,7 +37,7 @@ export const Cart = () => {
   const [dataAddressCustomers, setDataAddressCustomers] = useState([]);
   useEffect(() => {
     handleFetchData();
-    console.log(paymentMethod)
+    // console.log(paymentMethod)
   })
   useEffect(() => {
     axios

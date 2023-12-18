@@ -2,7 +2,7 @@ import './scss/styleDashboard.scss';
 import type { MenuProps } from 'antd';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Breadcrumb, Card, Layout, Menu, theme } from 'antd';
-import LogoLight from '../Ecommerce/assets/index';
+// import LogoLight from '../Ecommerce/assets/index';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
 import PaymentIcon from '@mui/icons-material/Payment';
 import CategoryIcon from '@mui/icons-material/Category';
@@ -52,7 +52,7 @@ const AppDashboard: React.FC = () => {
         }
     }, [isEmployeeToken]);
     useEffect(() => {
-        console.log(localStorage.getItem('jobTitleId'))
+        // console.log(localStorage.getItem('jobTitleId'))
     }, []);
     const handleRouteCheckLogin = () => {
         setTimeout(() => {
@@ -135,7 +135,7 @@ const AppDashboard: React.FC = () => {
                     <div
                         style={{
                             padding: 24,
-                            minHeight: 360,
+                            minHeight: 670,
                             background: colorBgContainer,
                             borderRadius: borderRadiusLG,
                         }}

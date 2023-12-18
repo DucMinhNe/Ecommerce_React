@@ -23,7 +23,7 @@ function Home() {
         const result = await productsData();
         setProducts(result.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        // console.error("Error fetching data:", error);
       }
     };
     fetchData();

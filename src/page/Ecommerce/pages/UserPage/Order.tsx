@@ -4,6 +4,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 import SystemConst from '../../../../common/consts/system_const';
 import Swal from 'sweetalert2';
+import StarPicker from './StarPicker';
 interface DataType {
     id: number;
     customerId: number;
@@ -55,6 +56,7 @@ const BASE_URL_Employees = `${SystemConst.DOMAIN}/Employees`;
 const BASE_URL_AddressCustomers = `${SystemConst.DOMAIN}/AddressCustomers`;
 const BASE_URL_OrderDetails = `${SystemConst.DOMAIN}/OrderDetails`;
 const BASE_URL_Products = `${SystemConst.DOMAIN}/Products`;
+const BASE_URL_Comments = `${SystemConst.DOMAIN}/Comments`;
 const Orders = () => {
     const columns: ColumnsType<DataType> = [
         {
@@ -108,12 +110,12 @@ const Orders = () => {
             dataIndex: 'orderStatus',
             align: 'center',
         },
-        // {
-        //     title: 'Hành động',
-        //     dataIndex: 'action',
-        //     align: 'center',
-        //     width: 200,
-        // },
+        {
+            title: '',
+            dataIndex: 'action',
+            align: 'center',
+            width: 100,
+        },
     ];
     const OrderDetailcolumns: ColumnsType<OrderDetails> = [
         {
@@ -150,6 +152,12 @@ const Orders = () => {
             title: 'Giá',
             dataIndex: 'unitPrice',
             align: 'center',
+        },
+        {
+            title: '',
+            dataIndex: 'action',
+            align: 'center',
+            width: 100,
         },
     ];
     const [dataOrderDetails, setDataOrderDetails] = useState<OrderDetails[]>([]);
@@ -260,20 +268,32 @@ const Orders = () => {
                             shippingCost: item.shippingCost,
                             orderStatus: item.orderStatus,
                             isDeleted: item.isDeleted,
-                            // action: (
-                            //     <>
-                            //         <div className="flex gap-x-1">
-                            //             <Button
-                            //                 type="default"
-                            //                 style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}
-                            //                 icon={<EditOutlined />}
-                            //                 onClick={() => handleEdit(item)}
-                            //             >
-                            //                 Sửa
-                            //             </Button>
-                            //         </div>
-                            //     </>
-                            // ),
+                            action: (
+                                <>
+                                    {item.orderStatus === 'Đã Nhận Hàng' && (
+                                        <div className="flex gap-x-1">
+                                            <Button
+                                                type="default"
+                                                style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}
+                                                onClick={() => handleComment(item)}
+                                            >
+                                                Đánh Giá
+                                            </Button>
+                                        </div>
+                                    )}
+                                    {item.orderStatus === 'Đã Giao Hàng' && (
+                                        <div className="flex gap-x-1">
+                                            <Button
+                                                type="default"
+                                                style={{ backgroundColor: '#30B420', borderColor: '#1890ff', color: '#fff' }}
+                                                onClick={() => handleEdit(item)}
+                                            >
+                                                Xác Nhận
+                                            </Button>
+                                        </div>
+                                    )}
+                                </>
+                            ),
                         })
                     );
                     setDataOrders(newData);
@@ -288,35 +308,9 @@ const Orders = () => {
         handleFetchData();
     }, [isDeletedFetchData]);
     //Xử lý Call API Create
-    const handleCreateOrders = () => {
-        const formData = new FormData();
-        formData.append("customerId", isValueCustomerId);
-        formData.append("employeeId", isValueEmployeeId);
-        formData.append("addressCustomerId", isValueAddressCustomerId);
-        formData.append("orderDateTime", isValueOrderDateTime);
-        formData.append("totalPrice", isValueTotalPrice);
-        formData.append("shippingCost", isValueShippingCost);
-        formData.append("orderStatus", isValueOrderStatus);
-        formData.append("isDeleted", 'false');
-        console.log(formData);
-        axios
-            .post(`${BASE_URL}`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            .then((response) => {
-                handleFetchData();
-                setOpenModal(false);
-                handleClickSuccess();
-                console.log('Data', response);
-                // const data = response.data.respone_data;
-            })
-            .catch((error) => {
-            });
-    };
     const clearAllValue = () => {
         setSelectedItemEdit(null);
+        setIsValueCommentImageFile(null);
     }
     const handleUpdateOrders = () => {
         if (!selectedItemEdit) {
@@ -331,10 +325,10 @@ const Orders = () => {
         }
         formData.append("totalPrice", String(selectedItemEdit.totalPrice || ''));
         formData.append("shippingCost", String(selectedItemEdit.shippingCost || ''));
-        formData.append("orderStatus", selectedItemEdit.orderStatus || '');
+        formData.append("orderStatus", 'Đã Nhận Hàng');
         formData.append("isDeleted", `${isDeletedFetchData}`);
 
-        console.log(formData);
+        // console.log(formData);
         axios
             .put(`${BASE_URL}/${selectedItemEdit.id}`, formData, {
                 headers: {
@@ -371,8 +365,96 @@ const Orders = () => {
             timer: 600,
         });
     };
-    const [openModal, setOpenModal] = useState(false);
+    const handleCommentOrders = () => {
+        var cusId = localStorage.getItem('customerId');
+        if (!selectedItemEdit) {
+            return;
+        }
+        const formData = new FormData();
+        formData.append("customerId", String(selectedItemEdit.customerId || ''));
+        formData.append("employeeId", String(selectedItemEdit.employeeId || ''));
+        formData.append("addressCustomerId", String(selectedItemEdit.addressCustomerId || ''));
+        if (selectedItemEdit.orderDateTime instanceof Date) {
+            formData.append("orderDateTime", selectedItemEdit.orderDateTime.toISOString().split('T')[0]);
+        }
+        formData.append("totalPrice", String(selectedItemEdit.totalPrice || ''));
+        formData.append("shippingCost", String(selectedItemEdit.shippingCost || ''));
+        formData.append("orderStatus", 'Đã Nhận Hàng Và Đánh Giá');
+        formData.append("isDeleted", `${isDeletedFetchData}`);
+
+        const formDataComment = new FormData();
+        if (isValueCommentImageFile !== null) {
+            formDataComment.append("commentImageFile", isValueCommentImageFile);
+        }
+        formDataComment.append("customerId", String(cusId));
+        formDataComment.append("content", isValueContent);
+        formDataComment.append("rating", isValueRating);
+        formDataComment.append("isDeleted", 'false');
+
+        // console.log(isValueContent)
+        // console.log(isValueRating)
+        axios
+            .put(`${BASE_URL}/${selectedItemEdit.id}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then((response) => {
+                // handleFetchData();
+                // setOpenModalComment(false);
+                // handleClickCommentSuccess();
+                // clearAllValue();
+                // console.log('Data', response);
+                axios
+                    .post(`${BASE_URL_Comments}`, formDataComment, {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    })
+                    .then((response) => {
+                        handleFetchData();
+                        setOpenModalComment(false);
+                        handleClickCommentSuccess();
+                        clearAllValue();
+                        console.log('Data', response);
+                    })
+                    .catch((error) => {
+                    });
+            })
+            .catch((error) => {
+            });
+    };
+    const handleSubmitCommentOrders = () => {
+        handleCommentOrders();
+        setOpenModalComment(false);
+    };
+    const handleComment = (item: DataType) => {
+        const formattedItem = {
+            ...item,
+        };
+        setSelectedItemEdit(formattedItem);
+        setOpenModalComment(true);
+    };
+    const handleClickCommentSuccess = () => {
+        Swal.fire({
+            icon: 'success',
+            title: 'Cập nhật thành công',
+            showConfirmButton: false,
+            timer: 600,
+        });
+    };
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files && event.target.files[0];
+        if (file) {
+            setIsValueCommentImageFile(file);
+        }
+    };
+    const handleRatingChange = (newRating: React.SetStateAction<string>) => {
+        setIsValueRating(newRating);
+    };
+    const [selectedItemComment, setSelectedItemComment] = useState<DataType | null>(null);
     const [openModalEdit, setOpenModalEdit] = useState(false);
+    const [openModalComment, setOpenModalComment] = useState(false);
     const [isValueCustomerId, setIsValueCustomerId] = useState('');
     const [isValueEmployeeId, setIsValueEmployeeId] = useState('');
     const [isValueAddressCustomerId, setIsValueAddressCustomerId] = useState('');
@@ -380,6 +462,9 @@ const Orders = () => {
     const [isValueTotalPrice, setIsValueTotalPrice] = useState('');
     const [isValueShippingCost, setIsValueShippingCost] = useState('');
     const [isValueOrderStatus, setIsValueOrderStatus] = useState('');
+    const [isValueContent, setIsValueContent] = useState('');
+    const [isValueRating, setIsValueRating] = useState('');
+    const [isValueCommentImageFile, setIsValueCommentImageFile] = useState<File | null>(null);
     const [customers, setCustomers] = useState<Customer[]>([]);
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [addressCustomers, setAddressCustomers] = useState<AddressCustomer[]>([]);
@@ -432,97 +517,11 @@ const Orders = () => {
         };
         fetchProductsAndSetState();
     }, []);
-    const handleShowModal = () => {
-        setOpenModal(true);
-    };
-    const handleCancel = () => {
-        setOpenModal(false);
-    };
     const handleCancelEdit = () => {
         setOpenModalEdit(false);
     };
-    const handleClickSuccess = () => {
-        Swal.fire({
-            icon: 'success',
-            title: 'Tạo thành công',
-            showConfirmButton: false,
-            timer: 600,
-        });
-    };
-    const handleDelete = (item: { id: number }) => {
-        Swal.fire({
-            title: 'Xác nhận xóa',
-            text: 'Bạn có chắc chắn muốn xóa không?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                handleDeleteOrder(item.id);
-            }
-        });
-    };
-    //Xử lý Call API Delete
-    const handleDeleteOrder = (itemId: number) => {
-        const dataDelete = itemId;
-        axios
-            .delete(`${BASE_URL}/${dataDelete}`)
-            .then((response) => {
-                handleFetchData();
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Xóa thành công',
-                    showConfirmButton: false,
-                    timer: 600,
-                });
-            })
-            .catch((error) => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Thông Báo",
-                    text: "Có Lỗi Xảy Ra",
-                });
-            });
-    };
-    const handleRestore = (item: { id: number }) => {
-        Swal.fire({
-            title: 'Xác nhận khôi phục',
-            text: 'Bạn có chắc chắn muốn khôi phục không?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Khôi phục',
-            cancelButtonText: 'Hủy',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                handleRestoreOrder(item.id);
-            }
-        });
-    };
-    const handleRestoreOrder = (itemId: number) => {
-        const dataRestore = itemId;
-        axios
-            .put(`${BASE_URL}/Restore/${dataRestore}`)
-            .then((response) => {
-                handleFetchData();
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Khôi phục thành công',
-                    showConfirmButton: false,
-                    timer: 600,
-                });
-            })
-            .catch((error) => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Thông Báo",
-                    text: "Có Lỗi Xảy Ra",
-                });
-            });
+    const handleCancelComment = () => {
+        setOpenModalComment(false);
     };
     return (
         <>
@@ -573,6 +572,81 @@ const Orders = () => {
                             size="middle"
                             bordered
                         />
+                    </Modal>
+                </>
+                {/* Modal Xác Nhận Đơn Hàng */}
+                <>
+                    <Modal
+                        className="custom-modal-create_and_edit_orders"
+                        open={openModalEdit}
+                        onCancel={handleCancelEdit}
+                        footer={null}
+                    >
+                        <div className="p-5">
+                            <span className="text-lg font-medium">Xác Nhận Nhận Hàng</span>
+                            <div className="mt-10">
+                                <label htmlFor="">Trạng Thái Giao Hàng</label>
+                                <select
+                                    onChange={(event) => {
+                                        setSelectedItemEdit((prev) =>
+                                            prev === null ? prev : { ...prev, orderStatus: event.target.value }
+                                        );
+                                    }}
+                                    disabled
+                                    value={selectedItemEdit?.orderStatus}
+                                    className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                >
+                                    <option value="Đã Nhận Hàng">Đã Nhận Hàng</option>
+                                </select>
+                            </div>
+                            <div className="flex justify-end items-end">
+                                <Button onClick={handleSubmitEditOrders} style={{ backgroundColor: 'black', borderColor: 'black', color: '#fff', marginTop: 8 }}  >
+                                    Xác Nhận
+                                </Button>
+                            </div>
+                        </div>
+                    </Modal>
+                </>
+                {/* Modal Xác Nhận Đơn Hàng */}
+                <>
+                    <Modal
+                        className="custom-modal-create_and_edit_orders"
+                        open={openModalComment}
+                        onCancel={handleCancelComment}
+                        footer={null}
+                    >
+                        <div className="p-5">
+                            <span className="text-lg font-medium">Đánh Giá</span>
+                            <div className="mt-10">
+                                <label htmlFor="">Nội Dung</label>
+                                <Input
+                                    onChange={(event) => { setIsValueContent(event.target.value) }}
+                                    value={isValueContent}
+                                    className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border rounded-md focus:border-orange-400 focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                // style={{ borderColor: 'black' }}
+                                />
+                            </div>
+                            <div className="mt-10">
+                                <label htmlFor="">Đánh Giá</label>
+                                <StarPicker onChange={handleRatingChange} />
+                                {/* Hiển thị giá trị xếp hạng nếu cần */}
+                                <p>Đánh giá của bạn: {isValueRating}</p>
+                            </div>
+                            <div className="mt-10">
+                                <label htmlFor="formFile" className='mb-2 inline-block'>Hình Ảnh</label>
+                                <input
+                                    type="file"
+                                    onChange={(event) => handleFileChange(event)}
+                                    className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                                    id="formFile"
+                                />
+                            </div>
+                            <div className="flex justify-end items-end">
+                                <Button onClick={handleSubmitCommentOrders} style={{ backgroundColor: 'black', borderColor: 'black', color: '#fff', marginTop: 8 }}  >
+                                    Xác Nhận
+                                </Button>
+                            </div>
+                        </div>
                     </Modal>
                 </>
             </>

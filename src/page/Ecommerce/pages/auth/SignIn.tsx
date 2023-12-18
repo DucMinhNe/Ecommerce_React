@@ -21,6 +21,7 @@ const SignIn: React.FC = () => {
     // console.log(localStorage.getItem('customerEmail'));
     // console.log(localStorage.getItem('customerPhoneNumber'));
     // console.log(localStorage.getItem('customerImage'));
+    // eslint-disable-next-line
   }, [isCustomerToken]);
 
   const handleRouteCustomer = () => {

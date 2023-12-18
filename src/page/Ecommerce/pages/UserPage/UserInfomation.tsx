@@ -41,7 +41,7 @@ const UserInfomation = () => {
                     customerImageFile: apiDataCustomer.customerImageFile,
                     isDeleted: apiDataCustomer.isDeleted,
                 };
-                console.log(newData);
+                // console.log(newData);
                 setSelectedItemEdit(newData);
             })
             .catch((error) => {
@@ -88,7 +88,8 @@ const UserInfomation = () => {
                 handleFetchData();
                 handleClickEditSuccess();
                 clearAllValue();
-                console.log('Data', response);
+                window.location.reload();
+                // console.log('Data', response);
             })
             .catch((error) => {
             });
