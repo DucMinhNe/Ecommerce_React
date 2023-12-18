@@ -126,15 +126,26 @@ const AddressCustomers = () => {
                                     <div className="flex gap-x-1">
                                         <Button
                                             type="default"
-                                            style={{ backgroundColor: '#1890ff', borderColor: '#1890ff', color: '#fff' }}
+                                            style={{
+                                                backgroundColor: '#1890ff',
+                                                borderColor: '#1890ff',
+                                                color: '#fff',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                            }}
                                             icon={<EditOutlined />}
                                             onClick={() => handleEdit(item)}
                                         >
-
                                         </Button>
                                         {isDeletedFetchData ? (
                                             <Button
-                                                style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff' }}
+                                                style={{
+                                                    backgroundColor: '#52c41a', borderColor: '#52c41a', color: '#fff',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center'
+                                                }}
                                                 icon={<UndoOutlined />}
                                                 onClick={() => handleRestore(item)}
                                             >
@@ -142,7 +153,12 @@ const AddressCustomers = () => {
                                             </Button>
                                         ) : (
                                             <Button
-                                                style={{ backgroundColor: '#ff0000', borderColor: '#ff0000', color: '#fff' }}
+                                                style={{
+                                                    backgroundColor: '#ff0000', borderColor: '#ff0000', color: '#fff',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center'
+                                                }}
                                                 icon={<DeleteOutlined />}
                                                 onClick={() => handleDelete(item)}
                                             >
@@ -532,7 +548,7 @@ const AddressCustomers = () => {
                             />
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="">Quận / Huyền</label>
+                            <label htmlFor="">Quận / Huyện</label>
                             <Input
                                 onChange={(event) => {
                                     setSelectedItemEdit((prev) =>

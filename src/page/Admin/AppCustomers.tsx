@@ -123,7 +123,12 @@ const AppCustomers = () => {
                                 <div className="flex justify-center items-center gap-x-1">
                                     <Button
                                         type="default"
-                                        style={{ backgroundColor: '#459664', borderColor: '#459664', color: '#fff' }}
+                                        style={{
+                                            backgroundColor: '#459664', borderColor: '#459664', color: '#fff',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}
                                         icon={<EditOutlined />}
                                         onClick={() => handleEdit(item)}
                                     >
@@ -131,7 +136,12 @@ const AppCustomers = () => {
                                     </Button>
                                     {isDeletedFetchData ? (
                                         <Button
-                                            style={{ backgroundColor: '#e74c3c', borderColor: '#e74c3c', color: '#fff' }}
+                                            style={{
+                                                backgroundColor: '#e74c3c', borderColor: '#e74c3c', color: '#fff',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                            }}
                                             icon={<UndoOutlined />}
                                             onClick={() => handleRestore(item)}
                                         >
@@ -139,7 +149,12 @@ const AppCustomers = () => {
                                         </Button>
                                     ) : (
                                         <Button
-                                            style={{ backgroundColor: '#c00118', borderColor: '#c00118', color: '#fff' }}
+                                            style={{
+                                                backgroundColor: '#c00118', borderColor: '#c00118', color: '#fff',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                            }}
                                             icon={<DeleteOutlined />}
                                             onClick={() => handleDelete(item)}
                                         >

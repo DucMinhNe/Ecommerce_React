@@ -72,13 +72,13 @@ const SignIn: React.FC = () => {
 
             localStorage.setItem('customerToken', customerToken);
             setIsCustomerToken(true);
-            window.location.reload();
             Swal.fire({
               icon: 'success',
               title: 'Đăng nhập thành công!',
               showConfirmButton: false,
               timer: 700,
             });
+            window.location.reload();
             handleRouteCustomer();
           } else {
             // Xử lý trường hợp token không được định nghĩa

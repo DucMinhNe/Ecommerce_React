@@ -97,7 +97,7 @@ const AppDashboard: React.FC = () => {
     } = theme.useToken();
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <div className='py-4 px-3 rounded-lg'>
+            <div className="pt-5 px-3 rounded-lg flex items-center justify-center">
                 <Sider collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} onMouseEnter={() => setCollapsed(false)}
                     onMouseLeave={() => setCollapsed(true)} style={{ background: colorBgContainer, borderRadius: '50px' }} width={240}>
                     <Card
@@ -118,7 +118,7 @@ const AppDashboard: React.FC = () => {
 
                 </Sider>
             </div>
-            <Layout>
+            <Layout style={{ padding: '5.5vh 0px 0px 0px' }}>
                 <Header style={{
                     margin: '15px 16px 0px 16px',
                     background: colorBgContainer,
@@ -145,7 +145,7 @@ const AppDashboard: React.FC = () => {
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>Lifetech ©2023</Footer>
             </Layout>
-        </Layout>
+        </Layout >
     );
 };
 

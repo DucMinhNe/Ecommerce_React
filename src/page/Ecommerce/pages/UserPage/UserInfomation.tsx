@@ -212,7 +212,7 @@ const UserInfomation = () => {
                             </select>
                         </div>
                         <div className="mt-10">
-                            <label htmlFor="formFile" className='mb-2 inline-block text-neutral-700 dark:text-neutral-200'>Hình Ảnh</label>
+                            <label htmlFor="formFile" className='mb-2 inline-block'>Hình Ảnh</label>
                             <input
                                 type="file"
                                 onChange={(event) => handleFileChange(event)}
